@@ -30,6 +30,8 @@
 
 \usepackage{lipsum}
 
+\usepackage{paralist}
+
 \usepackage{enumitem}
 \setlist[itemize]{topsep=0pt,noitemsep}
 
@@ -359,8 +361,9 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
   \item Horizontal tables / landscape: use the environment \texttt{sidewaystable} (instead of \texttt{table}) from the package \texttt{rotating}. Other solution found \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{here};
   \item Wider choice of row / column separators: see package \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{hhline}};
   \item Tables spanning more than one pages: use package \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{longtable}};
-  \item Table and colors: the reference is \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/colortbl/colortbl.pdf}{\texttt{colortbl}}. Some tips \href{https://texblog.org/2011/04/19/highlight-table-rowscolumns-with-color}{here};
+  \item Table and colors: the reference is \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/colortbl/colortbl.pdf}{\texttt{colortbl}} (which may be loaded by passing options \texttt{tables} to package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}). Some tips \href{https://texblog.org/2011/04/19/highlight-table-rowscolumns-with-color}{here};
   \item For typesetting numerical data (but nocessarily), you may want to have a look at \texttt{pgfplotstable}, \autoref{sec:tikzpgf}.
+  \item Colored and rounded tables (use of \texttt{TikZ}, \autoref{sec:tikzpgf}): some tips \href{https://tex.stackexchange.com/a/184075}{here} and example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -659,6 +662,7 @@ REMEMBER - It is like \texttt{C}, each command ends with a semicolon \texttt{;}.
   \subsection{\texttt{TikZ}}
   Here is the \texttt{TikZ} and \texttt{pgf} \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
   \begin{itemize}
+    \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence,\begin{inparaenum}[1)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}. \end{inparaenum}
     \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
     \item Global settings / style definitions: e.g. \verb|\tikzset{compat=newest[,...]}|
     \item Coordinate calculation: example
@@ -1169,6 +1173,7 @@ Let us write some interspaces
   \item \verb|\hphantom{<aaaa>}| and \verb|\vphantom<TMWpqgy>|: create a box with the width (resp. the height) of the argument and zero height (resp. width) (it basically tells \LaTeX~to reserve a horizontal or vertical space for the argument which, however, won't be printed).
   \item Get the width of an object: define a new length \verb|\newlength{\mylength}| and assign the width to it \verb|\settowidth{\mylength}{\texbf{An example}}|.
   \item \LaTeX and \verb|shell| - run some commands from inside a \texttt{.tex} and use the output. The \href{https://ctan.mc1.root.project-creative.net/macros/latex/contrib/bashful/bashful.pdf}{\texttt{bashful}} package may be useful. Also look \href{https://tex.stackexchange.com/questions/16790/write18-capturing-shell-script-output-as-command-variable}{here}. The main idea is the use of \verb|\write18|, some details \href{https://tex.stackexchange.com/questions/311084/how-to-run-shell-command-with-write18}{here}. For this kind of work, usually one should add the flag \verb|-shell-escape| to the compilation command.
+  \item Package \href{https://tex.stackexchange.com/a/184075}{\texttt{environ}}: allows a more convenient definition of environments with macro \verb|\NewEnviron| (and its companion macro \verb|\BODY|)
 \end{itemize}
 
 \end{document}

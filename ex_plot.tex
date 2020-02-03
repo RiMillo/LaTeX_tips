@@ -4,7 +4,7 @@
 
 \usepackage[centering,scale=0.9]{geometry}
 
-\usepackage{xcolor} % Possibly useless here
+\usepackage[svgnames,table]{xcolor} % Possibly useless here
 
 \usepackage{tikz} % useless, since pgfplots already loads it
 \usetikzlibrary{calc} % It allows to make arithmetic operations with TiKz nodes.
@@ -28,6 +28,33 @@ every n index/.style={
   unbounded coords=jump
 },
 } % pgfplotsset
+
+% For the fancy colorful table
+\usepackage{booktabs}
+\xdefinecolor{blue-rule}{RGB}{0,26,112}
+\xdefinecolor{blue-table-bg}{RGB}{194 214 241}
+\setlength\arrayrulewidth{2.2pt}%
+\arrayrulecolor{blue-rule}
+%% Odd columns
+\newcolumntype{O}{>{\columncolor{white}}c}%
+%% Even columns
+\newcolumntype{E}{>{\columncolor{blue-table-bg}}c}%
+%% Vertical spacing
+\renewcommand{\arraystretch}{1.2}
+%% Horizontal spacing
+\setlength{\tabcolsep}{25pt}
+% New environment for rounded tables
+\usepackage{environ}
+\NewEnviron{roundtable}[1]{%
+    \noindent%
+    \begin{tikzpicture}[line width=.1mm,rounded corners=.5em]
+      \node[clip,inner sep=.5\pgflinewidth] (table) {%
+        \begin{tabular}{#1}
+          \BODY%
+        \end{tabular}%
+      };
+    \end{tikzpicture}%
+  }
 
 % Method one: read and store
 \pgfplotstableread{grid1.dat}\gridone
@@ -194,5 +221,20 @@ every n index/.style={
     \node [below,font=\axisfontsize] at ([yshift=\yShift]mg.south) {incompressibility constraint};
     \node [below,font=\tickfontsize] at ([yshift=\yShift]mg.south east) {accurate};
   \end{tikzpicture}
+
+  And now a fancy colorful table (in order to have a float, put it inside a \texttt{table} environment)\\
+  \begin{roundtable}{O|E|O|E}
+   \rowcolor{blue-rule}% 
+      {\color{white}Puissance nominale} & {\color{white}Surface rotor} & {\color{white}Type} & {\color{white}Production annuelle}\\
+    \hline
+    1 kW & 7 m$^2$ & vertical & 1000 kWh \\
+    \hline
+    1 kW & 7 m$^2$ & vertical & 1000 kWh \\
+    \hline
+    1 kW & 7 m$^2$ & vertical & 1000 kWh \\
+    \hline
+    1 kW & 7 m$^2$ & vertical & 1000 kWh
+  \end{roundtable}
+
 
 \end{document}
