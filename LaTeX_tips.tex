@@ -760,7 +760,9 @@ child{node {B2}}
       \begin{itemize}
         \item \texttt{only marks} vs. \texttt{no markers}.
         \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
+        \item Look here above at the line style items in order to prevent weird looking markers.
       \end{itemize}
+    \item \verb|draw=none|: (actually a \verb|TikZ| key) "switches off" line and marker drawing
     \item Plot style\ldots
       \begin{itemize}
         \item Smoothing a plot: \verb|\addplot[smooth[,...]]|
@@ -784,6 +786,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
         \item Interesting options: \texttt{reverse legend} (invert the order), \texttt{draw=none} (no legend bow)
       \end{itemize}
     \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
+    \item A couple of ides about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}. 
     \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
   \end{itemize}
 
@@ -1144,6 +1147,7 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
 \section{Miscellaneous}
 \label{Miscellaneous}
 \begin{itemize}
+  \item \href{http://pgfplots.sourceforge.net/TeX-programming-notes.pdf}{Notes} on programming with \TeX. Package \href{http://texdoc.net/texmf-dist/doc/latex/l3kernel/expl3.pdf}{\texttt{expl3}} might be interesting as well. 
   \item Define \verb!\abstractname! (unless not defined by default) in English if the \verb!babel! package is used. It has to be done for every language used in the text
 \begin{verbatim}
 \addto\captionsenglish{
@@ -1171,6 +1175,7 @@ Let us write some interspaces
 \begin{verbatim}
 \section{The 1001 advantages of \protect\Verb|fancyvrb|}
 \end{verbatim}
+    \item Keep it on the same page: option \verb|samepage=true|
     \item It can do line-numbering, framed boxes, select lines to print, erase characters, allow color, define escape characters\ldots
 \end{itemize}
   \end{itemize}
