@@ -728,10 +728,12 @@ child{node {B2}}
       \end{minipage}
     \item Grids: use \verb|\draw[<options>] (a) grid (b)| where \texttt{(a)} and \texttt{(b)} are the endpoint of a diagonal (we assume a rectangular mesh). Options may include \texttt{step=<n>}, which sets the width of the cells. The options \texttt{xstep} and \texttt{ystep} are available, as well.
     \item Arrows - heads: \href{https://gist.github.com/AndiH/f99d9b0cbd3519c27af5b96cfbeff97c}{list}, customization \href{https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf/161238#161238}{here}.
+    \item One may want to have a look at the section about loops, \autoref{sec:loops}.
 %
   \end{itemize}
   %%%%%%%%%%%%%%%%%%%%%% pgfplots
   \subsection{\texttt{pgf(plots)}}
+  \label{sub:pgfplots}
   With an \emph{abuse of notations}, here we gather both \texttt{pgf} and \texttt{pgfplots} (and related) tricks. Here is the \href{http://ctan.tetaneutral.net/graphics/pgf/contrib/pgfplots/doc/pgfplots.pdf}{manual}. 
   \begin{itemize}
     \item Basic math operations: compute the result of an expression \verb|\pgfmathparse{<expr>}|, retrieve it with \verb|\pgfmathresult| and use it. It is advised to store it in a variable with \verb|\pgfmathsetmacro\newmacro{\cmd}|
@@ -1084,6 +1086,57 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
     \end{itemize}
   \item {\bfseries Dictionaries.} You can change the language of the spelling check by providing the selected dictionary in the related space in \texttt{Options>Configure Texmaker>Editor}. If you cannot find the desired dictionary, you should install it. First, download the dictionary: the \emph{Apache OpenOffice} / \emph{LibreOffice} extension (\texttt{.oxt}) will suffice. For example, you can find the English one \href{https://extensions.libreoffice.org/extensions/english-dictionaries}{here} or \href{https://extensions.openoffice.org/en/project/english-dictionaries-apache-openoffice}{here}. Unzip it wherever you want, provide its path in the \TeX Maker options as explained here above.
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                   SECTION: Loops
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Loops}
+\label{sec:loops}
+  \begin{itemize}
+    \item Load \verb|pgffor| (it is already loaded by \verb|TikZ| and by the \verb|pgf*| packages, cf. \autoref{sec:tikzpgf}).
+    \item A quick \href{https://stuff.mit.edu/afs/athena/contrib/tex-contrib/beamer/pgf-1.01/doc/generic/pgf/version-for-tex4ht/en/pgfmanualse15.html}{guide}. 
+    \item Structure:
+\begin{verbatim}
+\foreach <variables> in {<list>} {<commands>}
+\end{verbatim}
+    \item Hands-on start:
+\begin{Verbatim}[samepage=true]
+\foreach \what in {apple,banana,cinnamonbun}{
+  I eat a yellow~\what. \\ % ~ = force space, one never knows
+}
+\end{Verbatim}
+      one may chose to name the for-loop variable \verb|\what| as he wishes. 
+    \item Two variables:
+\begin{Verbatim}[samepage=true]
+\foreach \what\color in {apple/red,banana/yellow,cinnamonbun/creamy}{
+  I eat a \color~\what. \\
+}
+\end{Verbatim}
+    \item Let's nest them:
+\begin{Verbatim}[samepage=true]
+\foreach \what in {apple,banana,cinnamonbun}{
+  \foreach \color in {red,yellow,creamy}{
+    I eat a \color~\what. \\
+  }
+}
+\end{Verbatim}
+    \item \LaTeX~understands the argument of the list. Examples
+      \begin{itemize}
+        \item \verb|{1,2,...,6}| yields \verb|{1,2,3,4,5,6}|
+        \item \verb|{10,9,...,0}| yields \verb|{10,9,8,7,6,5,4,3,2,1,0}| (Happy new year!)
+        \item \verb|{1,3,...,7}| yields \verb|{1,3,5,7}|
+        \item \verb|{1,2,...,6,a,b,...,e}| yields \verb|{1,2,3,4,5,6,a,b,c,d,e}|
+        \item \verb|{1.25,1.50,...,2}| yields \verb|{1.25,1.50,1.75,2.00}|
+        \item and so on
+      \end{itemize}
+    \item \verb|\breakforeach| breaks the loop, quits it (that was easy, wasn't it?).
+    \item If the variables are to be used in \verb|pgfplots*| (\autoref{sub:pgfplots}) commands, it is better to use \verb|pgfplotsinvokeforeach| which has a slightly different structure. Here is an example. Notice that one denotes the variables as one would in a \verb|\newcommand|-like framework, with an \#
+\begin{Verbatim}[samepage=true]
+\pgfplotsinvokeforeach{red,cyan}{%
+  \addplot[color=#1] table[x=x,y=y] {mytab.dat};  
+}
+\end{Verbatim}
+  \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: MISCELLANEOUS
