@@ -761,6 +761,7 @@ child{node {B2}}
         \item \texttt{only marks} vs. \texttt{no markers}.
         \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
         \item Look here above at the line style items in order to prevent weird looking markers.
+        \item Use markers outside \texttt{tikz} environments: \verb|\pgfuseplotmark{<marker_code>}|; e.g. \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
       \end{itemize}
     \item \verb|draw=none|: (actually a \verb|TikZ| key) "switches off" line and marker drawing
     \item Plot style\ldots
@@ -779,10 +780,12 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
               text opacity=1} % Custom
 \end{verbatim}
         \item Font size: \verb|legend style={font={\scriptsize}}|
+        \item Legend box color: \verb|legend style={draw={<color>}}| or \verb|none| for no box.
+        \item Alignment: \verb!legend cell align=left|center|right!
         \item Scale: \verb|legend style={nodes={scale=0.7}}|
-        \item Legend outside the plot: add \texttt{legend pos=outer <cardinal position>} (example: \texttt{outer north east}), or specify the position: \verb|legend style={at={(1,1)},anchor=north\}|
+        \item Legend outside the plot: add \texttt{legend pos=outer north east} (only \texttt{north east} is available so far); or specify the position: \verb|legend style={at={(0.5,-0.1)},anchor=north}|, mind that the coordinates are relative to the axis line, hence those mean below the chart in the middle.
         \item More columns / horizontal growing: \verb|legend style={legend columns=<n>}| where \texttt{n} is the wished number of columns, \texttt{-1} means \emph{horizontally}. For horizontal, one can also use \texttt{transpose legend}
-        \item Add lines not related to plot (for example for a legend title): first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. Of course the order is important
+        \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
         \item Interesting options: \texttt{reverse legend} (invert the order), \texttt{draw=none} (no legend bow)
       \end{itemize}
     \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
