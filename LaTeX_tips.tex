@@ -1232,6 +1232,38 @@ Let us write some interspaces
   \item Get the width of an object: define a new length \verb|\newlength{\mylength}| and assign the width to it \verb|\settowidth{\mylength}{\texbf{An example}}|.
   \item \LaTeX and \verb|shell| - run some commands from inside a \texttt{.tex} and use the output. The \href{https://ctan.mc1.root.project-creative.net/macros/latex/contrib/bashful/bashful.pdf}{\texttt{bashful}} package may be useful. Also look \href{https://tex.stackexchange.com/questions/16790/write18-capturing-shell-script-output-as-command-variable}{here}. The main idea is the use of \verb|\write18|, some details \href{https://tex.stackexchange.com/questions/311084/how-to-run-shell-command-with-write18}{here}. For this kind of work, usually one should add the flag \verb|-shell-escape| to the compilation command.
   \item Package \href{https://tex.stackexchange.com/a/184075}{\texttt{environ}}: allows a more convenient definition of environments with macro \verb|\NewEnviron| (and its companion macro \verb|\BODY|)
+  \item Horizontal / landscape pages
+    \begin{itemize}
+      \item For the whole document: use option \texttt{landscape} \verb|\usepackage[landscape]{geometry}| or \verb|\documentclass[landscape]{<class>}|.
+      \item For a certain part only: have a look \href{https://tex.stackexchange.com/questions/337/how-to-change-certain-pages-into-landscape-portrait-mode}{here}. The environment is only one \verb|\begin{landscape}|, but it could come from two packages. If you are producing a pdf, use package \texttt{pdflscape} (it gives more metadata to the document that improve its readability), otherwise \texttt{lscape}.
+        \begin{itemize}
+          \item For horizontal numbering as well, see \href{https://tex.stackexchange.com/questions/9071/how-to-translate-and-rotate-the-heading-of-landscaped-pages}{this}.
+        \end{itemize}
+    \end{itemize}
+  \item Conditionals
+    \begin{itemize}
+      \item With plain \TeX, one can define, set and use boolean as follows:
+\begin{verbatim}
+\newif\if<my_bool>
+\<my_bool>true|false
+\if<my_bool>
+  [...]
+\else
+  [...]
+\fi
+\end{verbatim}
+      \item Or use the \href{http://ctan.mines-albi.fr/macros/latex/base/ifthen.pdf}{\texttt{ifthen}} package, which is compatible with the plain \TeX~syntax. E.g.
+\begin{verbatim}
+\newboolean{<my_bool>}
+\setboolean{<my_bool>}{true|false}
+\ifthenelse{<conditional_statement>}
+            {<if commands>}
+            {<else commands>}
+\boolean{<my_bool>} % Returns the truth value
+\end{verbatim}
+      \verb|conditional_statement| is an expression involving booleans and it can be constructed also using \verb|\AND|, \verb|\OR|, \verb|\NOT|, \verb|\([...]\)|.
+    \end{itemize}
+
 \end{itemize}
 
 \end{document}
