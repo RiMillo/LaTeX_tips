@@ -738,12 +738,16 @@ child{node {B2}}
     \item Grids: use \verb|\draw[<options>] (a) grid (b)| where \texttt{(a)} and \texttt{(b)} are the endpoint of a diagonal (we assume a rectangular mesh). Options may include \texttt{step=<n>}, which sets the width of the cells. The options \texttt{xstep} and \texttt{ystep} are available, as well.
     \item Arrows - heads: \href{https://gist.github.com/AndiH/f99d9b0cbd3519c27af5b96cfbeff97c}{list}, customization \href{https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf/161238#161238}{here}.
     \item One may want to have a look at the section about loops, \autoref{sec:loops}.
+    \item ATTENTION: for big picture it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
 %
   \end{itemize}
   %%%%%%%%%%%%%%%%%%%%%% pgfplots
   \subsection{\texttt{pgf(plots)}}
   \label{sub:pgfplots}
   With an \emph{abuse of notations}, here we gather both \texttt{pgf} and \texttt{pgfplots} (and related) tricks. Here is the \href{http://ctan.tetaneutral.net/graphics/pgf/contrib/pgfplots/doc/pgfplots.pdf}{manual}. 
+
+  Before going into the details, if you are familiar with \texttt{gnuplot} you may want to check the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/gnuplottex/gnuplottex.pdf}{\textty{gnuplottex}} out.
+
   \begin{itemize}
     \item Basic math operations: compute the result of an expression \verb|\pgfmathparse{<expr>}|, retrieve it with \verb|\pgfmathresult| and use it. It is advised to store it in a variable with \verb|\pgfmathsetmacro\newmacro{\cmd}|
 \begin{verbatim}
@@ -800,6 +804,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
     \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
     \item A couple of ides about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}. 
     \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
+    \item ATTENTION: for big picture it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
   \end{itemize}
 
 \subsubsection{\texttt{pgfplotstable}}
