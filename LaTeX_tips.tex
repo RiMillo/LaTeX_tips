@@ -105,7 +105,6 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
       \item The \texttt{book} class has a special \href{https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Book_structure}{structure}: \verb|\frontmatter|, \verb|\mainmatter|, \verb|\appendix|, \verb|\backmatter|.
     \end{itemize}
   \item Modify first indentation: \verb|\parindent=<len>|
-  \item Space after paragraph: \verb|\setlegth{\parskip}{<len>}|
   \item Customize titling style: package \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/titlesec/titlesec.pdf}{\texttt{titlesec}}; an examples
 \begin{Verbatim}[samepage=true]
 \titleformat{\section} % Command: chapter, subsection...
@@ -138,6 +137,16 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
   \item Change default font style: \verb|\renewcommand{\familydefault}{<family>}| where \texttt{family} may be chosen in: \verb|\rmdefault| {roman family font}, \verb|\sfdefault| (sans serif family font), or \verb|\ttdefault| (teletype font family)
   \item Font sizes: see \autoref{tab:sizes}. Note that the last two \verb|\Tiny| and \verb|\TYNY| are available only with \texttt{beamer}.
   \item Font styles: see \autoref{tab:styles}.
+  \item \LaTeX~lengths: have a look \href{https://www.overleaf.com/learn/latex/Lengths_in_LaTeX}{here} or even \href{https://en.wikibooks.org/wiki/LaTeX/Lengths}{there}.
+  \item Spacing:
+  \begin{itemize}
+    \item \verb|\vspace{<length>}| (resp. \verb|\hspace{<length>}|) tells \LaTeX~to leave a vertical (resp. horizontal) space. Its starred version \verb|\vspace*{<len>}| forces it when you are close to the top/bottom of the page.
+    \item For leaving one-time space between two lines, use \verb|\smallskip|, \verb|\medskip| or \verb|\bigskip| (which are equivalent to e.g. \verb|\vspace{\smallskipamount}|).
+    \item \verb!\small|med|bigbreak!: as above but suggests to \LaTeX~that it would be a good place for a pagebreak if necessary.
+    \item When forcing a newline, a custom vertical space may be added: \verb|The end\\[3cm]|.
+    \item Fill the line/page: \verb!\hfill!, \verb!\vfill!. Might be useful: for lines \verb|\dotfill|, \verb|\hrulefill|.
+  \end{itemize}
+  \item Change the space after paragraph: \verb|\setlegth{\parskip}{<len>}|
   \item Spacing after a command
     \begin{itemize}
       \item Use a user-defined command and empty brackets as suggested \href{https://tex.stackexchange.com/questions/31091/space-after-latex-commands}{here}. Examples:
