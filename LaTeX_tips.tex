@@ -755,6 +755,10 @@ child{node {B2}}
   \pgfmathsetmacro\result{\pgfmathresult}
 \end{verbatim}
     \item Basic plotting: examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+    \item 3D plot: \verb|\addplot3| example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}
+      \begin{itemize}
+        \item For surface plots, use option \verb|surf| or \verb|mesh|. Watch out for the matrix-like structure that your data must have in order to be interpreted as an actual surface. In particular, blank-lines are very important and separate two rows.
+      \end{itemize}
     \item Define commands, set global options: \verb|\pgfplotsset{[...]}|, usually in preamble (advice: use \verb|\pgfplotsst{compt=newest}| for compatibility with the most recent available version).
     \item External plot shape: The plot is usually square, one may prefer to stretch it, here are some options
       \begin{itemize}

@@ -100,6 +100,43 @@ every n index/.style={
     \end{scope}
   \end{tikzpicture}
 
+  You may wonder: the 2D version is too easy. Here you are
+
+  \begin{tikzpicture}
+    \begin{axis}[%
+      %title style={align=center},
+      tick pos = left,%
+      xmin=1, xmax=5,%
+      xtick={1,2,3,4,5},%
+      %scaled x ticks=base 10:-3,%
+      ymin=100, ymax=700,%
+      ytick={100,300,500,700},%
+      %scaled y ticks=base 10:-3,%
+      zmin=0, zmax=1.5e-3,%
+      ztick={0,0.5e-3,1e-3,1.5e-3},%
+      %scaled z ticks=base 10:-3,%
+      enlarge x limits=0.1,%
+      enlarge y limits=0.1,%
+      enlarge z limits=0.1,%
+      y dir=reverse,% Reverse direction, higher values at the front
+      legend,legend pos=north east,legend cell align={left},legend style={font=\color{gray}\small},%
+      view={20}{25}, % Change the 3D view of the plot
+      ]
+      \addplot3 [surf,shader=flat,draw=black,fill=black,draw opacity=0.5,fill opacity=0.5] coordinates {(1,100,5.8e-4) (1,700,5.8e-4)
+        
+                                                                                                        (5,100,5.8e-4) (5,700,5.8e-4)};
+      \addplot3 [surf,shader=faceted,colormap/bluered,draw opacity=0.5,fill opacity=0.5] table {results.dat};
+      \addplot3 [black,opacity=0.5] coordinates {(1.00, 312.3, 5.80e-4)
+                                                 (1.07, 300.0, 5.80e-4)
+                                                 (1.74, 200.0, 5.80e-4)
+                                                 (2.00, 174.6, 5.80e-4)
+                                                 (3.00, 117.1, 5.80e-4)
+                                                 (3.37, 100.0, 5.80e-4)};
+      %mark=square,mark options={draw=black,fill=white}
+      \legend{A plane,My surface,Intersection}
+    \end{axis}
+  \end{tikzpicture}
+
   And now, a table.
 
   % The following definitions may be put inside the square brackets in the pgfplotstabletypeset, but here are globally defined, hence re-usable
