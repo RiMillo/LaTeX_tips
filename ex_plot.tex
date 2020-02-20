@@ -33,14 +33,10 @@ every n index/.style={
 \usepackage{booktabs}
 \xdefinecolor{blue-rule}{RGB}{0,26,112}
 \xdefinecolor{blue-table-bg}{RGB}{194 214 241}
-\setlength\arrayrulewidth{2.2pt}%
-\arrayrulecolor{blue-rule}
 %% Odd columns
 \newcolumntype{O}{>{\columncolor{white}}c}%
 %% Even columns
 \newcolumntype{E}{>{\columncolor{blue-table-bg}}c}%
-%% Vertical spacing
-\renewcommand{\arraystretch}{1.2}
 %% Horizontal spacing
 \setlength{\tabcolsep}{25pt}
 % New environment for rounded tables
@@ -226,8 +222,12 @@ every n index/.style={
   \end{tikzpicture}
 
   And now a fancy colorful table (in order to have a float, put it inside a \texttt{table} environment)\\
+\setlength\arrayrulewidth{2.2pt}%
+\arrayrulecolor{blue-rule}
+%% Vertical spacing
+\renewcommand{\arraystretch}{1.2}
   \begin{roundtable}{O|E|O|E}
-   \rowcolor{blue-rule}% 
+   \rowcolor{blue-rule}%
       {\color{white}Puissance nominale} & {\color{white}Surface rotor} & {\color{white}Type} & {\color{white}Production annuelle}\\
     \hline
     1 kW & 7 m$^2$ & vertical & 1000 kWh \\
