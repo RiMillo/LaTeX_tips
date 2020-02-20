@@ -163,20 +163,20 @@ every n index/.style={
   \end{center}
 
   Creating columns, computing orders of convergence, sorting, some styles,\ldots all in the following example.
-  \pgfplotstableread{%
+  \pgfplotstablesort[sort key={dofs}]{\testing}{%
     err         dofs
     2.5e-1      4
     1           1
     1.5645e-2   64
     6.15e-2     16
-  }\testing
+  }
   \pgfplotstablecreatecol[create col/dyadic refinement rate={dofs}]{refdofs}{\testing}
   \pgfplotstablecreatecol[create col/dyadic refinement rate={err}]{referr}{\testing}
   \begin{center}
     \pgfplotstabletypeset[%
       columns={err,dofs,ord},
       every head row/.style={after row={\hline}},
-      sort,sort key={dofs},
+      %sort,sort key={dofs},
       columns/err/.style={column name={Errors},sci,sci zerofill=true,precision=6,dec sep align},
       columns/dofs/.style={column name={\#DoFs},column type={c|},int detect},
       % Separate creation and style definition
