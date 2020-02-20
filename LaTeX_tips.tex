@@ -738,7 +738,7 @@ child{node {B2}}
     \item Grids: use \verb|\draw[<options>] (a) grid (b)| where \texttt{(a)} and \texttt{(b)} are the endpoint of a diagonal (we assume a rectangular mesh). Options may include \texttt{step=<n>}, which sets the width of the cells. The options \texttt{xstep} and \texttt{ystep} are available, as well.
     \item Arrows - heads: \href{https://gist.github.com/AndiH/f99d9b0cbd3519c27af5b96cfbeff97c}{list}, customization \href{https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf/161238#161238}{here}.
     \item One may want to have a look at the section about loops, \autoref{sec:loops}.
-    \item ATTENTION: for big picture it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
+    \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
 %
   \end{itemize}
   %%%%%%%%%%%%%%%%%%%%%% pgfplots
@@ -746,7 +746,7 @@ child{node {B2}}
   \label{sub:pgfplots}
   With an \emph{abuse of notations}, here we gather both \texttt{pgf} and \texttt{pgfplots} (and related) tricks. Here is the \href{http://ctan.tetaneutral.net/graphics/pgf/contrib/pgfplots/doc/pgfplots.pdf}{manual}. 
 
-  Before going into the details, if you are familiar with \texttt{gnuplot} you may want to check the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/gnuplottex/gnuplottex.pdf}{\textty{gnuplottex}} out.
+  Before going into the details, if you are familiar with \texttt{gnuplot} you may want to check the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/gnuplottex/gnuplottex.pdf}{\texttt{gnuplottex}} out.
 
   \begin{itemize}
     \item Basic math operations: compute the result of an expression \verb|\pgfmathparse{<expr>}|, retrieve it with \verb|\pgfmathresult| and use it. It is advised to store it in a variable with \verb|\pgfmathsetmacro\newmacro{\cmd}|
@@ -804,7 +804,10 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
     \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
     \item A couple of ides about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}. 
     \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
-    \item ATTENTION: for big picture it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
+    \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
+    \begin{itemize}
+      \item A remark about compiling time when plotting from an external file is in the following, \verb|pgfplotstable|-related section.
+    \end{itemize}
   \end{itemize}
 
 \subsubsection{\texttt{pgfplotstable}}
@@ -834,11 +837,12 @@ Two are the main reasons to use/love \texttt{pgfplotstable}: creating plots from
       \end{itemize}
     \item Create columns: two main ways
       \begin{itemize}
-        \item Online: dedicated option, the column is typeset directly 
+        \item Online: dedicated option, the column is used directly
 \begin{verbatim}
 \pgfplotstabletypeset[%
   create on use/newcol/.style={create col/.<type>={[...]}]{<table>}
 \end{verbatim}
+        It works both with \verb|\pgfplotstabletypeset| and \verb|\addplot table| 
         \item Offline: dedicated command, the columns will be added to the table and usable elsewhere
 \begin{verbatim}
 \pgfplotstablecreatecol{create col/.<type>={[...]}}{<table>}
@@ -852,6 +856,24 @@ Two are the main reasons to use/love \texttt{pgfplotstable}: creating plots from
 \pgfplotstableset{%
   every row no 4/.style={before row={\hrule}}}
 \end{verbatim}
+    \item Compiling performances: reading at each time vs. \verb|\pgfplotstableread|. It may happen that one has a big (many columns and/or many rows) file to plot, possibly it should be used several times. If you are a not-too-bad developer, you'd be lead to read it once, store it in a variable and reuse it again and again, like this
+\begin{Verbatim}[samepage=true]
+\pgfplotstableread{file.dat}\mytable
+% Repeat several times
+% [...]
+\addplot table {\mytable};
+\end{Verbatim}
+  However, as it is explained \href{https://tex.stackexchange.com/a/304734/206129}{here}, a faster solution is
+\begin{Verbatim}[samepage=true]
+% Repeat several times
+% [...]
+\addplot table {file.dat};
+\end{Verbatim}
+  For big files, the speed-up might be 2 (I indeed observed it) and more!
+  \begin{itemize}
+    \item Be also aware of \href{https://tex.stackexchange.com/questions/236398/speed-up-plotting-data-with-many-columns}{this}.
+    \item For plots with a lot of data-points, using option \verb|each nth point=<n>| (\href{https://tex.stackexchange.com/a/68658/206129}{here}) may be worth it. If you think that reducing drastically your data points may deteriorate the quality of your plot, try adding option \verb|smooth|, too.
+  \end{itemize}
   \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
