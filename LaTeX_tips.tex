@@ -805,6 +805,25 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
         \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
         \item Interesting options: \texttt{reverse legend} (invert the order), \texttt{draw=none} (no legend bow)
       \end{itemize}
+    \item Cycle lists. When printing more than one plot on the same canvas, if no options are given \texttt{pgfplots} will choose a line style itself in order to identify easily the plots. Those are the \texttt{cyle list}s.
+      \begin{itemize}
+        \item Choose the one to use by passing option \verb|cycle list name=<name>| or define directly one via \verb|cycle list|
+        \item Some preloaded cycle lists are: \texttt{color}, \texttt{black white}, \texttt{mark list} (and starred version), \texttt{color list} (and starred version), \texttt{linestyles} (and starred version).
+        \item Define new lists
+\begin{verbatim}
+\pgfplotscreateplotcyclelist{ACMilan}{%
+  {color=red,solid},
+  {color=black,solid},
+  {color=red,dashed},
+  {color=black,dashed} % <- No comma on the last
+}
+\end{verbatim}
+        \item MIND:
+          \begin{itemize}
+            \item \verb|\addplot [<opt>]|: the style is entirely defined by \verb|<opt>| and \verb|<opt>| only,
+            \item \verb|\addplot+[<opt>]|: \verb|<opt>| is appended to the \texttt{cycle list} option.
+          \end{itemize}
+      \end{itemize}
     \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
     \item A couple of ides about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}. 
     \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
