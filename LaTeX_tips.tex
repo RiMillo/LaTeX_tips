@@ -1158,6 +1158,54 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                   SECTION: latexmk
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\texttt{Latexmk}}
+\label{sec:latexmk}
+
+As we have seen in \autoref{sec:Referencing}, the compilation of a \LaTeX~documents involves different stages and may take some time. In fact, one has to: \begin{inparaenum}[1)] \item compile the \texttt{.tex}, \item (possibly) compile the bibliography, \item (possibly) compile the glossary, and \item the compile the \texttt{.tex} again once or twice. \end{inparaenum} \texttt{Latexmk} can do this automatically by itself and it even checks if a compilation is truly needed, and, if not, it skips it. It is often shipped with the \TeX~engines (e.g. \TeX{}Live for Unix), so you may have it already. Here is the \href{http://ctan.tetaneutral.net/support/latexmk/latexmk.pdf}{manual} and a real quick \href{https://mg.readthedocs.io/latexmk.html}{tutorial}. The usage its really simple: \verb|latexmk [<opt>] file.tex|, and that's it, it does the magic itself, all the needed compilations.
+
+Some useful options (please refer to the \texttt{man} page for more details):
+\begin{itemize}
+  \item \verb|-pdf|: produce a pdf output;
+  \item \verb|-g|: process regardless of file timestamps;
+  \item \verb|-pdflatex=<program>|: set program used when compiling latex;
+  \item \verb|-latexoption=<opt>|: add the given option to the latex command;
+  \item \verb|-c|: clean the compilation files, except pdf/dvi/ps;
+  \item \verb|-C|: clean also pdf/dvi/ps;
+  \item \verb|-pv|: show preview;
+  \item \verb|-pvc|: preview and continuously update (!!!);
+\end{itemize}
+
+Configuration and default parameters can be added to a \texttt{.latexmkrc} file. There can be several of them, in your home and in the project directory: all of them will be read, the one the project directory prevails. For instance, one can put in the \texttt{.latexmkrc}:
+\begin{itemize}
+  \item Add extension of generated file that should cleaned: \verb|push @generated_exts, "synctex.gz";|
+  \item Set pdf command: \verb|$pdflatex = 'pdflatex -file-line-error -interaction=nonstopmode';|
+  \item Set pdf viewer: \verb|$pdf_previewer = 'start evince';|
+  \item Set pdf compilation chain: \verb|$pdf_mode = 1;| with 
+    \begin{itemize}
+      \item \texttt{1}: tex to pdf,
+      \item \texttt{2}: tex to ps to pdf;
+    \end{itemize}
+  \item Set bibliography treatment: \verb|$bibtex = 0;| with
+    \begin{itemize}
+      \item \texttt{0}: never run \texttt{bibtex}/\texttt{biber};
+      \item \texttt{1}: if the source file needs \texttt{.bbl}, run \texttt{bibtex}/\texttt{biber} only if the relevant \texttt{.bib} files exists; \texttt{.bbl} are never erased in a clean-up;
+      \item \texttt{1.5}: as \texttt{1} but \texttt{.bbl} are erased in a clean-up;
+      \item \texttt{2}: always run \texttt{bibtex}/\texttt{biber} if needed.
+    \end{itemize}
+\end{itemize}
+
+If no files are given to the command, \texttt{latexmk} will try to compile all the \texttt{.tex} that it finds, which might not be the wished output when one is working on a large projects with multiple source files. To overcome this, one can set one or more main files in the local \texttt{.latexmkrc}:
+\begin{verbatim}
+  @default_files = ('main.tex'[,'maint_2.tex'...]);
+\end{verbatim}
+One is also advised to put the following piece of code in the first line of a dependent \texttt{.tex}, hence pointing to the main file:
+\begin{verbatim}
+%! TEX root = path/to/main.tex
+\end{verbatim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: Loops
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Loops}
