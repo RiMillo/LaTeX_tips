@@ -674,6 +674,11 @@ REMEMBER - It is like \texttt{C}, each command ends with a semicolon \texttt{;}.
     \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence,\begin{inparaenum}[1)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}. \end{inparaenum}
     \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
     \item Global settings / style definitions: e.g. \verb|\tikzset{compat=newest[,...]}|
+    \item Environments:
+      \begin{itemize}
+        \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
+        \item Inline: \verb|\tikz{...}|.
+      \end{itemize}
     \item Coordinate calculation: example
 \begin{verbatim}
 \usetikzlibrary{calc}
