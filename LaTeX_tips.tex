@@ -97,7 +97,7 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
 %%%                   SECTION: SECTIONING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Structure, Sectioning \& General Layout}
-\label{Sectioning}
+\label{sec:Sectioning}
 \begin{itemize}
   \item Manage a big, multi-file project: \verb|\input| vs. \verb|\include|, \verb|\includeonly|, packages \href{https://ctan.mc1.root.project-creative.net/macros/latex/contrib/import/import.pdf}{\texttt{import}} and \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/subfiles/subfiles.pdf}{\texttt{subfiles}}; have a look \href{https://en.wikibooks.org/wiki/LaTeX/Modular_Documents}{here}.
   \item General introduction to a structure of a document: \href{https://en.wikibooks.org/wiki/LaTeX/Document_Structure}{here}
@@ -246,7 +246,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 %%%                   SECTION: ITEMIZE & Co.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Items \& Co.}
-\label{Items}
+\label{sec:Items}
 \begin{itemize}
   \item The \texttt{enumitem} \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/enumitem/enumitem.pdf}{package} enables more control on the \texttt{itemize} environment and alike.
     \begin{itemize}
@@ -333,7 +333,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 %%%                   SECTION: TABLES
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Tables}
-\label{Tables}
+\label{sec:Tables}
 \begin{itemize}
   \item General info \href{https://en.wikibooks.org/wiki/LaTeX/Tables}{here}
   \item \verb|@{<ex>}|: put \texttt{<ex>} at the beginning of the following column on every row
@@ -371,7 +371,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
   \item Wider choice of row / column separators: see package \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{hhline}};
   \item Tables spanning more than one pages: use package \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{longtable}};
   \item Table and colors: the reference is \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/colortbl/colortbl.pdf}{\texttt{colortbl}} (which may be loaded by passing options \texttt{tables} to package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}). Some tips \href{https://texblog.org/2011/04/19/highlight-table-rowscolumns-with-color}{here};
-  \item For typesetting numerical data (but nocessarily), you may want to have a look at \texttt{pgfplotstable}, \autoref{sec:tikzpgf}.
+  \item For typesetting numerical data (but not necessarily), you may want to have a look at \texttt{pgfplotstable}, \autoref{sec:tikzpgf}.
   \item Colored and rounded tables (use of \texttt{TikZ}, \autoref{sec:tikzpgf}): some tips \href{https://tex.stackexchange.com/a/184075}{here} and example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
 \end{itemize}
 
@@ -536,7 +536,7 @@ and \eqref{eq:emph_b}.
 %%%                   SECTION: BEAMER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Beamer}
-\label{Beamer}
+\label{sec:Beamer}
 Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/beamer/doc/beameruserguide.pdf}{manual}, a quick \href{https://en.wikibooks.org/wiki/LaTeX/Presentations}{intro} and an appearance \href{http://www.cpt.univ-mrs.fr/~masson/latex/Beamer-appearance-cheat-sheet.pdf}{cheat sheet}.
 \begin{itemize}
   \item Overlays, that is how to make something (dis)appear (e.g. \verb!\only!, \verb!\uncover!...): \href{https://openclassrooms.com/courses/creez-vos-diaporamas-en-latex-avec-beamer/les-overlays-1}{here} or also \href{https://www.texdev.net/2014/01/17/the-beamer-slide-overlay-concept/}{here}
@@ -569,7 +569,7 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
 \end{frame}
 \end{verbatim}
     \end{itemize}
-  \item It has been seen \autoref{Items} that \texttt{beamer} and \texttt{enumitem} may interfere, typically with this latter erasing the settings done by the former. Here how to restore the \texttt{beamer} bullets:
+  \item It has been seen \autoref{sec:Items} that \texttt{beamer} and \texttt{enumitem} may interfere, typically with this latter erasing the settings done by the former. Here how to restore the \texttt{beamer} bullets:
 \begin{Verbatim}[samepage=true]
 \setlist[itemize,1]{label=%
   \usebeamerfont*{itemize item}%
@@ -595,9 +595,9 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
 \end{frame} }
 \end{Verbatim}
   \item Change the background: look \href{https://tex.stackexchange.com/questions/78464/background-image-in-beamer-slides}{here}.
-  \item Include other slides in pdf: see the bullet about \texttt{pdfpages} in \ref{Miscellaneous}.
+  \item Include other slides in pdf: see the bullet about \texttt{pdfpages} in \autoref{sec:Miscellaneous}.
   \item Draft: just pass \texttt{draft} to \texttt{beamer}. If you want to only disable image loading, try: \verb|\PassOptionsToPackage{draft}{graphicx}| before \verb|\documentclass{...}| (\href{https://tex.stackexchange.com/questions/4370/disabling-included-pictures-in-beamer}{here}).
-  \item \texttt{includeonly}-like (\autoref{Sectioning}): define labels and filter as shown \href{https://tex.stackexchange.com/questions/4370/disabling-included-pictures-in-beamer}{here}
+  \item \texttt{includeonly}-like (\autoref{sec:Sectioning}): define labels and filter as shown \href{https://tex.stackexchange.com/questions/4370/disabling-included-pictures-in-beamer}{here}
 \begin{verbatim}
 \includeonlyframes{foo}
 %[...]
@@ -616,7 +616,7 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
 %%%                   SECTION: GRAPHICS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Graphics \& Animations}
-\label{Graphics}
+\label{sec:Graphics}
 \begin{itemize}
   \item (Not \LaTeX-related) Erase background / Change background color of an image: \href{http://www.imagemagick.org/discourse-server/viewtopic.php?t=32305}{here} (if transparent background, the final extension must be \texttt{png}). Run from terminal:
 \begin{verbatim}
@@ -908,7 +908,7 @@ Two are the main reasons to use/love \texttt{pgfplotstable}: creating plots from
 %%%                   SECTION: DRAFT
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Draft}
-\label{Draft}
+\label{sec:Draft}
 \begin{itemize}
   \item The \verb!draft! option (passing it to the \verb!article! class, for example) will make visible the lines where you're exceeding the margin (little black vertical bar at the end of the line) and it will not load the figures but only reserve a place on the page (at least, you can see the layout): the compilation is faster
 \begin{verbatim}
@@ -925,7 +925,7 @@ Two are the main reasons to use/love \texttt{pgfplotstable}: creating plots from
   \end{itemize}
   \item An alternative for printing out the labels is \href{http://ctan.tetaneutral.net/macros/latex/required/tools/showkeys.pdf}{\texttt{showkeys}}.
   \item Fancy and colorful todo notes from the \href{http://tug.ctan.org/macros/latex/contrib/todonotes/todonotes.pdf}{\texttt{todonotes}} package.
-  \item With \texttt{beamer}: \autoref{Beamer}.
+  \item With \texttt{beamer}: \autoref{sec:Beamer}.
   % % Let the following be the last
   \item It could be interesting to define a command that may be set to either \texttt{draft} or \texttt{final}. Pass this command to all the packages listed just here above, hence you just need to modify this macro in order to change the setting of all the packages. E.g. mind that it goes before the class:
 \begin{verbatim}
@@ -940,10 +940,10 @@ Two are the main reasons to use/love \texttt{pgfplotstable}: creating plots from
 %%%                   SECTION: REFERENCING
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Referencing}
-\label{Referencing}
+\label{sec:Referencing}
 \begin{itemize}
   \item It is a good habit to follow this structure when naming a \texttt{label}: \verb|\label{type:desc}|. \texttt{type} is short for the type of element that is being named, for instance \texttt{fig} for a figure/picture, \texttt{sec} for a section, \texttt{eq} for an equation and so on. \texttt{desc} should clearly identify the element. For instance, see what was done wit the Euler equation in \autoref{sec:math}: \verb|\label{eq:euler}|.
-  \item Some tips already given in \autoref{sec:math} and \autoref{Items}
+  \item Some tips already given in \autoref{sec:math} and \autoref{sec:Items}
   \item Useful packages for referencing: \href{ftp://tug.ctan.org/pub/tex-archive/macros/latex/contrib/hyperref/doc/manual.pdf}{\texttt{hyperref}} and \href{http://ctan.mines-albi.fr/macros/latex/contrib/cleveref/cleveref.pdf}{\texttt{cleveref}}:
 \begin{verbatim}
 \usepackage{hyperref} % ATTENTION: to be loaded AFTER math related packages
@@ -985,7 +985,7 @@ Some tips about \texttt{cleveref}:
 %%%                   SECTION: BIBLIOGRAPHY
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Bibliography}
-\label{Bibliography}
+\label{sec:Bibliography}
 \begin{itemize}
   \item \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{Here} you can find a basic introduction to the bibliography in \LaTeX. A good habit is to create a separate \texttt{.bib} file. Some pdf managing programs (such as \href{https://www.zotero.org/}{Mendeley} or \href{https://www.zotero.org/}{Zotero}) automatically build the \texttt{.bib} file for you, with all the pdf in your library.  \item There are several ways to manage the bibliography in TeX files: \texttt{biblatex}, \texttt{natbib},\ldots
   \item Examples of bibliography styles can be found \href{https://www.overleaf.com/learn/latex/Bibtex_bibliography_styles}{here};
@@ -1115,13 +1115,13 @@ The standalone bundle allows users to easily place picture environments or other
 \label{sec:thesis}
 A thesis is, usually, a big multi-file project. The class \texttt{book} or \texttt{memoir} is conventionally used. Here, one can find some common ideas and settings for the structure, the layout and general managing of a thesis.
 \begin{itemize}
-  \item Management (\texttt{include} and alike): see \autoref{Sectioning}, and \href{https://en.wikibooks.org/wiki/LaTeX/Modular_Documents}{here}.
-  \item The \texttt{book}-class special structure: see \autoref{Sectioning}.
+  \item Management (\texttt{include} and alike): see \autoref{sec:Sectioning}, and \href{https://en.wikibooks.org/wiki/LaTeX/Modular_Documents}{here}.
+  \item The \texttt{book}-class special structure: see \autoref{sec:Sectioning}.
   \item Table of Content in each chapter: package \href{http://texdoc.net/texmf-dist/doc/latex/minitoc/minitoc.pdf}{\texttt{minitoc}}. Remark: it is built for the \texttt{book} class, it may work with \texttt{memoir} thanks to a \href{https://tex.stackexchange.com/questions/291743/minitoc-of-wrong-chapter}{workaround}.
     \begin{itemize}
       \item Problems with starred chapter* and \verb|\addcontentsline{toc}{chapter}{title}|: use instead \verb|\addchaptermtc[title]| (a less elegant option in \verb|\adjustmtc[<n>]|) as explained in this \href{https://texnique.fr/osqa/questions/5022/minitoc-un-chapitre-en-retard}{post} (in French) or in the manual. Another options is to avoid \verb|\addcontentsline| and use \verb|\addstarredchapter{<title>}|
     \end{itemize}
-  \item Bibliography in each chapter: see \autoref{Bibliography}. We suggest using \texttt{biblatex}, especially if you want per-chapter and global references at the same time, have a look \href{https://tex.stackexchange.com/questions/168713/global-and-per-chapter-bibliographies}{here} or \href{https://tex.stackexchange.com/questions/168713/global-and-per-chapter-bibliographies}{here}.
+  \item Bibliography in each chapter: see \autoref{sec:Bibliography}. We suggest using \texttt{biblatex}, especially if you want per-chapter and global references at the same time, have a look \href{https://tex.stackexchange.com/questions/168713/global-and-per-chapter-bibliographies}{here} or \href{https://tex.stackexchange.com/questions/168713/global-and-per-chapter-bibliographies}{here}.
   \item Appendices: package \href{http://ctan.tetaneutral.net/macros/latex/contrib/appendix/appendix.pdf}{\texttt{appendix}}
     \begin{itemize}
       \item Have a look at the \texttt{toc}- and \texttt{title}-related options.
@@ -1131,7 +1131,7 @@ A thesis is, usually, a big multi-file project. The class \texttt{book} or \text
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%                   SECTION: TeXMaker
+%%%                   SECTION: Code & algorithms
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Code \& algorithms}
 \label{sec:code}
@@ -1139,7 +1139,7 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
 \begin{itemize}
   \item \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/listings/listings.pdf}{\texttt{listings}}: it supports code-specific syntax-highlighting, perfect if one wants to dump a snippet of code. One can even define a custom syntax-highlighting, his own language.
   \item \href{http://tug.ctan.org/macros/latex/contrib/algorithm2e/doc/algorithm2e.pdf}{\texttt{alorithm2e}}: for pseudo-code and algorithm explanation.
-  \item One very basic option is to use the \texttt{verbatim} utility of \TeX~(see \autoref{Miscellaneous} for some tips). It is the right choice if one has to put a couple of lines and if one does not bother with syntax-highlighting.
+  \item One very basic option is to use the \texttt{verbatim} utility of \TeX~(see \autoref{sec:Miscellaneous} for some tips). It is the right choice if one has to put a couple of lines and if one does not bother with syntax-highlighting.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1212,7 +1212,7 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
 %%%                   SECTION: MISCELLANEOUS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Miscellaneous}
-\label{Miscellaneous}
+\label{sec:Miscellaneous}
 \begin{itemize}
   \item \href{http://pgfplots.sourceforge.net/TeX-programming-notes.pdf}{Notes} on programming with \TeX. Package \href{http://texdoc.net/texmf-dist/doc/latex/l3kernel/expl3.pdf}{\texttt{expl3}} might be interesting as well. 
   \item Define \verb!\abstractname! (unless not defined by default) in English if the \verb!babel! package is used. It has to be done for every language used in the text
@@ -1266,7 +1266,7 @@ Let us write some interspaces
   \item Framed boxes: use package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/tcolorbox/tcolorbox.pdf}{\texttt{tcolorbox}} or \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/mdframed/mdframed.pdf}{\texttt{mdframed}}
   \item Include external pdf: \href{http://ctan.tetaneutral.net/macros/latex/contrib/pdfpages/pdfpages.pdf}{\texttt{pdfpages}} and \verb|\includepdf{my.pdf}|, have a look \href{https://stackoverflow.com/questions/2739159/inserting-a-pdf-file-in-latex}{here}.
     \begin{itemize}
-      \item With beamer \ref{Beamer}, things are a bit trickier: reset the background canvas then include your pdf
+      \item With beamer \autoref{sec:Beamer}, things are a bit trickier: reset the background canvas then include your pdf.
 \begin{verbatim}
 \setbeamercolor{background canvas}{bg=}
 \includepdf{my.pdf}
