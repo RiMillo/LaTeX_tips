@@ -292,7 +292,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \end{enumerate}
 \end{verbatim}
       \item Enumerations starting from \texttt{<n>}: \verb|\begin{enumerate}[start=<n>]|
-      \item \textbf{ATTENTION}: it may interfere with \texttt{beamer} and they may not work as expected if loaded together, see this \href{https://tex.stackexchange.com/questions/24371/does-enumitem-conflict-with-beamer-for-lists}{post}  for two common problems.
+      \item \textbf{ATTENTION}: it may interfere with \texttt{beamer} and they may not work as expected if loaded together, see this \href{https://tex.stackexchange.com/questions/24371/does-enumitem-conflict-with-beamer-for-lists}{post} for two common problems.
       \item \textbf{ATTENTION}: it may cause some errors with the \texttt{enumerate} lists. In this case, load the option \texttt{shortlabels} and explicitly choose the type of item for the numeration
 \begin{verbatim}
 \usepackage[shortlabels]{enumitem}
@@ -306,6 +306,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
     \begin{itemize}
       \item \textbf{ATTENTION}: load \texttt{paralist} \emph{before} \texttt{enumitem}.
       \item A similar result is obtained with the \texttt{inline} option of \texttt{enumitem}.
+      \item \texttt{paralist} does not work properly with \texttt{beamer}.
     \end{itemize}
   \item Referencing and \texttt{itemize}
     \begin{itemize}
@@ -541,7 +542,17 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
 \begin{itemize}
   \item Overlays, that is how to make something (dis)appear (e.g. \verb!\only!, \verb!\uncover!...): \href{https://openclassrooms.com/courses/creez-vos-diaporamas-en-latex-avec-beamer/les-overlays-1}{here} or also \href{https://www.texdev.net/2014/01/17/the-beamer-slide-overlay-concept/}{here}
     \begin{itemize}
-      \item In a series of \texttt{<+->}, for example in an \texttt{itemize}, the key \texttt{.} (point) will repeat the previous overlay number, making the item appear at the same time of the previous one. An example taken from the second link:
+      \item Syntax: \verb|\cmd<when>{...}| (mind that this time the angle brackets \verb|<.>| should really be there). Some examples, consider \verb|I'm am \only<when>{un}happy|, \texttt{un} is printed: \verb|\only<2>| on the second slide only, \verb|\only<-3>| on every slide up to slide 3, \verb|\only<2->| on slide 2 and following, \verb|\only<1-3,12>| on slides 1 to 3 and then on slide 12.
+      \item \verb|\uncover<n>{What}|: the parameter will be invisible until slide n, but it will still be there hence it occupies some space. For instance, with \verb|\uncover<2>{Not} the beginning|, on slide one the line starts with a large whitespace which will only be filled on slide 2 (and on slide 2 only, otherwise we should have used \verb|\uncover<2->|) by \texttt{Not}
+      \item \verb|<+>| increments the previous action: 
+\begin{verbatim}
+\only<+>{3}\only<+>{2}\only<+>{1}\only<+>{Happy New Year!}
+\end{verbatim}
+        Hence, \verb|<+->| means "starting from the next and then on all the following":
+\begin{verbatim}
+Batmaaaan \only<+->{na}\only<+->{na}\only<+->{na}
+\end{verbatim}
+      \item In a series of \verb|<+->|, for example in an \verb|itemize|, the key \verb|.| (point) will repeat the previous overlay number, making the item appear at the same time as the previous one. An example taken from the second link:
 \begin{Verbatim}[samepage=true]
   \begin{itemize}
     \item<+-> This is on the first and all following slides
@@ -550,6 +561,7 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
     \item<.-> This is also on the second and all following slides
   \end{itemize}
 \end{Verbatim}
+      \item \verb|\begin{overlayarea}{<width>}{<height>} ... \end{overlayarea}|
     \end{itemize}
   \item Numbering and appendix / backup slides:
     \begin{itemize}
@@ -568,6 +580,7 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
 %  Lorem Ipsum
 \end{frame}
 \end{verbatim}
+      \item When compiling in handout mode, all the overlays are overwritten on a single slide. One can however control the handout slides with a similar syntax as the overlays. E.g. \verb!\only<1,3|handout:2>{Test}!: \verb|Test| will be printed on slides 1 and 3 when in presentation mode, but on slide 2 when in handout mode.
     \end{itemize}
   \item It has been seen \autoref{sec:Items} that \texttt{beamer} and \texttt{enumitem} may interfere, typically with this latter erasing the settings done by the former. Here how to restore the \texttt{beamer} bullets:
 \begin{Verbatim}[samepage=true]
@@ -608,8 +621,17 @@ Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/lat
   Second frame, which will not be seen.
 \end{frame}
 \end{verbatim}
-  \item Sections in ToC / navigation bar (list of sections in the header/footer): alternatives \href{https://tex.stackexchange.com/questions/66628/latex-beamer-frame-outside-sections}{here}
-  \item \texttt{beamer} introduces two new \emph{very} small font size: \verb|\Tiny| and \verb|\TINY| (\autoref{sec:font})
+  \item Sections in ToC / navigation bar (list of sections in the header/footer): alternatives \href{https://tex.stackexchange.com/questions/66628/latex-beamer-frame-outside-sections}{here}.
+  \item \texttt{beamer} introduces two new \emph{very} small font size: \verb|\Tiny| and \verb|\TINY| (\autoref{sec:font}).
+  \item Option \texttt{allowframebreaks} passed to the \texttt{frame} environment allows to have a long content spanning more than one slides. This could be useful for bibliography for example that may require several slides
+\begin{verbatim}
+\begin{frame}[allowframebreaks]{A very long slide}
+  [A very long conten]
+\end{frame}
+\end{verbatim}
+    \begin{itemize}
+      \item Insert a frame break with \verb|\pagebreak| (this applies both to presentation and handout mode), or \verb|\framebreak| (which is equivalent to \verb|\pagebreak<presentation>| and hence applies only to presentationmode)
+    \end{itemize}
   \item It is possible to insert interactive buttons that allow one to, for instance, go to a slide and come back, go to the end/beginning, repeat a previous slide... The feature is possible via the \texttt{hyperref} package and it relies on \verb|\hyperlink{[..]}{<beamer_button>}|, \verb|\beamer<type>button{<name>}|... I know, not a very useful advice, but have a look at the manual or on StackExchange.
 \end{itemize}
 
@@ -1232,7 +1254,7 @@ One is also advised to put the following piece of code in the first line of a de
   I eat a yellow~\what. \\ % ~ = force space, one never knows
 }
 \end{Verbatim}
-      one may chose to name the for-loop variable \verb|\what| as he wishes. 
+      one may choose to name the for-loop variable \verb|\what| as he wishes. 
     \item Two variables:
 \begin{Verbatim}[samepage=true]
 \foreach \what\color in {apple/red,banana/yellow,cinnamonbun/creamy}{
@@ -1388,6 +1410,7 @@ Let us write some interspaces
       \verb|conditional_statement| is an expression involving booleans and it can be constructed also using \verb|\AND|, \verb|\OR|, \verb|\NOT|, \verb|\([...]\)|.
     \end{itemize}
   \item For hundreds of logos (even well-known ones as Google, FB,\ldots) use package \href{https://ctan.crest.fr/tex-archive/fonts/fontawesome/doc/fontawesome.pdf}{\texttt{fontawesome}}.
+  \item For typesetting units the reference package is \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/siunitx/siunitx.pdf}{\texttt{siunitx}} and its \verb|\si{<unit>}| and \verb|SI{<num>}{<unit>}| commands.
 
 \end{itemize}
 
