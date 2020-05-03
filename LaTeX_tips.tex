@@ -1161,6 +1161,12 @@ A thesis is, usually, a big multi-file project. The class \texttt{book} or \text
       \item For global appendices: \verb|\begin{appendices} ... \end{appendices}| and use \texttt{chapter}.
       \item For chapter appendices: \verb|\begin{subappendices} ... \end{subappendices}|. Look \href{https://tex.stackexchange.com/questions/120716/appendix-after-each-chapter}{here}.
     \end{itemize}
+  \item Glossary:
+    \begin{itemize}
+      \item Quick guides: \href{https://www.overleaf.com/learn/latex/glossaries}{one} and \href{https://en.wikibooks.org/wiki/LaTeX/Glossary}{two}. This \href{https://tex.stackexchange.com/a/276174/206129}{answer} could be useful as well, if you have symbols, definitions, and acronyms and you want to use only one package.
+      \item Usual packages: \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/glossaries/glossariesbegin.pdf}{\texttt{glossaries}} (but the \href{https://ctan.org/pkg/glossaries}{CTAN} page has more) and \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/nomencl/nomencl.pdf}{\texttt{nomencl}}.
+    \end{itemize}
+  \item Index (quite similar to glossary): quick guides \href{https://en.wikibooks.org/wiki/LaTeX/Indexing}{here} and \href{https://www.overleaf.com/learn/latex/indices}{here}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1210,9 +1216,19 @@ Some useful options (please refer to the \texttt{man} page for more details):
   \item \verb|-pvc|: preview and continuously update (!!!);
 \end{itemize}
 
-Configuration and default parameters can be added to a \texttt{.latexmkrc} file. There can be several of them, in your home and in the project directory: all of them will be read, the one the project directory prevails. For instance, one can put in the \texttt{.latexmkrc}:
+Configuration and default parameters can be added to a \texttt{.latexmkrc} file. There can be several of them, in your home and in the project directory: all of them will be read, the one the project directory prevails. Examples of \texttt{.latexmkrc} files are available \href{https://www.ctan.org/tex-archive/support/latexmk/example_rcfiles}{here}. For instance, one can put in the \texttt{.latexmkrc}:
 \begin{itemize}
-  \item Add extension of generated file that should cleaned: \verb|push @generated_exts, "synctex.gz";|
+  \item Name of the main files: if no files are given to the command, \texttt{latexmk} will try to compile all the \texttt{.tex} that it finds, which might not be the wished output when one is working on a large projects with multiple source files. To overcome this, one can set one or more main files in the local \texttt{.latexmkrc}:
+\begin{verbatim}
+  @default_files = ('main.tex'[,'main_2.tex'...]);
+\end{verbatim}
+  \begin{itemize}
+    \item One is also advised to put the following piece of code in the first line of a dependent \texttt{.tex}, hence pointing to the main file:
+\begin{verbatim}
+%! TEX root = path/to/main.tex
+\end{verbatim}
+  \end{itemize}
+  \item Add extension of generated file that should be cleaned: \verb|push @generated_exts, "synctex.gz";|
   \item Set pdf command: \verb|$pdflatex = 'pdflatex -file-line-error -interaction=nonstopmode';|
   \item Set pdf viewer: \verb|$pdf_previewer = 'start evince';|
   \item Set pdf compilation chain: \verb|$pdf_mode = 1;| with
@@ -1227,16 +1243,8 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
       \item \texttt{1.5}: as \texttt{1} but \texttt{.bbl} are erased in a clean-up;
       \item \texttt{2}: always run \texttt{bibtex}/\texttt{biber} if needed.
     \end{itemize}
+  \item Glossary are not well taken into account, so one should define the compiling rule him/herself. However, several ready-to-go examples are available, have a look at this \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/support/latexmk/example_rcfiles/pdflatexmkrc}{\texttt{.latexmkrc}}: there, the usual glossary, acronyms and notations categories are dealt with, but mind that if a new glossary category is defined, its related compiling rule should be added as well.
 \end{itemize}
-
-If no files are given to the command, \texttt{latexmk} will try to compile all the \texttt{.tex} that it finds, which might not be the wished output when one is working on a large projects with multiple source files. To overcome this, one can set one or more main files in the local \texttt{.latexmkrc}:
-\begin{verbatim}
-  @default_files = ('main.tex'[,'maint_2.tex'...]);
-\end{verbatim}
-One is also advised to put the following piece of code in the first line of a dependent \texttt{.tex}, hence pointing to the main file:
-\begin{verbatim}
-%! TEX root = path/to/main.tex
-\end{verbatim}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: Loops
@@ -1414,6 +1422,7 @@ Let us write some interspaces
   \item For hundreds of logos (even well-known ones as Google, FB,\ldots) use package \href{https://ctan.crest.fr/tex-archive/fonts/fontawesome/doc/fontawesome.pdf}{\texttt{fontawesome}}.
   \item For typesetting units the reference package is \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/siunitx/siunitx.pdf}{\texttt{siunitx}} and its \verb|\si{<unit>}| and \verb|SI{<num>}{<unit>}| commands.
   \item Comment large parts of the file out: check this \href{https://tex.stackexchange.com/questions/17816/commenting-out-large-sections}{question}. The proposed solutions are \verb|\iffalse ... \fi|, package \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/comment/comment.pdf}{\texttt{comment}} or restructuring the project and working with \verb|\includeonly{...}|
+  \item Add your own \texttt{.sty} and \texttt{.cls} to the path so that they are always found: create a dedicate directory in the \TeX{} home directory and put it there. The location of such directory may be found running \verb|kpsewchich -var-value=TEXMFHOME|, everything is explained \href{https://tex.stackexchange.com/questions/1137/where-do-i-place-my-own-sty-or-cls-files-to-make-them-available-to-all-my-te}{here}.
 
 \end{itemize}
 
