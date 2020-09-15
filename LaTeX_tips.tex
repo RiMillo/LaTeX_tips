@@ -44,7 +44,7 @@
 
 \usepackage{paralist}
 
-\usepackage{enumitem}
+\usepackage[inline]{enumitem}
 \setlist[itemize]{topsep=0pt,noitemsep}
 
 \usepackage{xspace}
@@ -111,6 +111,8 @@ We try to give the snippet of the solution, hopefully commented, and an example:
 
 If one would like more details about a subject, or if [s]he couldn't find / solve his/her problem with this document, there are a couple of websites that could be useful. \href{https://ctan.org/}{CTAN}, has already been mentioned, and (all hail!) \href{https://tex.stackexchange.com/}{TexExchange} as well. Other references are: \href{https://www.tug.org/}{\TeX{} Users Group}, \href{https://www.overleaf.com/learn/}{Overleaf}, \href{https://en.wikibooks.org/wiki/LaTeX}{WikiBooks}, \href{https://latex.org/forum/index.php}{\LaTeX.org} and \href{https://www.texfaq.org/}{\TeX{} FAQ}.
 
+A couple of words about \LaTeX{} editors. If for you writing in \LaTeX{} is a necessary pain (what's all this code anyway?!), there are plenty of dedicated editors out there that make things easy for you, among others \LaTeX Studio and \TeX Maker (see \autoref{sec:texmaker}). I think that the rich-format text option of the aforementioned \href{https://www.overleaf.com/learn/}{Overleaf} (or Share\LaTeX{} since they have merged) can definitely be a killer-feature. Overleaf might also be a good choice for a collaborative project, in this case, see the related item in \autoref{sec:Miscellaneous}. If you are more code-prone, numerous plugin have been developed for classical text editors such as \verb|[neo]vi[m]| or \verb|emacs| (I, myself, cannot but suggest \verb|vim+vimtex+Ultisnips|). One may found a list of available editors \href{https://tex.stackexchange.com/questions/339/latex-editors-ides}{here}.
+
 Finally, if you liked and you have some cool tricks that you want to share in order to make other people's lives easier, do not hesitate to contribute: along with this file, you should have received its \href{run:./LaTeX_tips.tex}{source code} (of course we wrote it in \LaTeX, what do you expect?!); if not, ask for it (there are some tricks inside it, too!). And there's more: a Github repo. Here it is: \href{https://github.com/RiMillo/LaTeX_tips}{\faGithub\texttt{/RiMillo/LaTeX\_tips}}.
 
 Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
@@ -127,6 +129,7 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
 \begin{itemize}
   \item Manage a big, multi-file project: \verb|\input| vs. \verb|\include|, \verb|\includeonly|, packages \href{https://ctan.mc1.root.project-creative.net/macros/latex/contrib/import/import.pdf}{\texttt{import}} and \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/subfiles/subfiles.pdf}{\texttt{subfiles}}; have a look \href{https://en.wikibooks.org/wiki/LaTeX/Modular_Documents}{here}.
     \begin{itemize}
+      \item Nested \verb|\input| are forbidden.
       \item You may know about \verb|\graphicspath| which allows one to add directories to the path where the pictures are searched for (cf. \fullref{sec:Graphics}). Well, with a workaround one can achieve the same thing for the input files. Details \href{https://tex.stackexchange.com/a/79060/206129}{here} but an example is given below:
 \begin{verbatim}
 \makeatletter
@@ -373,7 +376,20 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
   \item Inline lists: \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/paralist/paralist.pdf}{\texttt{paralist}} package, and in particular its \texttt{inparaenum} environment.
     \begin{itemize}
       \item \textbf{ATTENTION}: load \texttt{paralist} \emph{before} \texttt{enumitem}.
-      \item A similar result is obtained with the \texttt{inline} option of \texttt{enumitem}.
+      \item A similar result is obtained with the \texttt{inline} option of \texttt{enumitem} and using starred versions of the usual item-related environments. Consider the following example in which we set the type of label, the separator, internal and final. Here is how it appears:
+        \begin{enumerate*}[label={(Ex\arabic*)},itemjoin={{, }},itemjoin*={{, and }}]
+          \item Example 1
+          \item Example 2
+          \item Example 3
+        \end{enumerate*}.
+\begin{verbatim}
+\begin{enumerate*}[%
+  label={(Ex\arabic*)},itemjoin={{, }},itemjoin*={{, and }}]
+    \item Example 1
+    \item Example 2
+    \item Example 3
+\end{enumerate*}.
+\end{verbatim}
       \item \texttt{paralist} does not work properly with \texttt{beamer}.
     \end{itemize}
   \item Referencing and \texttt{itemize}
@@ -1002,6 +1018,10 @@ my line/.default={red}{thick},
 \end{verbatim}
           \end{itemize}
       \end{itemize}
+    \item Well, you know how to draw a line. Here is how to bend it (give it a curved look). Adjust the direction (\texttt{left} or \texttt{right}) and the angle to suit your wishes.
+\begin{verbatim}
+\draw (0,0) to[bend left=45] (10,0);
+\end{verbatim}
     \item Environments:
       \begin{itemize}
         \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
@@ -1039,6 +1059,7 @@ my line/.default={red}{thick},
   [...]
 \end{pgfonlayer}
 \end{Verbatim}
+    \item The library \texttt{decorations} is very powerful and allow one to create pattern. See, for instance, the treasure hunting in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
     \item The library \verb|fit| allows to draw shapes that fit the list of coordinates in argument, cf. related section in the \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
     \item Magnifying, zoom: \verb|\usetikzlibrary{spy}| and the \verb|\spy on (A) in node at (B);| command. Some examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
       \begin{itemize}
@@ -1157,6 +1178,7 @@ child{node {B2}}
       \end{itemize}
     \item Legend\ldots
       \begin{itemize}
+        \item Have a look at \verb|legend to name=<name>|, which, combined with \verb|\ref{<name>}| allows one to draw a complete legend even outside a \texttt{tikz} scope.
         \item Exclude plot from legend (and cycles): option \verb|forget plot|.
         \item Transparency: the legend box has by default a solid white background, hence it covers part of the canvas. E.g.
 \begin{verbatim}
@@ -1337,7 +1359,7 @@ Writing a document can be not so easy by itself, and we think that writing it wi
   \item One may want to check the part about the large comments out: \fullref{sec:Miscellaneous}.
 \end{itemize}
 
-This goes beyond the scope of the section and of the document too, but something that you should be aware of when editing a \LaTeX{} file is forward- and backward-search. In a nutshell, with this is, I'd say, having a link between the file editor and the pdf viewer, so that, for instance, with some manipulation you select a word in the editor and the viewer pops up at the selected spot, or vice versa. Think about you finding a typo while proofreading a document of several pages, you click on it and the editors goes directly to it, without you browsing around. That could save time. Most of IDE specialized on \LaTeX{} (see for instance \fullref{sec:texmaker}) have it, if you are used to more basic editor, you should do some tweaking around, but usually solutions are available. For instance, \texttt{vim} may be linked to \texttt{zathura} or \texttt{okular}.
+This goes beyond the scope of the section and of the document too, but something that you should be aware of when editing a \LaTeX{} file is forward- and backward-search. In a nutshell, this is like, I'd say, having a link between the file editor and the pdf viewer, so that, for instance, with some manipulation you select a word in the editor and the viewer pops up at the selected spot, or vice versa. Think about you finding a typo while proofreading a document of several pages, you click on it and the editors goes directly to it, without you browsing around. That could save time. Most of IDE specialized on \LaTeX{} (see for instance \fullref{sec:texmaker}) have it, if you are used to more basic editor, you should do some tweaking around, but usually solutions are available.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: REFERENCING & HYPERLINKS
@@ -1440,10 +1462,7 @@ Some tips about \texttt{cleveref}:
 
   \subsection{\texttt{biblatex}}
   \label{sub:biblatex}
-  \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf}{User
-  guide} (in the introduction, there is a nice overview of other bibliography-related
-  packages which could be useful). A quick
-  \href{https://www.overleaf.com/learn/latex/Articles/Getting_started_with_BibLaTeX}{tutorial} (see also \href{https://www.overleaf.com/learn/latex/Biblatex_citation_styles}{this} and \href{https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles}{that} for examples of citation/bibliography styles. And a useful \href{http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{cheatsheet}. \texttt{biblatex} relies on \texttt{biber}, thus the compiling sequence becomes:
+  \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf}{User guide} (in the introduction, there is a nice overview of other bibliography-related packages which could be useful). A quick \href{https://www.overleaf.com/learn/latex/Articles/Getting_started_with_BibLaTeX}{tutorial} (see also \href{https://www.overleaf.com/learn/latex/Biblatex_citation_styles}{this} and \href{https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles}{that} for examples of citation/bibliography styles). And a useful \href{http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{cheatsheet}. \texttt{biblatex} relies on \texttt{biber}, thus the compiling sequence becomes:
     \begin{enumerate}
       \item Compile one time with your preferred compiler (e.g. \texttt{pdflatex}: \verb|$pdflatex main.tex|);
       \item Compile the bibliography with \texttt{biber}: \verb|$biber main.bcf|;
@@ -1472,6 +1491,7 @@ Some tips about \texttt{cleveref}:
         \item \texttt{style=<style>} for setting both of the above.
       \end{itemize}
     \item Sort the citations: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g. \texttt{nyt}, \texttt{nty}).
+    \item You can even provide a direct link to your \href{https://www.zotero.org/}{\texttt{Zotero}} bibliography (see the manual).
     \item Footnote-like citation (could be useful in \texttt{beamer}): \verb|\footcite{<ref_name>}|, look also \verb|\footfullcite{<ref_name>}|.
     \item Avoid \emph{et al.}: put in the options when loading the package \texttt{maxnames=<n>} or \texttt{minnames=<n>}.
     \item Suppress "\emph{In:}" in the bibliography: \verb|\renewbibmacro{in:}{}| (\href{https://tex.stackexchange.com/a/10686/206129}{here}).
@@ -1597,7 +1617,7 @@ A thesis is, usually, a big multi-file project. The class \texttt{book} or \text
 \end{verbatim}
       \item Remark: it is built for the \texttt{book} class, it may work with \texttt{memoir} thanks to a \href{https://tex.stackexchange.com/questions/291743/minitoc-of-wrong-chapter}{workaround}.
       \item It is unclear if it goes before or after \texttt{hyperref}: on the manual it is said after, on the bible, aka \texttt{StackExchange} before. In any case you'll probably get warnings. \href{https://tex.stackexchange.com/questions/166910/what-are-these-warnings-for-minitoc-package}{Here} is some ways to silence them: the proposed ones involve either the \texttt{silence} package (cf. \fullref{sec:Miscellaneous}) or the option \texttt{nohint}.
-      \item Problems with starred chapter* and \verb|\addcontentsline{toc}{chapter}{title}|: use instead \verb|\addchaptermtc[title]| (a less elegant option in \verb|\adjustmtc[<n>]|) as explained in this \href{https://texnique.fr/osqa/questions/5022/minitoc-un-chapitre-en-retard}{post} (in French) or in the manual. Another options is to avoid \verb|\addcontentsline| and use \verb|\addstarredchapter{<title>}|
+      \item Problems with starred chapter* and \verb|\addcontentsline{toc}{chapter}{title}|: use instead \verb|\addchaptermtc[title]| (a less elegant option is \verb|\adjustmtc[<n>]|) as explained in this \href{https://texnique.fr/osqa/questions/5022/minitoc-un-chapitre-en-retard}{post} (in French) or in the manual. Another option is to avoid \verb|\addcontentsline| and use \verb|\addstarredchapter{<title>}|
       \item ATTENTION: Not compatible with \texttt{titelsec}, if you really need \texttt{titlesec} you can use the partial ToC available in its related package \texttt{titletoc} or keep using \texttt{minitoc} (it might work).
     \end{itemize}
   \item Bibliography in each chapter: see \autoref{sec:Bibliography}. We suggest using \texttt{biblatex}, especially if you want per-chapter and global references at the same time, have a look \href{https://tex.stackexchange.com/questions/168713/global-and-per-chapter-bibliographies}{here} or \href{https://tex.stackexchange.com/questions/168713/global-and-per-chapter-bibliographies}{here}.
