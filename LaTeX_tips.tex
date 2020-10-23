@@ -466,7 +466,12 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
   \item Wider choice of row / column separators: see package
     \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{hhline}}, or \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/arydshln/arydshln-man.pdf}{\texttt{arydshln}};
   \item Tables spanning more than one pages: use package \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{longtable}};
-  \item Table and colors: the reference is \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/colortbl/colortbl.pdf}{\texttt{colortbl}} (which may be loaded by passing options \texttt{tables} to package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}). Some tips \href{https://texblog.org/2011/04/19/highlight-table-rowscolumns-with-color}{here};
+  \item Table and colors:
+    \begin{itemize}
+      \item the reference is \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/colortbl/colortbl.pdf}{\texttt{colortbl}} (which may be loaded by passing options \texttt{tables} to package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}).
+      \item Some tips \href{https://texblog.org/2011/04/19/highlight-table-rowscolumns-with-color}{here}.
+      \item Alternate color row: see \href{https://texblog.org/2011/09/02/coloring-every-alternate-table-row/}{here}.
+    \end{itemize}
   \item For typesetting numerical data (but not necessarily), you may want to have a look at \texttt{pgfplotstable}, \autoref{sec:tikzpgf}.
   \item Colored and rounded tables (use of \texttt{TikZ}, \autoref{sec:tikzpgf}): some tips \href{https://tex.stackexchange.com/a/184075}{here} and example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
 \end{itemize}
@@ -1003,7 +1008,7 @@ REMEMBER - It is like \texttt{C}, every \texttt{draw}-like command ends with a s
   \subsection{\texttt{TikZ}}
   Here is the \texttt{TikZ} and \texttt{pgf} \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
   \begin{itemize}
-    \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence, \begin{inparaenum}[1)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}.\end{inparaenum}
+    \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence, \begin{inparaenum}[(i)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}.\end{inparaenum}
     \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
     \item Global settings / style definitions: e.g.~\verb|\tikzset{color=red[,...]}|
       \begin{itemize}
@@ -1135,8 +1140,12 @@ child{node {B2}}
     \item One may want to have a look at the section about loops, \autoref{sec:loops}.
     \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation. It basically create separates pdf that will be included in the followings compilations.
       \begin{itemize}
-        \item You are invited to read the related chapter in the manual.
+        \item You are invited to read the related chapter in the manual (it should be the 87).
         \item \LaTeX{} compilation needs to be called with the \verb|-shell-escape| option: the compiler should be allowed to run commands to build the external figures.
+        \item The \texttt{list and make} mode (activated with \verb|\tikzexternalize[mode=list and make]|) will create a list of the external figure. This list can be processed with \texttt{make}, Hence one has to \begin{inparaenum}[(i)] \item compile the pdf, \item run \verb|make -f -j 4 file.makefile|, \item compile the sources again to ensure the external pictures are included\end{inparaenum}. Notice that the \texttt{make} step can be done in parallel (cf.~\verb|-j <n>|).
+          \begin{itemize}
+            \item Of course the make step will not always be included in the compilations steps of the automatic compiler. Look \href{https://tex.stackexchange.com/questions/145501/integrating-latexmk-and-tikz-external-mode-list-and-make}{here} for an example of integration with \texttt{latexmk} (see \autoref{sec:latexmk}).
+          \end{itemize}
         \item Load with \verb|\usetikzlibrary{external}| or (if loaded) \verb|\usepgfplotslibrary{external}|.
         \item Prefix: it can easily become pretty messy, a prefix can be used to store the files in a directory: \verb|\tikzsetexternalprefix{dir_ext/}|.
         \item Enable, the first time use: \verb|\tikzexternalize|. Disable: \verb|\tikzexternaldisable|. After a disabling, re-enable: \verb|\tikzexternalenable|.
@@ -1716,7 +1725,7 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
 \section{\texttt{latexmk}}
 \label{sec:latexmk}
 
-As we have seen in \fullref{sec:Referencing}, the compilation of a \LaTeX{} documents involves different stages and may take some time. In fact, one has to: \begin{inparaenum}[1)] \item compile the \texttt{.tex}, \item (possibly) compile the bibliography, \item (possibly) compile the glossary, and \item the compile the \texttt{.tex} again once or twice. \end{inparaenum} \texttt{latexmk} can do this automatically by itself and it even checks if a compilation is truly needed, and, if not, it skips it. It is often shipped with the \TeX{} engines (e.g.~\TeX{}Live for Unix), so you may have it already. Here is the \href{http://ctan.tetaneutral.net/support/latexmk/latexmk.pdf}{manual} and a real quick \href{https://mg.readthedocs.io/latexmk.html}{tutorial}. The usage it's really simple: \verb|latexmk [<opt>] file.tex|, and that's it, it does the magic itself, all the needed compilations.
+As we have seen in \fullref{sec:Referencing}, the compilation of a \LaTeX{} documents involves different stages and may take some time. In fact, one has to: \begin{inparaenum}[(i)] \item compile the \texttt{.tex}, \item (possibly) compile the bibliography, \item (possibly) compile the glossary, and \item the compile the \texttt{.tex} again once or twice. \end{inparaenum} \texttt{latexmk} can do this automatically by itself and it even checks if a compilation is truly needed, and, if not, it skips it. It is often shipped with the \TeX{} engines (e.g.~\TeX{}Live for Unix), so you may have it already. Here is the \href{http://ctan.tetaneutral.net/support/latexmk/latexmk.pdf}{manual} and a real quick \href{https://mg.readthedocs.io/latexmk.html}{tutorial}. The usage it's really simple: \verb|latexmk [<opt>] file.tex|, and that's it, it does the magic itself, all the needed compilations.
 
 Some useful options (please refer to the \texttt{man} page for more details):
 \begin{itemize}
