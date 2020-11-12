@@ -1,6 +1,7 @@
 # Avoid compiled pdf. Manually, sigh
 LaTeX_tips.pdf
 ex_plot.pdf
+.exrc
 # Taken from https://github.com/github/gitignore
 #
 # We use: TeX.gitignore and Vim.gitignore

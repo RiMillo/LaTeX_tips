@@ -203,11 +203,14 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
 \label{sec:font}
 \begin{itemize}
   \item \href{https://en.wikibooks.org/wiki/LaTeX/Fonts}{A general intro}.
-  \item Be advised: changing the font appearance with \LaTeX{} may be hard. There are some predefined ones, you may find them \href{https://www.overleaf.com/learn/latex/font_typefaces}{here}, but there are only a dozen. If you want a new style you should install it, look it up on the web. It is easier if one uses Xe\LaTeX{}.
-  \item Be advised that \verb|\emph{.}| does not not necessarily means italic. You might modify it as reported \href{https://tex.stackexchange.com/questions/315058/change-the-behaviour-of-emph-per-environment}{here} or \href{https://tex.stackexchange.com/questions/315058/change-the-behaviour-of-emph-per-environment}{here}.
-  \item Change default font style: \verb|\renewcommand{\familydefault}{<family>}| where \texttt{family} may be chosen in: \verb|\rmdefault| {roman family font}, \verb|\sfdefault| (sans serif family font), or \verb|\ttdefault| (teletype font family)
-  \item Font sizes: see \autoref{tab:sizes}. Note: \verb|\HUGE| is available with the \texttt{memoir} class only, \verb|\Tiny| and \verb|\TYNY| only with \texttt{beamer}.
-  \item Font styles: see \autoref{tab:styles}.
+  \item Font-related
+    \begin{itemize}
+      \item Be advised: changing the font appearance with \LaTeX{} may be hard. There are some predefined ones, you may find them \href{https://www.overleaf.com/learn/latex/font_typefaces}{here}, but there are only a dozen. If you want a new style you should install it, look it up on the web, you can start \href{https://tug.org/fonts/fontinstall.html}{here}. It is easier if one uses Xe\LaTeX{}.
+      \item Be advised that \verb|\emph{.}| does not not necessarily means italic. You might modify it as reported \href{https://tex.stackexchange.com/questions/315058/change-the-behaviour-of-emph-per-environment}{here} or \href{https://tex.stackexchange.com/questions/315058/change-the-behaviour-of-emph-per-environment}{here}.
+      \item Change default font style: \verb|\renewcommand{\familydefault}{<family>}| where \texttt{family} may be chosen in: \verb|\rmdefault| {roman family font}, \verb|\sfdefault| (sans serif family font), or \verb|\ttdefault| (teletype font family)
+      \item Font sizes: see \autoref{tab:sizes}. Note: \verb|\HUGE| is available with the \texttt{memoir} class only, \verb|\Tiny| and \verb|\TYNY| only with \texttt{beamer}.
+      \item Font styles: see \autoref{tab:styles}.
+    \end{itemize}
   \item \LaTeX{} lengths: have a look \href{https://www.overleaf.com/learn/latex/Lengths_in_LaTeX}{here} or even \href{https://en.wikibooks.org/wiki/LaTeX/Lengths}{there}.
   \item Spacing:
   \begin{itemize}
@@ -216,27 +219,27 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
     \item \verb!\small|med|bigbreak!: as above but suggests to \LaTeX{} that it would be a good place for a pagebreak if necessary.
     \item When forcing a newline, a custom vertical space may be added: \verb|The end\\[3cm]|.
     \item Fill the line/page: \verb!\hfill!, \verb!\vfill!. Might be useful: for lines \verb|\dotfill|, \verb|\hrulefill|.
-  \end{itemize}
-  \item Change the space after paragraph: \verb|\setlegth{\parskip}{<len>}|
-  \item Spacing after a command
-    \begin{itemize}
-      \item Use a user-defined command and empty brackets as suggested \href{https://tex.stackexchange.com/questions/31091/space-after-latex-commands}{here}. Examples:
+    \item Change the space after paragraph: \verb|\setlegth{\parskip}{<len>}|
+    \item Spacing after a command
+      \begin{itemize}
+        \item Use a user-defined command and empty brackets as suggested \href{https://tex.stackexchange.com/questions/31091/space-after-latex-commands}{here}. Examples:
+  \newcommand{\cmd}{command}
 \begin{verbatim}
 \newcommand{\cmd}{command}
 A space after my \cmd{} here. There shouldn't be one after my \cmd{}.
 \end{verbatim}
-\newcommand{\cmd}{command}
-      gives:\\
-      A space after my \cmd{} here. There shouldn't be one after my \cmd{}.
-      \item Use package \texttt{xspace} as explained \href{https://tex.stackexchange.com/questions/362046/insert-a-space-after-a-command-vs-vs-space}{here}.
+        gives:\\
+        A space after my \cmd{} here. There shouldn't be one after my \cmd{}.
+        \item Use package \texttt{xspace} as explained \href{https://tex.stackexchange.com/questions/362046/insert-a-space-after-a-command-vs-vs-space}{here}.
+  \newcommand{\cmdd}{command\xspace}
 \begin{verbatim}
 \usepackage{xspace}
 \newcommand{\cmd}{command\xspace}
 A space after my \cmd here. There shouldn't be one after my \cmd.
 \end{verbatim}
-\newcommand{\cmdd}{command\xspace}
-      A space after my \cmdd{} here. There shouldn't be one after my \cmdd{}.
-    \end{itemize}
+        A space after my \cmdd{} here. There shouldn't be one after my \cmdd{}.
+      \end{itemize}
+  \end{itemize}
   \item Special and Accented characters: \href{https://en.wikibooks.org/wiki/LaTeX/Special_Characters#Escaped_codes}{here} (the link is useful for other symbols as well).
   \item Special styles, e.g.~underlined, highlighted, spaced-out\ldots{}
     \begin{itemize}
@@ -247,6 +250,7 @@ A space after my \cmd here. There shouldn't be one after my \cmd.
       \item The package \href{http://ctan.tetaneutral.net/macros/latex/contrib/soul/soul.pdf}{\texttt{soul}} gives interesting hyphenatable (can be cut to go to next line) styles: spaced-out, highlighted, underlined\ldots{}
     \end{itemize}
   \item (Semi-)Transparent text: obtaining a faded text is easy in \texttt{TikZ} (\autoref{sec:tikzpgf}): use option \verb|opacity=<r>| where \texttt{r} is a number between 0 (completely transparent) and 1 (solid). Some others options are available for standard text. The dedicated package \href{http://ctan.mines-albi.fr/macros/latex/contrib/transparent/transparent.pdf}{\texttt{transparent}} with \verb|\transparentcolor{<r>}{<text>}|, or the first two answers of this \href{https://stackoverflow.com/questions/3594329/semi-transparent-text-in-beamer-pdflatex}{post}.
+  \item Poetry: reference packages \href{https://ctan.gutenberg.eu.org/macros/latex/contrib/verse/verse.pdf}{\texttt{verse}} (pretty basic but it does the job; it seems to be frozen) and \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/poemscol/poemscol.pdf}{\texttt{poemscol}} (a complete and huge package).
 \end{itemize}
 \begin{table}
   \centering
@@ -317,6 +321,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 [English typesetting]
 \end{Verbatim}
   \item For some languages (e.g.~Italian) \texttt{babel} changes autonomously caption names (figure, table,\ldots) and stuff (table of contents\ldots). With \texttt{french} (and similar) this does not happen for everything, hence one may want to rename manually the captions. For instance, one can use: \verb|\addto\captionsfrench{\def\tablename{Tableau}}|.
+  \item When certain languages are loaded, \texttt{babel} may be incompatible with some packages. This comes down to the fact that it modifies basic characters. Think about the semicolon ``\texttt{;}'' which in French gets modified so that a thin space is added before it. There are packages (for instance, \texttt{tikz}, see \autoref{sec:tikzpgf}) which suppose that such character have its basic and original meaning. This may cause compatibility issues. If you fear that a certain error is due to this incompatibility, you can try to switch off the particular value of the character, with \verb|\shorthandoff{;}|. You may reactivate it with \verb|\shorthandon{;}|. Other incompatibilities may involve Spanish and German, and characters like ``!'', ``>'', ``<'', ``:''.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -325,6 +330,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \section{Items \& Co.}
 \label{sec:Items}
 \begin{itemize}
+  \item In \texttt{enumerate} start from a different number: just add \verb|\setcounter{enumi}{<n>}| (as proposed \href{https://overleaf.com/learn/latex/Counters}{here}). See also below with package \texttt{enumitem} and \autoref{sec:Miscellaneous} for managing counters.
   \item The \texttt{enumitem} \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/enumitem/enumitem.pdf}{package} enables more control on the \texttt{itemize} environment and alike.
     \begin{itemize}
       \item Usage
@@ -343,15 +349,20 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \setlist[itemize]{<options>}
 \end{verbatim}
         \end{itemize}
-      \item Some options:
+      \item Spacing
         \begin{itemize}
           \item No indent: \texttt{leftmargin=*};
           \item No separations between items: \texttt{noitemsep};
           \item No separations whatsoever: \texttt{nosep};
           \item Modify top spacing: \texttt{topsep=<len>};
-          \item Modify the bullet: \texttt{label=<cmd>}. With a star, \texttt{label*=<cmd>}, \texttt{cmd} is repeated two times for sub-items, three for sub-sub-items, etc;
-          \item Run a bit of code before/after the \texttt{itemize}: \texttt{before|after=<code>}
         \end{itemize}
+      \item Modify the bullet: \texttt{label=<cmd>}. With a star, \texttt{label*=<cmd>}, \texttt{cmd} is repeated two times for sub-items, three for sub-sub-items, etc;
+      \item Modify the numbering:
+        \begin{itemize}
+          \item Enumerations starting from \texttt{<n>}: \verb|\begin{enumerate}[start=<n>]|
+          \item Resume the previous count: \verb|\begin{enumerate}[resume]|
+        \end{itemize}
+      \item Run a bit of code before/after the \texttt{itemize}: \texttt{before|after=<code>}
       \item \verb|\setlist[<type>[,<depth>]]{<options>}|: in the preamble, and will set the global parameter for all the \texttt{type}-lists of depth \texttt{depth}. If \texttt{depth} is not given, the options are set to all (sub)-items. \texttt{type} may be \texttt{itemize,description,enumerate}...
 \begin{verbatim}
 \setlist[itemize]{%
@@ -368,7 +379,6 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
   \item Property 2
 \end{enumerate}
 \end{verbatim}
-      \item Enumerations starting from \texttt{<n>}: \verb|\begin{enumerate}[start=<n>]|
       \item \textbf{ATTENTION}: it may interfere with \texttt{beamer} and they may not work as expected if loaded together, see this \href{https://tex.stackexchange.com/questions/24371/does-enumitem-conflict-with-beamer-for-lists}{post} for two common problems.
       \item \textbf{ATTENTION}: it may cause some errors with the \texttt{enumerate} lists. In this case, load the option \texttt{shortlabels} and explicitly choose the type of item for the numeration
 \begin{verbatim}
@@ -744,9 +754,9 @@ and \eqref{eq:emph_b}.
 \includegraphics[<...>, trim={1cm 0 2cm 0}, clip]{img_name}
 % trim={left bottom right top}, clip is mandatory
 \end{verbatim}
-  \item Animations. \textbf{Mind that not all the PDF-viewers support the animations}: \texttt{evince} (default pdf viewer of Debian / Calibre / Scibian) does not, \texttt{AdobeReader} does.
+  \item Animations. \textbf{Mind that not all the PDF-viewers support the animations}: \texttt{evince} (default pdf viewer of Debian / Calibre / Scibian) does not, \texttt{AdobeReader} does. It seems that \texttt{evince} now supports some animations, at least those loaded with \verb|\movie| (see below)
     \begin{itemize}
-      \item Make animations by showing images one after the other with \href{https://ctan.org/pkg/animate}{\protect\Verb|animate|} package. Suppose you have 1000 images, named \verb|img_<nnnn>| with which you want to create an animation
+      \item Make animations by showing images one after the other with \href{https://ctan.org/pkg/animate}{\texttt{animate}} package. Suppose you have 1000 images, named \verb|img_<nnnn>| with which you want to create an animation
 \begin{verbatim}
 \usepackage{animate}
 %[...]
@@ -781,11 +791,15 @@ convert in.{png, pdf, ...} -fuzz 5% -fill <new_color> -opaque <orig_color> \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: BEAMER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{beamer}
+\section{\texttt{beamer}}
 \label{sec:Beamer}
 \emph{Notation remark.} The notation \verb|<.>| that we have chosen to identify something that should be filled in by the user becomes rather unfortunate when dealing with \texttt{beamer}, especially with overlays (\autoref{sub:overlays}). In fact, the angle brackets are actually used to tell \texttt{beamer} at which version (slide is the correct name) of the frame a certain command should be called. However, we are not going to change it, so, please, keep in mind that for this section and only when dealing with overlays the angle brackets should be kept!
 
 \texttt{beamer} is a module (actually a \emph{class}) of \LaTeX{} which is often used to create slides, presentations and posters. Let's start by giving the full \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/beamer/doc/beameruserguide.pdf}{manual}, a quick \href{https://en.wikibooks.org/wiki/LaTeX/Presentations}{intro} and an appearance \href{http://www.cpt.univ-mrs.fr/~masson/latex/Beamer-appearance-cheat-sheet.pdf}{cheat sheet}.
+
+Section ``Guidelines for creating presentations'' (it should be section number 5) of the \texttt{beamer} manual gives very useful pieces of advices and best practices. We advise you to read it.
+
+And now, some random stuff:
 \begin{itemize}
   \item Being a class, load it like this \verb|\documentclass{beamer}|.
   \item Many predefined themes and color palettes are available. Change the theme by putting in the preamble \verb|\usetheme{<name>}| (always city names, like Warsaw, Berlin,\ldots), change the color palette with \verb|\usecolortheme{<name>}| (animals or flowers, e.g.~\verb|seagull|, \verb|rose|). You can have a look at all the possible combinations \href{https://hartwork.org/beamer-theme-matrix/}{here}.
@@ -926,6 +940,9 @@ Overlays, that is how to make something (dis)appear (e.g.~\verb|\only|, \verb|\u
 \begin{verbatim}
 \alt<>{}{}, \temporal<>{}{}{}, \visible<>{}
 \end{verbatim}
+        \begin{itemize}
+          \item Syntax for \verb|\temporal|: \verb|\termporal<n>{before n}{at n}{after n}|
+        \end{itemize}
       \item Overlays may be applied to standard commands and environments too:
 \begin{verbatim}
 \textbf<2>{Bold only in 2}, \alert<3>{You get the hang of it}
@@ -982,7 +999,7 @@ Batmaaaan \only<+->{na}\only<+->{na}\only<+->{na}
 \only<1>{\ref{tab:my}}
 \end{verbatim}
     You almost certainly get (at least) a warning: either \texttt{Undefined} or \texttt{Multiply defined label}.
-  \item When compiling in handout mode, all the overlays are overwritten on a single slide. One can however control the handout slides with a similar syntax as the overlays. E.g.~\verb!\only<1,3|handout:2>{Test}!: \verb|Test| will be printed on slides 1 and 3 when in presentation mode (default is presentation mode), but on slide 2 when in handout mode.
+  \item When compiling in handout mode, all the overlays are overwritten on a single slide. One can however control the handout slides with a similar syntax as the overlays. Take for instance \verb!\only<1,3|handout:2>{Test}!: \verb|Test| will be printed on slides 1 and 3 when in presentation mode (default is presentation mode), but on slide 2 when in handout mode.
   \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
   \item Tables
     \begin{itemize}
@@ -1010,6 +1027,7 @@ REMEMBER - It is like \texttt{C}, every \texttt{draw}-like command ends with a s
   \begin{itemize}
     \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence, \begin{inparaenum}[(i)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}.\end{inparaenum}
     \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
+    \item ATTENTION: some incompatibilities can occur when languages with special characters are loaded with \texttt{babel} (see \autoref{sec:languages}). An example is the semicolon ``;'' in French (but Spanish and German may be affected as well). You are advised in this case to load the related library which should solve most of these issues: \verb|\usetikzlibrary{babel}|.
     \item Global settings / style definitions: e.g.~\verb|\tikzset{color=red[,...]}|
       \begin{itemize}
         \item You can put as many valid \texttt{TikZ} commands inside a \verb|\tikzset| as long as they are comma-separated.
@@ -1279,7 +1297,11 @@ restrict y to domain:<min>:<max>
     \begin{itemize}
       \item A remark about compiling time when plotting from an external file is in the following, \verb|pgfplotstable|-related section.
     \end{itemize}
-    \item With \texttt{beamer}, only the overlay \texttt{only} works with \verb|\addplot|.
+    \item \texttt{tikz} and \texttt{beamer} overlays
+      \begin{itemize}
+        \item Out of the box, only the overlay \texttt{only} works with \verb|\addplot|.
+        \item Some convenient definitions are given in the library \verb|\usetikzlibrary{overlay-beamer-styles}|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
+      \end{itemize}
   \end{itemize}
 
 \subsubsection{\texttt{pgfplotstable}}
@@ -1689,6 +1711,13 @@ A thesis is, usually, a big multi-file project. The class \texttt{book} or \text
       \item Mind that \texttt{glossary} should be loaded \textbf{after} \texttt{hyperref};
     \end{itemize}
   \item Index (quite similar to glossary): quick guides \href{https://en.wikibooks.org/wiki/LaTeX/Indexing}{here} and \href{https://www.overleaf.com/learn/latex/indices}{here}.
+  \item Quotes \& epigraphs: package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/epigraph/epigraph.pdf}{\texttt{epigraph}}
+\begin{verbatim}
+\epigraph{
+  Ok Boomer. YOLO.
+}
+{Snapchat user, ca. 2019}
+\end{verbatim}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1839,6 +1868,12 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
   %\renewcommand{\abstractname}{\vspace{-\baselineskip}}% No name
 }
 \end{verbatim}
+  \item Counters: very informative \href{https://fr.overleaf.com/learn/latex/Counters}{page}
+    \begin{itemize}
+      \item Create: \verb|\newcounter{<name>}[<parent>]| creates a new counter called \texttt{name} which is reset every time the counter \texttt{parent} is stepped (take \texttt{parent} as \texttt{section}, for instance). \texttt{parent} is optional.
+      \item Modify: several possibilities \verb|\æddtocounter{<name>}{<n>}|, \verb|\stepcounter{<name>}|, \verb|\setcounter{<name>}{<n>}|
+      \item Print: \verb|\the<name>| (e.g. \verb|\theMyNewCounter|). Customize with \verb|\arabic|, \verb|\alph|, \verb|\roman|,\ldots (capital versions are available): \verb|\alph{MyNewCounter}|.
+    \end{itemize}
   \item \verb!verbatim!, print exactly the argument, no code interpretation (how did you think we wrote the tips?!): any character can be used as delimiter
 \begin{verbatim}
 \verb|\<cmd>|, \verb!\<cmd>!, ...
@@ -1970,7 +2005,7 @@ Let us write some interspaces
   \item (Not exactly \TeX{}-related) Collaborative and cloud tools for \TeX{}:
     \begin{itemize}
       \item For a large collaborative (or solo) project \texttt{git} might be a good idea, however this implies the knowledge of \texttt{git}, hence, it might not be for everyone. Possibly, the largest cloud-based collaborative \TeX{} platform is \href{https://www.overleaf.com/}{\texttt{Overleaf}}: it requires a login, it gives sufficient cloud space, and with its ``\texttt{Rich Text}'' (a \texttt{Word}-like interface) option one doesn't even need to know \TeX{}. It could be interesting also for personal projects. The possibility to choose \texttt{vim} or \texttt{Emacs} key-binding is a killer-feature if one is used to those editors. \texttt{Overleaf} also allows to export you project to \texttt{GitHub} or alike: look \href{https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F}{here}.
-        \item Live chats with \TeX{} support (mostly taken from \href{https://math.stackexchange.com/questions/81365/chatting-about-mathematics-with-real-time-latex-rendering}{here}): \href{https://mathim.com/}{\texttt{MathIM}} or \href{https://hack.chat/}{\texttt{hack.chat}} (the latter, through \texttt{Markdown}, has support for code typing too).
+      \item Live chats with \TeX{} support (mostly taken from \href{https://math.stackexchange.com/questions/81365/chatting-about-mathematics-with-real-time-latex-rendering}{here}): \href{https://mathim.com/}{\texttt{MathIM}} or \href{https://hack.chat/}{\texttt{hack.chat}} (the latter, through \texttt{Markdown}, has support for code typing too).
     \end{itemize}
 %
 \end{itemize}
