@@ -1325,6 +1325,33 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
             \item \verb|\addplot+[<opt>]|: \verb|<opt>| is appended to the \texttt{cycle list} option.
           \end{itemize}
       \end{itemize}
+    \item Grouping plots: if you have to print plots side-by-side, many options are available: using \verb|subfigure| (see \fullref{sec:Floats}), only one \texttt{figure} and only one \texttt{tikzpicture} multiples \texttt{axis},\ldots{} A simple way might be to use the utility proposed by library \texttt{groupplots}. Use environment \verb|groupplot|, examples below and also in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+\begin{verbatim}
+\usepgfplotslibrary{groupplots}
+\begin{tikzpicture}
+  \begin{groupplot}[%
+    group style={%
+      group size=2 by 1,
+    },
+    % The following applies to every subplot
+    width=0.48\linewidth,
+    ]
+    \nextgroupplot
+      % Now use addplot as you would do normally
+      \addplot[blue] table[x index=0,y index=1] {tab1.dat};
+    \nextgroupplot
+      \addplot[blue] table[x index=0,y index=2] {tab1.dat};
+  \end{groupplot}
+\end{tikzpicture}
+\end{verbatim}
+      \begin{itemize}
+        \item No \texttt{axis} environment is needed
+        \item Command \verb|\nextgroupplot| indicates switching the following plot
+          \begin{itemize}
+            \item Order: From top to bottom, from right to left
+            \item Pass option \verb|\nextgroupplot[group/empty plot]| to skip the following position
+          \end{itemize}
+      \end{itemize}
     \item By default, \texttt{pgfplots} leaves some withespace between the axes/plot side and the outermost point of the plot. You might control the behaviour by setting the \texttt{enlarge limits} parameter
 \begin{verbatim}
 enlarge x limits=auto|true|false|upper|lower|<val>|value=<val>

@@ -29,6 +29,7 @@
 \usepgfplotslibrary{patchplots} % 3D plots with patches different than squares
 \usepackage{pgfplotstable}
 \usepgflibrary{plotmarks} % Extended use of plot markers
+\usepgfplotslibrary{groupplots}
 \pgfplotsset{compat=newest,
 width=11cm,
 % Plot canvas style
@@ -108,8 +109,7 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
     \end{tikzpicture}
   \end{center}
 
-  You can even do this: \ref{grp:gr1} Grid 1.
-
+  You can even do this: \ref{grp:gr1} Grid 1.\par
   \begin{center}
     \begin{tikzpicture}
       \begin{scope}[spy using outlines,connect spies]
@@ -121,9 +121,34 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
       \end{scope}
     \end{tikzpicture}
   \end{center}
+  \clearpage
 
-  You may wonder: the 2D version is too easy. Here you are
+  Grouping up plots:\par
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{groupplot}[%
+        group style={%
+          group size=2 by 2,
+          xlabels at=edge bottom,
+          ylabels at=edge left
+        },
+        % The following applies to every subplot
+        width=0.48\linewidth,graph,
+        ymin=1e-5,ymax=1e-3,
+        xlabel={\large Time [s]},ylabel={\small Interface position [mm]},
+        ]
+        \nextgroupplot
+          \addplot[gridone,mark repeat=20] table[x index=0,y index=1] {grid1.dat};
+        \nextgroupplot
+          \addplot[gridtwo,every n index=20] table[x index=0,y index=1] {grid2.dat};
+        \nextgroupplot
+          \addplot[gridthree,every n index=20] table[x index=0,y index=1] {grid3.dat};
+        \nextgroupplot[group/empty plot] % Leave an empty plot
+      \end{groupplot}
+    \end{tikzpicture}
+  \end{center}
 
+  You may wonder: the 2D version is too easy. Here you are\par
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[%
@@ -160,10 +185,9 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
       \end{axis}
     \end{tikzpicture}
   \end{center}
+  \clearpage
 
-  You see, by default, a square patch is assumed, but look at these triangles (you
-  are right, colors are not great, but, hey, I set them randomly)
-
+  You see, by default, a square patch is assumed, but look at these triangles (you are right, colors are not great, but, hey, I set them randomly)\par
   \begin{center}
     \begin{tikzpicture}
       \begin{axis}[zmin=0,zmax=2,axis x line=none,axis y line=none,axis z line=none]
@@ -198,8 +222,7 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
     \end{tikzpicture}
   \end{center}
 
-  And now, a table.
-
+  And now, a table with \texttt{pgfplotstable}.\par
   % The following definitions may be put inside the square brackets in the pgfplotstabletypeset, but here are globally defined, hence re-usable
   \pgfplotstableset{%
     datastyle/.style={sci,sci zerofill=true,precision=3,},
@@ -245,6 +268,7 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
       columns/ord/.style={column name={Order cvg (2D)},precision=2,fixed zerofill},
       ]{\testing}
   \end{center}
+  \clearpage
 
   What about some textual plot?\\
   \noindent Here you are!
