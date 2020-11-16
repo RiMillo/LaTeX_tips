@@ -437,7 +437,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \label{sec:Tables}
 \begin{itemize}
   \item General info \href{https://en.wikibooks.org/wiki/LaTeX/Tables}{here}
-  \item Position of a table: usually a \texttt{tabular} object is loaded in a \texttt{table} environment, making it a float, that is an element whose position may not be exactly where it is typed, but it is chosen by an internal \TeX{} algorithm. This can be frustrating, I know, just be patient. Some hints about positioning are in \fullref{sec:Miscellaneous}.
+  \item Position of a table: usually a \texttt{tabular} object is loaded in a \texttt{table} environment, making it a float, that is an element whose position may not be exactly where it is typed, but it is chosen by an internal \TeX{} algorithm. This can be frustrating, I know, just be patient. Some hints about positioning are in \fullref{sec:Floats}.
     \begin{itemize}
       \item One of the main uses of the \texttt{table} environment is explicitly to make a \texttt{tabular} a float, so that, for instance, a caption (with the \verb|\caption| command) may be added
     \end{itemize}
@@ -487,6 +487,114 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                   SECTION: GRAPHICS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Graphics \& Animations}
+\label{sec:Graphics}
+\begin{itemize}
+  \item Into to figures and tables (and floats) management \href{https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions}{here} or \href{https://www.overleaf.com/learn/latex/Inserting_Images}{here}.
+  \item Set the path for the pictures (the directory where the pictures are searched for): from the \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/graphics/grfguide.pdf}{\texttt{graphicx}} package \verb|\graphicspath{{pic_dir/}{dir2/}}|.
+  \item Position of an image: usually an image is loaded in a \texttt{figure} environment, making it a float, that is an element whose position may not be exactly where it is typed, but it is chosen by an internal \TeX{} algorithm. This can be frustrating, I know, just be patient. Some hints about positioning are in \fullref{sec:Floats}.
+  \item Crop an image
+\begin{verbatim}
+\includegraphics[<...>, trim={1cm 0 2cm 0}, clip]{img_name}
+% trim={left bottom right top}, clip is mandatory
+\end{verbatim}
+  \item Animations. \textbf{Mind that not all the PDF-viewers support the animations}: \texttt{evince} (default pdf viewer of Debian / Calibre / Scibian) does not, \texttt{AdobeReader} does. It seems that \texttt{evince} now supports some animations, at least those loaded with \verb|\movie| (see below)
+    \begin{itemize}
+      \item Make animations by showing images one after the other with \href{https://ctan.org/pkg/animate}{\texttt{animate}} package. Suppose you have 1000 images, named \verb|img_<nnnn>| with which you want to create an animation
+\begin{verbatim}
+\usepackage{animate}
+%[...]
+%\animategraphics[<options>]{<frame_per_second>}{/path/img_}{<start>}{<end>}
+\animategraphics[<...>, autoplay, loop]{40}{img/img_}{0001}{1000}
+\end{verbatim}
+        In \texttt{<options>} one can put standard graphics options, such as \texttt{scale, width},... The option \texttt{every=<num>} allows to choose one image every other \texttt{<num>} images. \texttt{loop} makes starts again the animation when it reaches the end. If the numbering is like \verb|img_1, img_10, img_100|, use
+\begin{verbatim}
+\animategraphics[<...>, autoplay, loop]{40}{img/img_}{1}{100}
+\end{verbatim}
+
+      \item Include an external video
+\begin{verbatim}
+\usepackage{multimedia}
+%% [...]
+\movie[<...>,loop]{<place_holder>}{video.avi}
+\end{verbatim}
+      The place holder is something that is inserted if the video is not found or before that the video starts playing. For example, you can put a static image:
+\begin{verbatim}
+\movie[loop]{\includegraphics[<...>]{image.png}}{video.avi}
+\end{verbatim}
+    \end{itemize}
+  \item (Not \LaTeX-related) Erase background / Change background color of an image: \href{http://www.imagemagick.org/discourse-server/viewtopic.php?t=32305}{here} (if transparent background, the final extension must be \texttt{png}). Run from terminal:
+\begin{verbatim}
+convert in.{png, pdf, ...} -fuzz 5% -transparent <orig_color> out.png
+convert in.{png, pdf, ...} -fuzz 5% -fill <new_color> -opaque <orig_color> \
+    out.{pdf, png, ...}
+\end{verbatim}
+  \item (Not \LaTeX-related) Reduce the size of a pdf: "Let me add one more pdf image, it won't really matter in the size of the final document!" Weeeeeeeell, it might actually matter, in particular if each image is more than 1MB in size. If it is really important, you might want to try to compress it. \href{https://askubuntu.com/a/256449}{Here}'s a tip relying on \texttt{ghostscript}.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%                   SECTION: FLOATS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Floating environments}
+\label{sec:Floats}
+When writing a long text, the order in the source file is usually ensured in the compiled file. For instance, Section 2 is printed after Section 1 and before Section 3: their order is fixed. Floating environments, or floats, do not have a fixed position: they floats. Take the following example:
+\begin{verbatim}
+Paragraph one is in pole-position. Go Kimi!
+
+\begin{figure}
+  \includegraphics{ferrari.pdf}
+\end{figure}
+
+Paragraph two is the runner-up.
+\end{verbatim}
+\LaTeX{} may print the picture between the two paragraph, before paragraph one, or after paragraph two according to its internal layout algorithm. That is what a float is.
+
+\begin{itemize}
+  \item Position of float: this is slippery ground. Theoretically, \LaTeX{} has an algorithm that computes where it's better to print out a float (a float being something like a \texttt{figure} or \texttt{table} environments), however it sometimes does a bad job and one would like to choose. Well, this is not always possible but one can make an attempt.
+    \begin{itemize}
+      \item An intro is available \href{https://www.overleaf.com/learn/latex/Positioning_images_and_tables}{here}: a solution for wrapping floats is also proposed.
+      \item First, one can tell \LaTeX{} where he prefers to have the float printed. For instance one can pass the following options (e.g.~\verb|\begin{table}[<opt>]|): \texttt{h} (for \emph{here} or as close as possible), \texttt{t} (for \emph{at the top} of a page), \texttt{b} (for \emph{at the bottom} of a page), \texttt{p} (in \emph{page} of floats only, no text), \texttt{!} (to override the \LaTeX{} algorithm), \texttt{H} (from package \texttt{float}, to force the position exactly \emph{Here}). Indeed, lists in order of preference are accepted: hence, \texttt{htb} means "try to print it here, otherwise at the top of a page, otherwise at the bottom of a page".
+        \item Sometimes it is not enough. Clearing a page, \verb|\clearpage| or \verb|\cleardoublepage|, usually force to print all the hanging floats, so that, for example, floats form a chapter are found far and in another chapter. This kind of commands are thought for the end of a chapter or of a section, but one can also use \verb|\FloatBarrier| (from the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/placeins/placeins-doc.pdf}{\texttt{placeins}}) that tells \LaTeX{} to print all the hanging floats before trespassing the barrier.
+        \item \href{http://dcwww.camd.dtu.dk/~schiotz/comp/LatexTips/LatexTips.html#figplacement}{Here} is a trick to avoid having figures on a page by themselves.
+    \end{itemize}
+  \item Captions \& co: suggested \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/caption/caption-eng.pdf}{\texttt{caption}} package which allows one to customize the caption of figures and tables and floats in general.
+    \begin{itemize}
+      \item Usually, the caption goes before a table, but after a figure, but in any case\ldots
+      \item Remember to call a \verb|\label{<my_table>}| \textbf{after} a caption, otherwise it does not point to what one wishes.
+      \item Change caption names, separators: well-detailed \href{https://tex.stackexchange.com/questions/17489/change-caption-name-of-figures}{post} (mind the with or without \texttt{babel} difference, related info also in \fullref{sec:languages}).
+      \item Caption width: sometimes one would like to choose the caption width, for global effect pass option \verb|width=<len>| when loading \texttt{caption}, for local (only in the environment where it will be placed) \verb|\captionsetup{width=<len>}|.
+      \item Caption font: use the dedicated options:
+\begin{verbatim}
+\usepackage[font={small,color=red}]{caption}
+\end{verbatim}
+      \item Package \texttt{caption} provides also the command \verb|\captionof{}| for non-floating environment (hence, pictures not in \texttt{figure}, \texttt{tabular}s not in \texttt{table}). For instance
+\begin{verbatim}
+\begin{tabular}{l|l}
+x&y\\1&2
+\end{tabular}
+\captionof{A non-floating table}
+\end{verbatim}
+    \end{itemize}
+  \item Splitting floats into subfloats: package \href{https://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/caption/subcaption.pdf}{subcaption} provides environments and utilities to divide figure in subfigures. An example for two side-by-side subfigures
+\begin{verbatim}
+\begin{figure}
+\begin{subfigure}{0.48\linewidth}
+\includegraphics{A.png}\subcaption{Letter A}
+\end{subfigure}
+\begin{subfigure}{0.48\linewidth}
+\includegraphics{2.png}\subcaption{Number 2}
+\end{subfigure}
+\end{figure}
+\end{verbatim}
+    \begin{itemize}
+      \item For tables, use \verb|\subtable|.
+      \item In order to modify the font as in the previous example, load the same options for \emph{both} \texttt{caption} and \texttt{subcaption}.
+    \end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: EQUATIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Math, Equations \& Theorems}
@@ -527,8 +635,9 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 
   \item A little bit about the different environments.
     \begin{itemize}
-      \item \verb|$ [...] $| delimits an \emph{inline}d equation.
+      \item \verb|$ [...] $| delimits an inlined equation.
       \item \verb|\begin{equation} ... \end{equation}| inserts a \emph{numbered} equation which goes in a \emph{newline by itself} and which is \emph{center}-aligned. In order to avoid numbering add a star \verb|\begin{equation*}| or use the alternative delimiters \verb|\[ ... \]| or \verb|$$ ... $$| (yes, double it). This is called the \emph{display style}.
+      \item One can force an inlined equation to be typeset as a displayed one by using \verb|\displaystyle|. Look at this: without $\sum_{1}^\infty\frac1n$, with $\displaystyle\sum_{1}^\infty\frac1n$. The opposite effect is obtained with \verb|\textstyle|.
       \item \LaTeX{} will change the font according to the type, so for instance in an inline equation or in a sub-/super-script fractions won't be typed over two lines and they'll "compressed". Another example is the limits of an integral or sum sign. Add the command \verb|\displaystyle| to force the behavior of the \emph{display} behavior.
       \item The display environment is center-aligned. One may achieved left-alignment (with respect to the position of the equation on the page) by using the \verb|flalign| environment: Mind the \verb|&| at the beginning \emph{and} at the end of the line to force it.
 \begin{verbatim}
@@ -538,6 +647,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \end{flalign}
 \end{verbatim}
     \end{itemize}
+  \item Use \verb|\limits| (respectively \verb|\nolimits|) to force a display-style (resp.~inline-style) of the limits of a symbol in an inlined (resp.~display) math environment. Look at this: without \verb|\limits| $\sum_{1}^\infty\frac1n$, with  $\sum\limits_{1}^\infty\frac1n$
   \item In order two reference an equation two common commands are \verb|\ref{<tag>}| and \verb|\eqref{<tag>}| (see \fullref{sec:Referencing} for other commands that add \emph{Equation} automatically). Suppose that you want to reference equation (1). \verb|\ref{...}| will give only the number, hence you may want to use \verb|(\ref{...})|. \verb|\eqref{...}| adds the parenthesis for you, so that you get automatically (1). However, \verb|\eqref{...}| does not work with, for instance, \verb|\textbf|: you'd rather use \verb|\textbf{(\ref{...})}|.
   \item Parenthesis built with the \verb|\left|-\verb|\right| structure should be both in the same scope in order for the environment to be balance. If errors occur, try by adding void delimiters with the \verb|.| (dot). The following example is useless, but you get the idea
 \begin{verbatim}
@@ -741,54 +851,6 @@ and \eqref{eq:emph_b}.
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%                   SECTION: GRAPHICS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Graphics \& Animations}
-\label{sec:Graphics}
-\begin{itemize}
-  \item Into to figures and tables (and floats) management \href{https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions}{here} or \href{https://www.overleaf.com/learn/latex/Inserting_Images}{here}.
-  \item Set the path for the pictures (the directory where the pictures are searched for): from the \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/graphics/grfguide.pdf}{\texttt{graphicx}} package \verb|\graphicspath{{pic_dir/}{dir2/}}|.
-  \item Position of an image: usually an image is loaded in a \texttt{figure} environment, making it a float, that is an element whose position may not be exactly where it is typed, but it is chosen by an internal \TeX{} algorithm. This can be frustrating, I know, just be patient. Some hints about positioning are in \fullref{sec:Miscellaneous}.
-  \item Crop an image
-\begin{verbatim}
-\includegraphics[<...>, trim={1cm 0 2cm 0}, clip]{img_name}
-% trim={left bottom right top}, clip is mandatory
-\end{verbatim}
-  \item Animations. \textbf{Mind that not all the PDF-viewers support the animations}: \texttt{evince} (default pdf viewer of Debian / Calibre / Scibian) does not, \texttt{AdobeReader} does. It seems that \texttt{evince} now supports some animations, at least those loaded with \verb|\movie| (see below)
-    \begin{itemize}
-      \item Make animations by showing images one after the other with \href{https://ctan.org/pkg/animate}{\texttt{animate}} package. Suppose you have 1000 images, named \verb|img_<nnnn>| with which you want to create an animation
-\begin{verbatim}
-\usepackage{animate}
-%[...]
-%\animategraphics[<options>]{<frame_per_second>}{/path/img_}{<start>}{<end>}
-\animategraphics[<...>, autoplay, loop]{40}{img/img_}{0001}{1000}
-\end{verbatim}
-        In \texttt{<options>} one can put standard graphics options, such as \texttt{scale, width},... The option \texttt{every=<num>} allows to choose one image every other \texttt{<num>} images. \texttt{loop} makes starts again the animation when it reaches the end. If the numbering is like \verb|img_1, img_10, img_100|, use
-\begin{verbatim}
-\animategraphics[<...>, autoplay, loop]{40}{img/img_}{1}{100}
-\end{verbatim}
-
-      \item Include an external video
-\begin{verbatim}
-\usepackage{multimedia}
-%% [...]
-\movie[<...>,loop]{<place_holder>}{video.avi}
-\end{verbatim}
-      The place holder is something that is inserted if the video is not found or before that the video starts playing. For example, you can put a static image:
-\begin{verbatim}
-\movie[loop]{\includegraphics[<...>]{image.png}}{video.avi}
-\end{verbatim}
-    \end{itemize}
-  \item (Not \LaTeX-related) Erase background / Change background color of an image: \href{http://www.imagemagick.org/discourse-server/viewtopic.php?t=32305}{here} (if transparent background, the final extension must be \texttt{png}). Run from terminal:
-\begin{verbatim}
-convert in.{png, pdf, ...} -fuzz 5% -transparent <orig_color> out.png
-convert in.{png, pdf, ...} -fuzz 5% -fill <new_color> -opaque <orig_color> \
-    out.{pdf, png, ...}
-\end{verbatim}
-  \item (Not \LaTeX-related) Reduce the size of a pdf: "Let me add one more pdf image, it won't really matter in the size of the final document!" Weeeeeeeell, it might actually matter, in particular if each image is more than 1MB in size. If it is really important, you might want to try to compress it. \href{https://askubuntu.com/a/256449}{Here}'s a tip relying on \texttt{ghostscript}.
-\end{itemize}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: BEAMER
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\texttt{beamer}}
@@ -825,7 +887,7 @@ family=\sffamily,series=\bfseries,size=\normalsize
 \usepackage{pgfpages}
 \setbeameroption{show notes on second screen}
 \end{verbatim}
-an argument can be provided in order to select the position of the second screen: \texttt{show notes on second screen=right} (default), \texttt{left}, \texttt{top} or \texttt{bottom}. Other possible options are \texttt{hide notes} and \texttt{show notes} (in this case the note frames are interleaved with the standard frames).
+    an argument can be provided in order to select the position of the second screen: \texttt{show notes on second screen=right} (default), \texttt{left}, \texttt{top} or \texttt{bottom}. Other possible options are \texttt{hide notes} and \texttt{show notes} (in this case the note frames are interleaved with the standard frames).
   \item Numbering and appendix / backup slides:
     \begin{itemize}
       \item No numbering: \href{https://stackoverflow.com/questions/732902/ignoring-page-numbers-in-backup-slides}{here}
@@ -875,6 +937,7 @@ end{enumerate}
 \tableofcontents[currentsubsection]
 \end{frame} }
 \end{Verbatim}
+  \item Writing at the bottom of a slide: one would immediately think about using \verb|\vfill|, however it would fail since \texttt{beamer} use it under the hood to set the (central) vertical alignment. A workaround is to use a \texttt{minipage} occupying the all frame or \verb|\vskip 0pt plus 1filll| (yes, 3 ``\texttt{l}'') instead of \verb|\vfill|. You may have a look \href{https://tex.stackexchange.com/questions/54180/how-do-i-write-something-at-the-end-of-the-slide-in-beamer}{here} or \href{https://tex.stackexchange.com/questions/41979/fix-vertical-alignment-in-beamer}{here}.
   \item Change the background: look \href{https://tex.stackexchange.com/questions/78464/background-image-in-beamer-slides}{here}.
   \item Include other slides in pdf: see the bullet about \texttt{pdfpages} in \fullref{sec:Miscellaneous}.
   \item Draft: just pass \texttt{draft} to \texttt{beamer}. If you want to only disable image loading, try: \verb|\PassOptionsToPackage{draft}{graphicx}| before \verb|\documentclass{...}| (\href{https://tex.stackexchange.com/questions/4370/disabling-included-pictures-in-beamer}{here}).
@@ -1938,20 +2001,6 @@ Let us write some interspaces
   The content of the file
 \end{filecontents}
 \end{verbatim}
-  \item Position of float: this is slippery ground. Theoretically, \LaTeX{} has an algorithm that computes where it's better to print out a float (a float being something like a \texttt{figure} or \texttt{table} environments), however it sometimes does a bad job and one would like to choose. Well, this is not always possible but one can make an attempt.
-    \begin{itemize}
-      \item An intro is available \href{https://www.overleaf.com/learn/latex/Positioning_images_and_tables#Wrapping_text_around_a_figure}{here}: a solution for wrapping floats is also proposed.
-      \item First, one can tell \LaTeX{} where he prefers to have the float printed. For instance one can pass the following options (e.g.~\verb|\begin{table}[<opt>]|): \texttt{h} (for \emph{here} or as close as possible), \texttt{t} (for \emph{at the top} of a page), \texttt{b} (for \emph{at the bottom} of a page), \texttt{p} (in \emph{page} of floats only, no text), \texttt{!} (to override the \LaTeX{} algorithm), \texttt{H} (from package \texttt{float}, to force the position exactly \emph{Here}). Indeed, lists in order of preference are accepted: hence, \texttt{htb} means "try to print it here, otherwise at the top of a page, otherwise at the bottom of a page".
-        \item Sometimes it is not enough. Clearing a page, \verb|\clearpage| or \verb|\cleardoublepage|, usually force to print all the hanging floats, so that, for example, floats form a chapter are found far and in another chapter. This kind of commands are thought for the end of a chapter or of a section, but one can also use \verb|\FloatBarrier| (from the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/placeins/placeins-doc.pdf}{\texttt{placeins}}) that tells \LaTeX{} to print all the hanging floats before trespassing the barrier.
-        \item \href{http://dcwww.camd.dtu.dk/~schiotz/comp/LatexTips/LatexTips.html#figplacement}{Here} is a trick to avoid having figures on a page by themselves.
-    \end{itemize}
-  \item Captions \& co: suggested \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/caption/caption-eng.pdf}{\texttt{caption}} package
-    \begin{itemize}
-      \item Usually, the caption goes before a table, but after a figure, but in any case\ldots
-      \item Remember to call a \verb|\label{<my_table>}| \textbf{after} a caption, otherwise it does not point to what one wishes.
-      \item Change caption names, separators: well-detailed \href{https://tex.stackexchange.com/questions/17489/change-caption-name-of-figures}{post} (mind the with or without \texttt{babel} difference, related info also in \fullref{sec:languages}).
-      \item Caption width: sometimes one would like to choose the caption width, for global effect pass option \verb|width=<len>| when loading \texttt{caption}, for local (only in the environment where it will be placed) \verb|\captionsetup{width=<len>}|.
-    \end{itemize}
   \item \verb|\hphantom{<aaaa>}| and \verb|\vphantom{<TMWpqgy>}|: create a box with the width (resp.~the height) of the argument and zero height (resp.~width) (it basically tells \LaTeX{} to reserve a horizontal or vertical space for the argument which, however, won't be printed).
   \item Get the width of an object: define a new length \verb|\newlength{\mylength}| and assign the width to it \verb|\settowidth{\mylength}{\texbf{An example}}|.
   \item \LaTeX{} and \verb|shell| - run some commands from inside a \texttt{.tex} and use the output. The \href{https://ctan.mc1.root.project-creative.net/macros/latex/contrib/bashful/bashful.pdf}{\texttt{bashful}} package may be useful. Also look \href{https://tex.stackexchange.com/questions/16790/write18-capturing-shell-script-output-as-command-variable}{here}. The main idea is the use of \verb|\write18|, some details \href{https://tex.stackexchange.com/questions/311084/how-to-run-shell-command-with-write18}{here}. For this kind of work, usually one should add the flag \verb|-shell-escape| to the compilation command.
@@ -2002,6 +2051,7 @@ Let us write some interspaces
   \item Package \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/bookmark/bookmark.pdf}{\texttt{bookmark}} let you customize the bookmarks that will appear in the pdf viewer, it expands \texttt{hyperref} in that sens. Check out the \texttt{open} option.
   \item One can select a specific pdf format by loading package \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/pdfx/pdfx.pdf}{\texttt{pdfx}}. For instance, for PDF/A load \verb|\usepackage[a-1b]{pdfx}|. It should be loaded after \texttt{hyperref}, but it might clash with \texttt{inputenc} too. It seems to be quite buggy, especially in the versions of \TeX{}Live shipped in the canonical repositories of Debian/Ubuntu.
   \item Consider this: load \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}, use it to mix your colors \verb|\colorlet{halfbw}{black!50}|, now how to get its \texttt{RGB}/\texttt{HTML} (\ldots) code? Use \verb|\convertcolorspec| or \verb|\extractcolorspec| as explained \href{https://tex.stackexchange.com/questions/35033/figuring-out-rgb-or-hex-color-from-xcolor}{here}.
+  \item Cookbook \& recipes (because why not): several packages are proposed \href{https://ctan.org/topic/cooking}{here}. \texttt{cuisine}, and \texttt{[x]cookybooky} appear to be the most popular.
   \item (Not exactly \TeX{}-related) Collaborative and cloud tools for \TeX{}:
     \begin{itemize}
       \item For a large collaborative (or solo) project \texttt{git} might be a good idea, however this implies the knowledge of \texttt{git}, hence, it might not be for everyone. Possibly, the largest cloud-based collaborative \TeX{} platform is \href{https://www.overleaf.com/}{\texttt{Overleaf}}: it requires a login, it gives sufficient cloud space, and with its ``\texttt{Rich Text}'' (a \texttt{Word}-like interface) option one doesn't even need to know \TeX{}. It could be interesting also for personal projects. The possibility to choose \texttt{vim} or \texttt{Emacs} key-binding is a killer-feature if one is used to those editors. \texttt{Overleaf} also allows to export you project to \texttt{GitHub} or alike: look \href{https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F}{here}.
