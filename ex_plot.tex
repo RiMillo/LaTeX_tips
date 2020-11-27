@@ -79,7 +79,7 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
     \begin{tikzpicture}
       \begin{scope}[spy using outlines,connect spies]
         \begin{axis}[name=graph_one,%
-          graph,title={Title $\alpha$},xlabel={\large Time [s]},ylabel={\small Interface position [mm]},legend,legend pos=south east%
+          graph,title={Title $\alpha$},xlabel={\large Time [s]},ylabel={\small Interface position [mm]},legend,legend pos=south east,legend style={fill=none,draw=red}%
           ]
           \addplot[ana] table[x index=0,y index=1] {analytical.dat};
 

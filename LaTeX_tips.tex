@@ -73,6 +73,7 @@
   pdfpagelabels,
   urlbordercolor=\maincolor,
   linkbordercolor=mLightBrown,
+  pdfborderstyle={/S/U/W 1}
 ]{hyperref}
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} - \textit{\nameref*{#1}}}}
 
@@ -95,7 +96,7 @@
 %{\color{\maincolor}\Huge\bfseries\scshape%
   %Random (and possibly useful) \LaTeX~tips}
 %\end{center}
-\vspace*{-2,5cm}
+\vspace*{-2.5cm}
 
 \pdfbookmark[1]{Abstract}{abstract}
 \begin{abstract}
@@ -103,7 +104,7 @@
 \setlength{\parskip}{2pt}
 \noindent We collect here some \LaTeX{} tricks that we used (do not ask why) and that we found useful. We hope that this list could save some Googlin', roaming around StackExchange and, most importantly, time to other people who may happen to need the same things.
 
-Indeed, this is not a tutorial, this is not an introduction to \LaTeX{}, we assume that the reader has already some (basic) notions. In particular, [s]he should be able to write and compile properly a \texttt{tex} file. You may find here and there some basic stuff (for instance the chain of commands to obtained a fully compiled file), but it won't suffice if you start with zero knowledge of \LaTeX{}. The usual tools (namely Google) is your friend.
+Indeed, this is not a tutorial, this is not an introduction to \LaTeX{}, we assume that the reader has already some (basic) notions. In particular, [s]he should be able to write and compile properly a \texttt{tex} file. You may find here and there some basic stuff (for instance the chain of commands to obtain a fully compiled file), but it won't suffice if you start with zero knowledge of \LaTeX{}. The usual tools (namely Google) is your friend.
 
 There is no particular structure or whatsoever. We identified some major themes and then simply put an itemize in there. A brief ToC is given here below.
 
@@ -194,6 +195,16 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
 \end{verbatim}
     \end{itemize}
   \item Customize headers and footers: package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/fancyhdr/fancyhdr.pdf}{\texttt{fancyhdr}}.
+  \item Position stuff exactly where you wish: use package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/textpos/textpos.pdf}{\texttt{textpos}} and its command
+\begin{verbatim}
+\begin{textblock}{<width>}(<xcoord>,<ycoord>)
+  % [...]
+\end{textblock}
+\end{verbatim}
+    \begin{itemize}
+      \item Pay attention to the package options \texttt{overlay} (use it for \texttt{beamer}, \autoref{sec:Beamer}), and \texttt{absolute}.
+      \item You may want to use it together with \texttt{eso-pic} (help grids), see \fullref{sec:Draft}.
+    \end{itemize}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -209,6 +220,13 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
       \item Be advised that \verb|\emph{.}| does not not necessarily means italic. You might modify it as reported \href{https://tex.stackexchange.com/questions/315058/change-the-behaviour-of-emph-per-environment}{here} or \href{https://tex.stackexchange.com/questions/315058/change-the-behaviour-of-emph-per-environment}{here}.
       \item Change default font style: \verb|\renewcommand{\familydefault}{<family>}| where \texttt{family} may be chosen in: \verb|\rmdefault| {roman family font}, \verb|\sfdefault| (sans serif family font), or \verb|\ttdefault| (teletype font family)
       \item Font sizes: see \autoref{tab:sizes}. Note: \verb|\HUGE| is available with the \texttt{memoir} class only, \verb|\Tiny| and \verb|\TYNY| only with \texttt{beamer}.
+        \begin{itemize}
+          \item The sizes presented in the table are set automatically and relatively to the main size, i.e.~the one that you pass as option to the class. However, one can choose exactly the size of the font with
+\begin{verbatim}
+\fontsize{<size>}{<interline>}\selectfont
+\end{verbatim}
+            Most of the times this will give warnings since for most of the fonts only a few sizes exist. Loading package \texttt{anyfontsize} will make \TeX{} look for the size closest to the requested one and than scale it. Xe\LaTeX{} and lua\LaTeX{} are able to do it without additional packages.
+        \end{itemize}
       \item Font styles: see \autoref{tab:styles}.
     \end{itemize}
   \item \LaTeX{} lengths: have a look \href{https://www.overleaf.com/learn/latex/Lengths_in_LaTeX}{here} or even \href{https://en.wikibooks.org/wiki/LaTeX/Lengths}{there}.
@@ -531,7 +549,21 @@ convert in.{png, pdf, ...} -fuzz 5% -transparent <orig_color> out.png
 convert in.{png, pdf, ...} -fuzz 5% -fill <new_color> -opaque <orig_color> \
     out.{pdf, png, ...}
 \end{verbatim}
+    For instance, replace white with \texttt{HTML} color \texttt{FAFAFA}
+\begin{verbatim}
+convert in.jpg -fuzz 5% -fill "#FAFAFA" -opaque white out.jpg
+\end{verbatim}
+    Similarly use \verb|RGB(rrr,ggg,bbb)|.
   \item (Not \LaTeX-related) Reduce the size of a pdf: "Let me add one more pdf image, it won't really matter in the size of the final document!" Weeeeeeeell, it might actually matter, in particular if each image is more than 1MB in size. If it is really important, you might want to try to compress it. \href{https://askubuntu.com/a/256449}{Here}'s a tip relying on \texttt{ghostscript}.
+\begin{verbatim}
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4      \
+   -dPDFSETTINGS=/screen -dNOPAUSE -dQUIET -dBATCH \
+   -sOutputFile=output.pdf input.pdf
+\end{verbatim}
+    Instead, for jpeg images look a possibility is \href{https://stackoverflow.com/a/7262050/12152457}{here}
+\begin{verbatim}
+convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% in.jpg out.jpg
+\end{verbatim}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -957,11 +989,16 @@ end{enumerate}
   \item Option \texttt{allowframebreaks} passed to the \texttt{frame} environment allows to have a long content spanning more than one slides. This could be useful for bibliography for example that may require several slides
 \begin{verbatim}
 \begin{frame}[allowframebreaks]{A very long slide}
-  [A very long conten]
+  [A very long content]
 \end{frame}
 \end{verbatim}
     \begin{itemize}
-      \item Insert a frame break with \verb|\pagebreak| (this applies both to presentation and handout mode), or \verb|\framebreak| (which is equivalent to \verb|\pagebreak<presentation>| and hence applies only to presentation mode)
+      \item You are discouraged to use such an option.
+      \item Insert a frame break with \verb|\pagebreak| (this applies both to presentation and handout mode), or \verb|\framebreak| (which is equivalent to \verb|\pagebreak<presentation>| and hence applies only to presentation mode).
+      \item A text will appear in the title to signal that there are more than one slide. You can modify the content as follows: for instance for a text appearing only from the second slide and print the slide number in capital roman number preceded by a dash
+\begin{verbatim}
+\setbeamertemplate{frametitle continuation}[from second][- \insertcontinuationcountroman]
+\end{verbatim}
     \end{itemize}
   \item \verb|\againframe<overlay>{<target_label>}|: print again frame \texttt{label} at its \texttt{overlay}-th slide (mind the angle brackets). A couple of \href{https://tex.stackexchange.com/questions/51895/beamer-againframe-inside-other-frame}{tricks} and \href{https://tex.stackexchange.com/questions/31031/beamer-repeat-variations-of-a-frame}{tricks}.
   \item It is possible to insert interactive buttons that allow one to, for instance, go to a certain slide and come back, go to the end/beginning... The feature is possible via the \texttt{hyperref} package and it relies on \verb|\hyperlink{<target_label>}{<beamer_button>}|, \verb|\beamer<type>button{<text>}|.
@@ -976,10 +1013,10 @@ end{enumerate}
 \begin{verbatim}
 \hyperlink{myframe<3>}{\beamergotobutton{To my frame}}
 \end{verbatim}
-        \texttt{beamer} will then print a button of type \texttt{goto} with the text \texttt{To my frame} inside, which, when clicked, will bring us to the 3rd version (slide) of the frame labeled \texttt{myframe}.
+        \texttt{beamer} will then print a button of type \texttt{goto} with the text \texttt{To my frame} inside, which, when clicked, will bring us to the 3\textsuperscript{rd} version (slide) of the frame labeled \texttt{myframe}.
     \end{itemize}
   \item \texttt{beamer} is great, but the 4:3 aspect-ratio is a little vintage, ain't it? Try option \verb|aspectratio=169| and possibly use package \texttt{beamerposter} as suggested \href{https://tex.stackexchange.com/a/14338/206129}{here}.
-  \item You know what's fun about about \texttt{PowerPoint}? Slide transitions! (Yeah, possibly fun, but not always professional). You have them in beamer too, alothoug, they will appear in full-screen mode only. Look'em up in the user guide, let us give here just an example
+  \item You know what's fun about about \texttt{PowerPoint}? Slide transitions! (Yeah, possibly fun, but not always professional). You have them in beamer too, although, they will appear in full-screen mode only. Look'em up in the user guide, let us give here just an example
 \begin{verbatim}
 \frame{\pgfuseimage{youngboy}}
 \frame{
@@ -987,8 +1024,10 @@ end{enumerate}
 \pgfuseimage{man}
 }
 \end{verbatim}
-  \item For \texttt{verbatim} or algorithms typesetting, the option \texttt{fragile} of the frame should be used.
+  \item For \texttt{verbatim}, algorithms typesetting or even \texttt{tikz} picture (see \autoref{sec:tikzpgf}) the option \texttt{fragile} of the frame should be used.
+  \item \texttt{beamer} does nasty things under the hood and we do not want to know. If you are bound to use \verb|#1| or alike, and you get some errors about \verb|\test| or \verb|\iterate| use instead \verb|####1| (yes, you read it right, 4 \verb|#|'s). Have a look at this \href{https://tex.stackexchange.com/a/420454/206129}{answer}.
   \item Bibliography: \texttt{beamer} and \texttt{natbib} (\autoref{sub:natbib}) do not always work well together, hence, write your own bibliography by hand, or consider using \texttt{biblatex} (\autoref{sub:biblatex}).
+  \item To place text exactly where you wish, you lay want to check out package \texttt{textpos}, see \fullref{sec:Sectioning} and don't forget option \texttt{absolute}.
 \end{itemize}
 
 \subsection{Overlays}
@@ -1063,7 +1102,7 @@ Batmaaaan \only<+->{na}\only<+->{na}\only<+->{na}
 \end{verbatim}
     You almost certainly get (at least) a warning: either \texttt{Undefined} or \texttt{Multiply defined label}.
   \item When compiling in handout mode, all the overlays are overwritten on a single slide. One can however control the handout slides with a similar syntax as the overlays. Take for instance \verb!\only<1,3|handout:2>{Test}!: \verb|Test| will be printed on slides 1 and 3 when in presentation mode (default is presentation mode), but on slide 2 when in handout mode.
-  \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
+  \item Overlays and \texttt{pgfplots}: see \autoref{sec:tikzpgf} (and its child, \autoref{sub:pgfplots}).
   \item Tables
     \begin{itemize}
       \item Uncover tables \textbf{by rows}: place a \verb|\pause| before the newline \verb|\\|.
@@ -1122,11 +1161,21 @@ my line/.default={red}{thick},
 \end{verbatim}
           \end{itemize}
       \end{itemize}
-    \item When drawing some lines, \verb|--| leads to a straight line, \verb|->| (as option to \verb|draw|) creates an arrow, \verb!|-! or \verb!-|! draws angles (kind of the Manhattan norm).
-    \item Well, you know how to draw a line. Here is how to bend it (give it a curved look). Adjust the direction (\texttt{left} or \texttt{right}) and the angle to suit your wishes.
+    \item Drawing lines:
+      \begin{itemize}
+        \item When drawing some lines, \verb|--| leads to a straight line, \verb|->| (as option to \verb|draw|) creates an arrow, \verb!|-! or \verb!-|! draws angles (kind of the Manhattan norm).
+        \item Relative coordinates: this enables one to build coordinate relative to previously defined ones. Two commands: \verb|++| relative and update the point in the path, \verb|+| relative and \textbf{do not} update the point in the path. Hence, the following commands give the same result
+\begin{verbatim}
+\draw (A) -- ++(1cm,1cm) % relative to A
+          -- ++(1cm,1cm);% relative to second pt
+\draw (A) --  +(1cm,1cm) % relative to A
+          --  +(2cm,2cm);% relative to A
+\end{verbatim}
+        \item Here is how to bend a line (give it a curved look). Adjust the direction (\texttt{left} or \texttt{right}) and the angle to suit your wishes.
 \begin{verbatim}
 \draw (0,0) to[bend left=45] (10,0);
 \end{verbatim}
+      \end{itemize}
     \item Environments:
       \begin{itemize}
         \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
@@ -1164,6 +1213,11 @@ my line/.default={red}{thick},
   [...]
 \end{pgfonlayer}
 \end{Verbatim}
+    \item \texttt{tikz} and \texttt{beamer}: such a great potential, yet so much possible ways to mess up
+      \begin{itemize}
+        \item As for \texttt{verbatim}, it is advised to used \texttt{fragile} frames when inserting \texttt{tikz} content;
+        \item Overlays can be a pain in the neck as well, not many of them work. More details in \autoref{sub:pgfplots}
+      \end{itemize}
     \item Rotation and translation: use the options \verb|shift={(1cm,2cm)}| and \verb|rotate={45}| (modify to suit your needs, of course). It is possibly useful to put them in a scope. Look \href{https://tex.stackexchange.com/questions/49169/translate-and-rotate-an-object-in-tikz-2d}{here}.
     \item The library \texttt{decorations} is very powerful and allow one to create pattern. See, for instance, the treasure hunting in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
     \item A nice example of matrices in \texttt{tikz} \href{https://tex.stackexchange.com/questions/40/how-do-i-label-different-rows-or-columns-of-a-matrix-using-braces}{here}
@@ -1278,7 +1332,7 @@ child{node {B2}}
         \item \texttt{only marks} vs. \texttt{no markers}.
         \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
         \item Look here above at the line style items in order to prevent weird looking markers.
-        \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|; e.g.~\verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
+        \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|, for instance \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
       \end{itemize}
     \item \verb|draw=none|: (actually a \verb|TikZ| key) "switches off" line and marker drawing
     \item Plot style\ldots
@@ -1304,7 +1358,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
         \item Legend outside the plot: add \texttt{legend pos=outer north east} (only \texttt{north east} is available so far); or specify the position: \verb|legend style={at={(0.5,-0.1)},anchor=north}|, mind that the coordinates are relative to the axis line, hence those mean below the chart in the middle.
         \item More columns / horizontal growing: \verb|legend style={legend columns=<n>}| where \texttt{n} is the wished number of columns, \texttt{-1} means \emph{horizontally}. For horizontal, one can also use \texttt{transpose legend}
         \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
-        \item Interesting options: \texttt{reverse legend} (invert the order), \texttt{draw=none} (no legend bow)
+        \item Interesting options: \texttt{reverse legend} (invert the order)
       \end{itemize}
     \item Cycle lists. When printing more than one plot on the same canvas, if no options are given \texttt{pgfplots} will choose a line style itself in order to identify easily the plots. Those are the \texttt{cycle list}s.
       \begin{itemize}
@@ -1363,7 +1417,7 @@ enlarge x limits=abs value=<val>|abs=<val>|rel=<val>
 \begin{verbatim}
 restrict y to domain:<min>:<max>
 \end{verbatim}
-      Mind however that this filter somehow the points bu does not set the limits of the plot, hence you might want to set also e.g.~\texttt{ymin=<min>}
+      Mind however that this filter somehow the points but does not set the limits of the plot, hence you might want to set also e.g.~\texttt{ymin=<min>}
     \item Show colorbar: option \texttt{colorbar}. Yup, that was easy. Default is vertical on the right. One may choose \texttt{colorbar left}, \texttt{colorbar horizontal}.
     \item Ticks: ticks are the markers on the axes. They are computed automatically but you can force them
       \begin{itemize}
@@ -1387,10 +1441,12 @@ restrict y to domain:<min>:<max>
     \begin{itemize}
       \item A remark about compiling time when plotting from an external file is in the following, \verb|pgfplotstable|-related section.
     \end{itemize}
-    \item \texttt{tikz} and \texttt{beamer} overlays
+    \item \texttt{tikz} and \texttt{beamer}
       \begin{itemize}
-        \item Out of the box, only the overlay \texttt{only} works with \verb|\addplot|.
-        \item Some convenient definitions are given in the library \verb|\usetikzlibrary{overlay-beamer-styles}|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
+        \item If you get weird errors, try the \texttt{fragile} option \verb|\begin[fragile]{Title}|.
+        \item \texttt{beamer} does nasty things under the hood and we do not want to know. If you are bound to use \verb|#1| or alike, and you get some errors about \verb|\test| or \verb|\iterate| use instead \verb|####1| (yes, you read it right, 4 \verb|#|'s). Have a look at this \href{https://tex.stackexchange.com/a/420454/206129}{answer}.
+        \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
+        \item Some convenient definitions are given in the library \verb|overlay-beamer-styles|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
       \end{itemize}
   \end{itemize}
 
@@ -1484,7 +1540,7 @@ Writing a document can be not so easy by itself, and we think that writing it wi
 \includegraphics[draft]{hidden_picture}
 \end{verbatim}
       \item With more recent versions of \LaTeX{} a place-holder figure named \texttt{example-image-a} is available: \verb|\includegraphics[scale=0.6]{example-image-a}|
-      \item Another way for having place-holder pictures is via the package \texttt{todonote} (see below) and its command
+      \item Another way for having place-holder pictures is via the package \texttt{todonotes} (see below) and its command
 \begin{verbatim}
 \missingfigure{A description of the future figure}
 \end{verbatim}
@@ -1500,6 +1556,10 @@ Writing a document can be not so easy by itself, and we think that writing it wi
   \end{itemize}
   \item An alternative for printing out the labels is \href{http://ctan.tetaneutral.net/macros/latex/required/tools/showkeys.pdf}{\texttt{showkeys}}.
   \item Fancy and colorful todo notes from the \href{http://tug.ctan.org/macros/latex/contrib/todonotes/todonotes.pdf}{\texttt{todonotes}} package.
+    \begin{itemize}
+      \item Checkout this
+        \href{https://tex.stackexchange.com/a/313337/206129}{answer} for an in-house todo-list. A checked-box is available also with \texttt{fontawesome} (see \fullref{sec:Miscellaneous}).
+    \end{itemize}
   \item With \texttt{beamer}: \autoref{sec:Beamer}.
   % % Let the following be the last
   \item It could be interesting to define a command that may be set to either \texttt{draft} or \texttt{final}. Pass this command to all the packages listed just here above, hence you just need to modify this macro in order to change the setting of all the packages. Mind that it goes before the class:
@@ -1511,6 +1571,12 @@ Writing a document can be not so easy by itself, and we think that writing it wi
 \end{verbatim}
     Another possibility is to load the package \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/oberdiek/ifdraft.pdf}{\texttt{ifdraft}} which detects if the \texttt{draft} option is activated and create a boolean accordingly, so that one can use \verb|\ifdraft{...}{...}|
   \item One may want to check the part about the large comments out: \fullref{sec:Miscellaneous}.
+  \item Package \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/eso-pic/eso-pic.pdf}{eso-pic} may be used to generate help grids in order to better manage the placing and the layout. A typical call would be
+\begin{verbatim}
+\usepackage[texcoord,grid,gridunit=cm,
+  gridcolor=black!30,subgridcolor=gray!10]
+  {eso-pic}
+\end{verbatim}
 \end{itemize}
 
 This goes beyond the scope of the section and of the document too, but something that you should be aware of when editing a \LaTeX{} file is forward- and backward-search. In a nutshell, this is like, I'd say, having a link between the file editor and the pdf viewer, so that, for instance, with some manipulation you select a word in the editor and the viewer pops up at the selected spot, or vice versa. Think about you finding a typo while proofreading a document of several pages, you click on it and the editors goes directly to it, without you browsing around. That could save time. Most of IDE specialized on \LaTeX{} (see for instance \fullref{sec:texmaker}) have it, if you are used to more basic editor, you should do some tweaking around, but usually solutions are available.
@@ -1555,6 +1621,7 @@ This goes beyond the scope of the section and of the document too, but something
 
 The \texttt{hyperref} package enables to create hyperlinks. Here is an \href{https://www.overleaf.com/learn/latex/hyperlinks}{overview} (the previous word is indeed a hyperlink! Click on it!). The basic command is \verb|\href{<link_address>}{<place_holder>}|: \verb|place_holder| is what is printed in the document and \verb|link_address| is the actual address.
 \begin{itemize}
+  \item One can customize the links color (options \verb!url|linkbordercolor!), disable the color (\texttt{hidelinks}), use an underlined version instead of a box (\verb|pdfborderstyle={/S/U/W 1}|), color the text of the link (no box is printed, \texttt{colorlinks=ture} and \verb!url|linkcolor!). And many others.
   \item Webpages: it is better to prepend \texttt{http://} (or indeed \texttt{https://}) to the link in order not to have weird behavior, e.g.~\verb|https://www.edf.fr|.
   \item Email address: prepend \texttt{mailto:} to the address, e.g.~\verb|\href{mailto:jbl_pdg@gmail.com}{JBL}|.
   \item Local file: prepend \texttt{run:} to the file you want to open, e.g.~\verb|\href{run:/path/to/tips.pdf}{tips}|.
@@ -1687,6 +1754,8 @@ Some tips about \texttt{cleveref}:
     \item Avoid the warning about \texttt{utf8} encoding (possibly if the backend is set to \texttt{bibtex}): pass option \texttt{bibencoding=ascii}. However, this may cause problems if you use non-ASCII character (fancy accented symbols,\ldots).
     \item When using \texttt{biblatex} and \texttt{babel}, it is advised to load \texttt{csquotes} as well, in order to ensure that quoted texts are typeset according to the chosen language rules.
     \item \texttt{giveninits=true}: force initials for given names in bibliography.
+    \item Two-letter initials, for instance Ph.~for Philippe: use \verb|Abba, {\relax Ph}ilippe|
+    \item When \texttt{hyperref} (see \autoref{sec:Referencing}) is used, links to the bibliography page are produced. They can be weird, for instance in author-year format only the year is concerned by the link. Have a look \href{https://tex.stackexchange.com/questions/15951/hyperlink-name-with-biblatex-authoryear-biblatex-1-4b}{here} on how to modify this behavior.
     \item Choose the order for given a family name in the bibliography: choose between \texttt{family-given} or \texttt{given-family}. For instance:
 \begin{verbatim}
 \DeclareNameAlias{sortname}{family-given}
@@ -1702,7 +1771,7 @@ Some tips about \texttt{cleveref}:
         \item Print only/other than category: \verb|\printbibliography[[not]category=<category>]|
         \item Print only/other than type: \verb|\printbibliography[[not]type=<type>]|, with \texttt{type} being article, book\ldots
       \end{itemize}
-    \item According to the style, the author in the bibliography might be replaced by a dash if it is repeated. One may disable this feature (and always print the author) with the option \texttt{dashed=false} (however, it is available only in the most recent versions ob \texttt{biblatex}: >2016)
+    \item According to the style, the author in the bibliography might be replaced by a dash if it is repeated. One may disable this feature (and always print the author) with the option \texttt{dashed=false}.
     \item In some predefined styles, the mention "\emph{In:}" precedes the article title, for instance. One may remove it by calling: \verb|\renewbibmacro{in:}{}|. Have a look \href{https://tex.stackexchange.com/questions/10682/suppress-in-biblatex}{here} for a custom solution involving only the articles.
     \item ATTENTION: for label printing use \texttt{showkeys} (incompatibility with \texttt{showlabels} and pre/post-cite).
     \item Change size: \verb|\renewcommand{\bibfont}{\scriptsize}|
@@ -1728,7 +1797,7 @@ Some tips about \texttt{cleveref}:
     \item Warnings may be issued with footnotes and \texttt{beamer} (e.g.~\texttt{Patching footnotes}), although this should happen only in old versions. Have a look at this \href{https://tex.stackexchange.com/questions/202988/beamer-patching-footnotes-warning-patching-footnotes-failed-footnote-detectio}{answer} and this \href{https://tex.stackexchange.com/questions/369266/beamer-and-biblatex-possible-remedy-for-warning-patching-footnotes-failed/405186#405186}{reference} therein.
   \end{itemize}
 
-  Have a look at the \href{http://ctan.mines-albi.fr/macros/latex/contrib/biblatex/doc/biblatex.pdf}{here} for more details about these options/commands and many useful other ones.
+  Have a look at the \href{http://ctan.mines-albi.fr/macros/latex/contrib/biblatex/doc/biblatex.pdf}{manual} for more details about these options/commands and many useful other ones.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: Standalone
@@ -1907,7 +1976,7 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
 }
 \end{Verbatim}
       one may choose to name the for-loop variable \verb|\what| as he wishes.
-    \item More tan one variables:
+    \item More than one variable:
 \begin{Verbatim}[samepage=true]
 \foreach \what\color in {apple/red,banana/yellow,cinnamonbun/creamy}{
   I eat a \color~\what. \\
@@ -1968,10 +2037,10 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
 \begin{verbatim}
 \verb|\<cmd>|, \verb!\<cmd>!, ...
 \end{verbatim}
-  \begin{itemize}
-    \item Package \href{http://ctan.mines-albi.fr/macros/latex/contrib/fancyvrb/doc/fancyvrb-doc.pdf}{\texttt{fancyvrb}}:
-      \begin{itemize}
-        \item show spaces (mind also the default command \verb|\textvisiblespace| which produces \textvisiblespace)
+    \begin{itemize}
+      \item Package \href{http://ctan.mines-albi.fr/macros/latex/contrib/fancyvrb/doc/fancyvrb-doc.pdf}{\texttt{fancyvrb}}:
+        \begin{itemize}
+          \item show spaces (mind also the default command \verb|\textvisiblespace| which produces \textvisiblespace)
 \begin{verbatim}
 \begin{Verbatim}[showspaces=true]
 Let us write some interspaces
@@ -1980,15 +2049,19 @@ Let us write some interspaces
 \begin{Verbatim}[showspaces=true]
 Let us write some interspaces
 \end{Verbatim}
-        \item Use \texttt{verbatim} in titles or with \texttt{hyperref}-related macros: \verb!\Verb|<cmd>|! macros:
+          \item Use \texttt{verbatim} in titles or with \texttt{hyperref}-related macros: \verb!\Verb|<cmd>|! macros:
 \begin{verbatim}
 \section{The 1001 advantages of \protect\Verb|fancyvrb|}
 \end{verbatim}
-        \item Keep it on the same page: option \verb|samepage=true|
-        \item It can do line-numbering, framed boxes, select lines to print, erase characters, allow color, define escape characters\ldots
+          \item Keep it on the same page: option \verb|samepage=true|
+          \item It can do line-numbering, framed boxes, select lines to print, erase characters, allow color, define escape characters\ldots
+      \end{itemize}
     \end{itemize}
-  \end{itemize}
-\item Suppose you want to write \verb|cf.~there|. \LaTeX{} interprets that dot and it may stretch the blank between the dot and the following word (for instance to not have to cut a word at the end of the line). Add a tilde, like this \verb|cf.~there| to avoid it.
+  \item Dots and abbreviations.
+    \begin{itemize}
+      \item Suppose you want to write \verb|cf. there|. \LaTeX{} interprets that dot as a phrase-ending period and it stretches the blank between the dot and the following word. Add a tilde, like this \verb|cf.~there| to avoid it, or, equivalently \verb|cf.\ there|, as you would do in math mode.
+      \item Conversely, \LaTeX{} interprets a dot after an all-capital word as an abbreviation (e.g.~for John R. R. Tolkien). If it is not the case for you, add \verb|\@| before the period: \verb|Yesterday, I watched Rambo I\@. It is a good movie|.
+    \end{itemize}
   \item Math symbols in titles: \texttt{hyperref} usually gives a warning or even an error. Use:
 \begin{verbatim}
 \texorpdfstring{$ \alpha $}{alpha}
@@ -2077,6 +2150,12 @@ Let us write some interspaces
   \item Add your own \texttt{.sty} and \texttt{.cls} to the path so that they are always found: create a dedicate directory in the \TeX{} home directory and put it there. The location of such directory may be found running \verb|kpsewhich -var-value=TEXMFHOME|, everything is explained \href{https://tex.stackexchange.com/questions/1137/where-do-i-place-my-own-sty-or-cls-files-to-make-them-available-to-all-my-te}{here}.
   \item Package \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/bookmark/bookmark.pdf}{\texttt{bookmark}} let you customize the bookmarks that will appear in the pdf viewer, it expands \texttt{hyperref} in that sens. Check out the \texttt{open} option.
   \item One can select a specific pdf format by loading package \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/pdfx/pdfx.pdf}{\texttt{pdfx}}. For instance, for PDF/A load \verb|\usepackage[a-1b]{pdfx}|. It should be loaded after \texttt{hyperref}, but it might clash with \texttt{inputenc} too. It seems to be quite buggy, especially in the versions of \TeX{}Live shipped in the canonical repositories of Debian/Ubuntu.
+  \item Pimping the pdf with interactive stuff
+    \begin{itemize}
+      \item We have seen the clickable coordinates in \texttt{pgfplots}, \autoref{sub:pgfplots}.
+      \item Pop-up's and mouseover effects: package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/fancytooltips/fancytooltips.pdf}{\texttt{fancytooltips}} (supported by \texttt{Adobe} only).
+      \item Add annotations and notes to the pdf: package \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/pdfcomment/doc/pdfcomment.pdf}{\texttt{pdfcomment}}.
+    \end{itemize}
   \item Consider this: load \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}, use it to mix your colors \verb|\colorlet{halfbw}{black!50}|, now how to get its \texttt{RGB}/\texttt{HTML} (\ldots) code? Use \verb|\convertcolorspec| or \verb|\extractcolorspec| as explained \href{https://tex.stackexchange.com/questions/35033/figuring-out-rgb-or-hex-color-from-xcolor}{here}.
   \item Cookbook \& recipes (because why not): several packages are proposed \href{https://ctan.org/topic/cooking}{here}. \texttt{cuisine}, and \texttt{[x]cookybooky} appear to be the most popular.
   \item (Not exactly \TeX{}-related) Collaborative and cloud tools for \TeX{}:
