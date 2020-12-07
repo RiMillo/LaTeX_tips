@@ -426,6 +426,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \end{verbatim}
       \item \texttt{paralist} does not work properly with \texttt{beamer}.
     \end{itemize}
+  \item Lists by columns: package \href{https://mirrors.ircam.fr/pub/CTAN/macros/latex/required/tools/multicol.pdf}{\texttt{multicol}} (and possibly \texttt{enumitem}), see this \href{https://stackoverflow.com/questions/1398127/breaking-a-list-into-multiple-columns-in-latex}{question}. If you have a number of items that does not suit well with the number of columns, try to balance the columns with empty labels: \verb|\item[]|. A possible alternative is manually do it with \texttt{minipage} or alike.
   \item Referencing and \texttt{itemize}
     \begin{itemize}
       \item There is no point (actually, no way neither) in referencing an item in an \texttt{itemize}: they all look the same, you can not tell them apart;
@@ -538,9 +539,13 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 %% [...]
 \movie[<...>,loop]{<place_holder>}{video.avi}
 \end{verbatim}
-      The place holder is something that is inserted if the video is not found or before that the video starts playing. For example, you can put a static image:
+        The place holder is something that is inserted if the video is not found or before that the video starts playing. For example, you can put a static image:
 \begin{verbatim}
 \movie[loop]{\includegraphics[<...>]{image.png}}{video.avi}
+\end{verbatim}
+        You can create a movie using \texttt{convert}/\texttt{ImageMagick}. \verb|-delay <n>| gives \texttt{n/100} frames per second; default is 1.
+\begin{verbatim}
+convert -quality 100 -delay <n> <images go here> out.mpeg
 \end{verbatim}
     \end{itemize}
   \item (Not \LaTeX-related) Erase background / Change background color of an image: \href{http://www.imagemagick.org/discourse-server/viewtopic.php?t=32305}{here} (if transparent background, the final extension must be \texttt{png}). Run from terminal:
@@ -1078,7 +1083,7 @@ Hence, \verb|<+->| means "starting from the next and then on all the following" 
 \begin{verbatim}
 Batmaaaan \only<+->{na}\only<+->{na}\only<+->{na}
 \end{verbatim}
-  \item In a series of \verb|<+->|, for example in an \verb|itemize|, the key \verb|.| (dot) will repeat the previous overlay number, making the item appear at the same time as the previous one. An example taken from the second link:
+  \item The key \verb|.| (dot) will repeat the previous overlay number, making the item appear at the same time as the previous one. An example:
 \begin{Verbatim}[samepage=true]
 \begin{itemize}
 \item<+-> This is on the first and all following slides
@@ -1161,6 +1166,15 @@ my line/.default={red}{thick},
 \end{verbatim}
           \end{itemize}
       \end{itemize}
+    \item Environments:
+      \begin{itemize}
+        \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
+        \item Inline: \verb|\tikz{...}|.
+      \end{itemize}
+    \item Align inline \texttt{tikz} with normal text:
+\begin{verbatim}
+Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
+\end{verbatim}
     \item Drawing lines:
       \begin{itemize}
         \item When drawing some lines, \verb|--| leads to a straight line, \verb|->| (as option to \verb|draw|) creates an arrow, \verb!|-! or \verb!-|! draws angles (kind of the Manhattan norm).
@@ -1175,11 +1189,6 @@ my line/.default={red}{thick},
 \begin{verbatim}
 \draw (0,0) to[bend left=45] (10,0);
 \end{verbatim}
-      \end{itemize}
-    \item Environments:
-      \begin{itemize}
-        \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
-        \item Inline: \verb|\tikz{...}|.
       \end{itemize}
     \item Coordinate calculation: example
 \begin{verbatim}
@@ -1422,7 +1431,7 @@ restrict y to domain:<min>:<max>
     \item Ticks: ticks are the markers on the axes. They are computed automatically but you can force them
       \begin{itemize}
         \item \texttt{xtick distance}: set the distance between two ticks. The version \texttt{ytick} is available as well.
-        \item \texttt{xtick={1,2,2.1,2.2}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
+        \item \texttt{xtick=\{1,2,2.1,2.2\}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
         \item \texttt{xticklabel={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
         \item \texttt{extra x ticks}: additional ticks. Control with \texttt{extra x tick labels} and \texttt{extra x tick style}. The version \texttt{y tick} is available as well.
       \end{itemize}
@@ -1447,6 +1456,7 @@ restrict y to domain:<min>:<max>
         \item \texttt{beamer} does nasty things under the hood and we do not want to know. If you are bound to use \verb|#1| or alike, and you get some errors about \verb|\test| or \verb|\iterate| use instead \verb|####1| (yes, you read it right, 4 \verb|#|'s). Have a look at this \href{https://tex.stackexchange.com/a/420454/206129}{answer}.
         \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
         \item Some convenient definitions are given in the library \verb|overlay-beamer-styles|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
+        \item For legends, use options as follows: \verb|\addentrylegend[visible on<>]{}|
       \end{itemize}
   \end{itemize}
 
@@ -1460,8 +1470,26 @@ Two are the main reasons to use (and to love) \texttt{pgfplotstable}: creating p
 
   \begin{itemize}
     \item Global settings / style definitions: e.g.~\verb|\pgfplotstableset{[...]}|
+    \item When using \texttt{pgfplotstable} with plots, if the table has headers you can use
+\begin{verbatim}
+\addplot table[x=<head_x>,y=<head_y>] {<table>};
+\end{verbatim}
+      Otherwise, you can use the column indices
+\begin{verbatim}
+\addplot table[x index=<n_x>,y index=<n_y>] {<table>};
+\end{verbatim}
+    \item \verb|\pgfplotstabletypeset{<table>}| just translates the table into something readable by \TeX{}. By default is a \texttt{tabular}. You can change the environment with \texttt{begin table} and \texttt{end table}. An example
+\begin{verbatim}
+\pgfplotstableset{
+begin table=\begin{longtable},
+end table=\end{longtable},
+}
+\end{verbatim}
+      \begin{itemize}
+        \item You can see the \TeX{} code that \texttt{pgfplotstable} produces by passing the option \texttt{outfile=<name>.tex}: \texttt{pgf} creates a file with the same name and containing the actual \TeX{} code. This option can be useful if debugging or if you want to re-use the table elsewhere.
+      \end{itemize}
     \item \texttt{pgfplotstable} works column-wise. Need to work by rows?
-      Use (\href{https://tex.stackexchange.com/questions/183519/plotting-data-from-rows-instead-of-columns-in-latex}{here})
+      Use (see \href{https://tex.stackexchange.com/questions/183519/plotting-data-from-rows-instead-of-columns-in-latex}{here})
 \begin{verbatim}
   \pgfplotstabletranspose\newtable{<table>}
 \end{verbatim}
