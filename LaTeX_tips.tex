@@ -1,7 +1,7 @@
 %! TEX root = LaTeX_tips.tex
 
 %% LaTeX tips and stuff.
-%% Made for you not to spend long hours on Google and StackOverflow to look weird stuff up.
+%% Made for you not to spend long hours on Google and StackOverflow to look up weird stuff.
 %%
 %% Copyright 2020 Riccardo Milani
 %%
@@ -533,7 +533,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \animategraphics[<...>, autoplay, loop]{40}{img/img_}{1}{100}
 \end{verbatim}
 
-      \item Include an external video
+      \item Embed an external video. With this strategy, the video is not included in the pdf, in fact, it is just a link, sort of, so that the video is actually read by an external app. That means that if you share the pdf, the video should be joined too.
 \begin{verbatim}
 \usepackage{multimedia}
 %% [...]
@@ -543,7 +543,10 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \begin{verbatim}
 \movie[loop]{\includegraphics[<...>]{image.png}}{video.avi}
 \end{verbatim}
-        You can create a movie using \texttt{convert}/\texttt{ImageMagick}. \verb|-delay <n>| gives \texttt{n/100} frames per second; default is 1.
+        Notice that if you load a video with a path, let's say \texttt{subdir/video.avi} and you want to share the pdf, then the video should lie in the same path in order to be read. For instance, the colleague to whom you sent the pdf, should rebuild the same path.
+        \begin{itemize}
+          \item You can create a movie using \texttt{convert}/\texttt{ImageMagick}. \verb|-delay <n>| gives \texttt{n/100} frames per second; default is 1.
+        \end{itemize}
 \begin{verbatim}
 convert -quality 100 -delay <n> <images go here> out.mpeg
 \end{verbatim}
@@ -1002,7 +1005,9 @@ end{enumerate}
       \item Insert a frame break with \verb|\pagebreak| (this applies both to presentation and handout mode), or \verb|\framebreak| (which is equivalent to \verb|\pagebreak<presentation>| and hence applies only to presentation mode).
       \item A text will appear in the title to signal that there are more than one slide. You can modify the content as follows: for instance for a text appearing only from the second slide and print the slide number in capital roman number preceded by a dash
 \begin{verbatim}
-\setbeamertemplate{frametitle continuation}[from second][- \insertcontinuationcountroman]
+\setbeamertemplate{frametitle continuation}
+                  [from second]
+                  [- \insertcontinuationcountroman]
 \end{verbatim}
     \end{itemize}
   \item \verb|\againframe<overlay>{<target_label>}|: print again frame \texttt{label} at its \texttt{overlay}-th slide (mind the angle brackets). A couple of \href{https://tex.stackexchange.com/questions/51895/beamer-againframe-inside-other-frame}{tricks} and \href{https://tex.stackexchange.com/questions/31031/beamer-repeat-variations-of-a-frame}{tricks}.
