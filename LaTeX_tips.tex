@@ -114,6 +114,8 @@ If one would like more details about a subject, or if [s]he couldn't find / solv
 
 A couple of words about \LaTeX{} editors. If for you writing in \LaTeX{} is a necessary pain (what's all this code anyway?!), there are plenty of dedicated editors out there that make things easy for you, among others \LaTeX Studio and \TeX Maker (see \autoref{sec:texmaker}). I think that the rich-format text option of the aforementioned \href{https://www.overleaf.com/learn/}{Overleaf} (or Share\LaTeX{} since they have merged) can definitely be a killer-feature. Overleaf might also be a good choice for a collaborative project, in this case, see the related item in \autoref{sec:Miscellaneous}. If you are more code-prone, numerous plugin have been developed for classical text editors such as \verb|[neo]vi[m]| or \verb|emacs| (I, myself, cannot but suggest \verb|vim+vimtex+Ultisnips|). One may found a list of available editors \href{https://tex.stackexchange.com/questions/339/latex-editors-ides}{here}.
 
+Some non-\TeX{}-related stuff (but usually still pdf-related) is given. It usually involves commands that can be found in \texttt{Linux} distros. But, here again internet is your friend and plenty of one-line alternatives are available out there.
+
 Finally, if you liked and you have some cool tricks that you want to share in order to make other people's lives easier, do not hesitate to contribute: along with this file, you should have received its \href{run:./LaTeX_tips.tex}{source code} (of course we wrote it in \LaTeX, what do you expect?!); if not, ask for it (there are some tricks inside it, too!). And there's more: a Github repo. Here it is: \href{https://github.com/RiMillo/LaTeX_tips}{\faGithub\texttt{/RiMillo/LaTeX\_tips}}.
 
 Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
@@ -1594,6 +1596,17 @@ Writing a document can be not so easy by itself, and we think that writing it wi
         \href{https://tex.stackexchange.com/a/313337/206129}{answer} for an in-house todo-list. A checked-box is available also with \texttt{fontawesome} (see \fullref{sec:Miscellaneous}).
     \end{itemize}
   \item With \texttt{beamer}: \autoref{sec:Beamer}.
+  \item Watermark: add text in the background
+    \begin{itemize}
+      \item Package \href{https://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/contrib/draftwatermark/draftwatermark.pdf}{\texttt{draftwatermark}}: basic and simple, no fuss. Some options (there are also commands. Defaults are given)
+        \begin{itemize}
+          \item \texttt{angle=45}
+          \item \texttt{text=Draft}
+          \item \texttt{vpos}/\texttt{hpos}: positions (default is center)
+          \item \texttt{color}
+        \end{itemize}
+      \item Package \href{https://ctan.tetaneutral.net/macros/latex/contrib/xwatermark/doc/xwatermark-guide.pdf}{xwatermark}: does everything.
+    \end{itemize}
   % % Let the following be the last
   \item It could be interesting to define a command that may be set to either \texttt{draft} or \texttt{final}. Pass this command to all the packages listed just here above, hence you just need to modify this macro in order to change the setting of all the packages. Mind that it goes before the class:
 \begin{verbatim}
@@ -2191,6 +2204,7 @@ Let us write some interspaces
     \end{itemize}
   \item Consider this: load \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}, use it to mix your colors \verb|\colorlet{halfbw}{black!50}|, now how to get its \texttt{RGB}/\texttt{HTML} (\ldots) code? Use \verb|\convertcolorspec| or \verb|\extractcolorspec| as explained \href{https://tex.stackexchange.com/questions/35033/figuring-out-rgb-or-hex-color-from-xcolor}{here}.
   \item Cookbook \& recipes (because why not): several packages are proposed \href{https://ctan.org/topic/cooking}{here}. \texttt{cuisine}, and \texttt{[x]cookybooky} appear to be the most popular.
+  \item (Not exactly \TeX{}-related) pdf utilities (extract, concatenate, rotate, modify,\ldots): checkout \texttt{pdfjam} (easy stuff like concatenate, rotate, extract) and \texttt{pdftk} (adding background/watermark with option \texttt{background} or \texttt{stamp}).
   \item (Not exactly \TeX{}-related) Collaborative and cloud tools for \TeX{}:
     \begin{itemize}
       \item For a large collaborative (or solo) project \texttt{git} might be a good idea, however this implies the knowledge of \texttt{git}, hence, it might not be for everyone. Possibly, the largest cloud-based collaborative \TeX{} platform is \href{https://www.overleaf.com/}{\texttt{Overleaf}}: it requires a login, it gives sufficient cloud space, and with its ``\texttt{Rich Text}'' (a \texttt{Word}-like interface) option one doesn't even need to know \TeX{}. It could be interesting also for personal projects. The possibility to choose \texttt{vim} or \texttt{Emacs} key-binding is a killer-feature if one is used to those editors. \texttt{Overleaf} also allows to export you project to \texttt{GitHub} or alike: look \href{https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F}{here}.
