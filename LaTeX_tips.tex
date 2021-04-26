@@ -1345,7 +1345,7 @@ child{node {B2}}
       \end{itemize}
     \item Markers\ldots
       \begin{itemize}
-        \item \texttt{only marks} vs. \texttt{no markers}.
+        \item \texttt{only marks} vs. \texttt{no markers} / \texttt{mark=none}.
         \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
         \item Look here above at the line style items in order to prevent weird looking markers.
         \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|, for instance \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
@@ -1691,7 +1691,26 @@ Some tips about \texttt{cleveref}:
 \section{Bibliography}
 \label{sec:Bibliography}
 \begin{itemize}
-  \item \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{Here} you can find a basic introduction to the bibliography in \LaTeX. A good habit is to create a separate \texttt{.bib} file. Some pdf managing programs (such as \href{https://www.zotero.org/}{Mendeley} or \href{https://www.zotero.org/}{Zotero}) automatically build the \texttt{.bib} file for you, with all the pdf in your library.  \item There are several ways to manage the bibliography in \TeX{} files: \texttt{biblatex}, \texttt{natbib},\ldots
+  \item \href{https://www.overleaf.com/learn/latex/Bibliography_management_with_bibtex}{Here} you can find a basic introduction to the bibliography in \LaTeX. A good habit is to create a separate \texttt{.bib} file. Some pdf managing programs (such as \href{https://www.zotero.org/}{Mendeley} or \href{https://www.zotero.org/}{Zotero}) automatically build the \texttt{.bib} file for you, with all the pdf in your library. \item There are several ways to manage the bibliography in \TeX{} files: \texttt{biblatex}, \texttt{natbib},\ldots
+  \item Dedicated \verb|.bib| files are usually edited. These files are usually then translated into lower-level instruction to \LaTeX{}, which are usually stored in a \verb|.bbl|. The structure of the bibliographic items inside a \verb|.bib| file can seem quite strict. Find all the info \href{https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management}{here}. Generally, those items looks like
+\begin{verbatim}
+@reftype{key,
+author = {Alice, A. and Bob, B.},
+title = {So long, and thanks for all the fish},
+year = {1991}
+}
+This line is ignored
+\end{verbatim}
+    It is composed of:
+    \begin{itemize}
+      \item They always start with a ``\verb|@|''; all the lines which do not start with an \emph{at} and which are not part of an item will be ignored
+      \item \verb|reftype|: the reference type, \texttt{article}, \texttt{book},\ldots
+      \item \verb|key|: the citation key which should be used in cite-commands: \verb|\cite{key}|
+      \item A series of fields, in the examples above \texttt{author}, \texttt{title}, and \texttt{year}. The order does not matter. Braces are compulsory (I think). According to the type, some fields are mandatory. According to the style, some fields might not be printed
+      \item The special item \verb|@preamble{'\some\latex\code'}| allows one to write \LaTeX{} code, define macro inside the bibliography file
+      \item You can usually use \LaTeX{} code inside a field, for instance \verb|author={Cl\'ement}|
+      \item Use braces inside a field to keep exactly some characters: \verb|title={A ca{P}ital p inside}| will produce exactly what it says. According to the bibliography style, capitals at the beginning of a word might be changed into lowercase. Use the braces in order to keep them: \verb|title={The {S}tokes equations}|
+    \end{itemize}
   \item Examples of bibliography styles can be found \href{https://www.overleaf.com/learn/latex/Bibtex_bibliography_styles}{here};
   \item Print references even if they were not cited: \verb|\nocite{<ref_name>}|. Print all the references: \verb|\nocite{*}|.
   \item Change the name of the bibliography title: redefine \verb|\refname| or \verb|\bibname| (it depends on the package you are using). Ex
@@ -1769,11 +1788,16 @@ Some tips about \texttt{cleveref}:
         \item \texttt{bibstyle=<style>} for the style in the list,
         \item \texttt{style=<style>} for setting both of the above.
       \end{itemize}
-    \item Sort the citations: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g.~\texttt{nyt}, \texttt{nty}).
+    \item Sort the citations:
+      \begin{itemize}
+        \item In the bibliography: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g.~\texttt{nyt}, \texttt{nty}).
+        \item When citing: option \verb!sortcites=true|false!
+      \end{itemize}
+    \item Use \texttt{natbib} commands: option \verb!natbib=true|false!
     \item You can even provide a direct link to your \href{https://www.zotero.org/}{\texttt{Zotero}} bibliography (see the manual).
     \item Footnote-like citation (could be useful in \texttt{beamer}): \verb|\footcite{<ref_name>}|, look also \verb|\footfullcite{<ref_name>}|.
     \item Avoid \emph{et al.}: put in the options when loading the package \texttt{maxnames=<n>} or \texttt{minnames=<n>}.
-    \item Suppress "\emph{In:}" in the bibliography: \verb|\renewbibmacro{in:}{}| (\href{https://tex.stackexchange.com/a/10686/206129}{here}).
+    \item In some predefined styles, the mention "\emph{In:}" precedes the article title, for instance. One may remove it by calling: \verb|\renewbibmacro{in:}{}|, as explained \href{https://tex.stackexchange.com/a/10686/206129}{here}. Have a look \href{https://tex.stackexchange.com/questions/10682/suppress-in-biblatex}{here} for a custom solution involving only the articles.
     \item No URL, ISSN, nor DOI: options \texttt{url=false,doi=false,isbn=false}.
     \item Add \emph{see}, \emph{chapter n} or alike: \verb|\command[<prenote>][<postnote>]{<ref_name>}|. For example, \verb|\parencite[see][chpt 2]{Aliceetal}| gives something like: (see \emph{Alice et al.}, chpt 2)
       \begin{itemize}
@@ -1802,6 +1826,7 @@ Some tips about \texttt{cleveref}:
     \item \texttt{giveninits=true}: force initials for given names in bibliography.
     \item Two-letter initials, for instance Ph.~for Philippe: use \verb|Abba, {\relax Ph}ilippe|
     \item When \texttt{hyperref} (see \autoref{sec:Referencing}) is used, links to the bibliography page are produced. They can be weird, for instance in author-year format only the year is concerned by the link. Have a look \href{https://tex.stackexchange.com/questions/15951/hyperlink-name-with-biblatex-authoryear-biblatex-1-4b}{here} on how to modify this behavior.
+    \item Option \verb!uniquelist=true|false|minyear!. I need an example here. Suppose you have two references: \begin{inparaenum}[i)] \item Alice, Bob, Clint, and Don, 12; \item Alice, Bob, Ed, and Florent, 13. \end{inparaenum} Moreover suppose that you have an author-year--like citation styles with \emph{et al.}~enabled after the first author name. Both references would result in: Alice \emph{et al.}, yy. Someone may want to distinguish them, since they have not the same authors. If \verb|uniquelist| is disabled (\verb|false|), they both appear as: Alice \emph{et al.}, yy. If enabled (\verb|true|), \begin{inparaenum}[i)] \item Alice, Bob, Clint, \emph{et al.}, 12; \item Alice, Bob, Ed, \emph{et al.}, 13 \end{inparaenum}; notice as the max-citation name has been overruled in order to show at least one non-unique author. If \verb|minyear|, this happens only if the year is the same (hence, not in our example).
     \item Choose the order for given a family name in the bibliography: choose between \texttt{family-given} or \texttt{given-family}. For instance:
 \begin{verbatim}
 \DeclareNameAlias{sortname}{family-given}
@@ -1818,7 +1843,6 @@ Some tips about \texttt{cleveref}:
         \item Print only/other than type: \verb|\printbibliography[[not]type=<type>]|, with \texttt{type} being article, book\ldots
       \end{itemize}
     \item According to the style, the author in the bibliography might be replaced by a dash if it is repeated. One may disable this feature (and always print the author) with the option \texttt{dashed=false}.
-    \item In some predefined styles, the mention "\emph{In:}" precedes the article title, for instance. One may remove it by calling: \verb|\renewbibmacro{in:}{}|. Have a look \href{https://tex.stackexchange.com/questions/10682/suppress-in-biblatex}{here} for a custom solution involving only the articles.
     \item ATTENTION: for label printing use \texttt{showkeys} (incompatibility with \texttt{showlabels} and pre/post-cite).
     \item Change size: \verb|\renewcommand{\bibfont}{\scriptsize}|
     \item Multiple bibliography / bibliography in each chapter: take advantage of the \texttt{refsegment} environment as explained \href{https://tex.stackexchange.com/questions/87414/per-chapter-bibliographies-in-biblatex}{here}. You may also want to have a look \href{https://tex.stackovernet.com/fr/q/63260}{here}.
@@ -2061,6 +2085,16 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
 \section{Miscellaneous}
 \label{sec:Miscellaneous}
 \begin{itemize}
+  \item Define macros: we treat here the \LaTeX{} mode (more primitive \Tex{} commands such as \verb|\def|, \verb|\let| are available as well but won't be addressed here). Intro \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{here}
+    \begin{itemize}
+      \item \verb|\newcommand\macro{<stuff>}|: defines a new command \verb|\macro| that will expand to \verb|<stuff>|. Gives an error if \verb|\macro| is already defined
+      \item \verb|\renewcommand\macro{<stuff>}|: redefines (overwrite) command \verb|\macro|. Gives an error if \verb|\macro| is not defined yet
+      \item \verb|\providecommand\macro{<stuff>}|: defines a new command \verb|\macro|. Does nothing if \verb|\macro| is already defined
+      \item IDEA: use \verb|\providecommand| for an interactively set parameters from outside the sources as explained \href{https://en.wikibooks.org/wiki/LaTeX/Macros#Command-line_LaTeX}{here}
+\begin{verbatim}
+pdflatex '\providecommand\draft{draft}\input{source.tex}'
+\end{verbatim}
+    \end{itemize}
   \item Fed up with \verb|Overfull| / \verb|Underfull \hbox|? And what is that all about anyway? Have a look \href{https://www.overleaf.com/learn/how-to/Understanding_underfull_and_overfull_box_warnings}{here}. Sometimes it is that, in way way or another, you are taking more space than that is allowed.
     \begin{itemize}
       \item Most of the editor can get set up to ignore some warnings (ok, maybe with some additional plugins, but still), just look up how to do it with your preferred one. Otherwise, you can directly tell the \LaTeX{} compiler to ignore them: see a couple of items below, \texttt{silence} package.
@@ -2076,7 +2110,7 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
   \item Counters: very informative \href{https://fr.overleaf.com/learn/latex/Counters}{page}
     \begin{itemize}
       \item Create: \verb|\newcounter{<name>}[<parent>]| creates a new counter called \texttt{name} which is reset every time the counter \texttt{parent} is stepped (take \texttt{parent} as \texttt{section}, for instance). \texttt{parent} is optional.
-      \item Modify: several possibilities \verb|\æddtocounter{<name>}{<n>}|, \verb|\stepcounter{<name>}|, \verb|\setcounter{<name>}{<n>}|
+      \item Modify: several possibilities \verb|\addtocounter{<name>}{<n>}|, \verb|\stepcounter{<name>}|, \verb|\setcounter{<name>}{<n>}|
       \item Print: \verb|\the<name>| (e.g. \verb|\theMyNewCounter|). Customize with \verb|\arabic|, \verb|\alph|, \verb|\roman|,\ldots (capital versions are available): \verb|\alph{MyNewCounter}|.
     \end{itemize}
   \item \verb!verbatim!, print exactly the argument, no code interpretation (how did you think we wrote the tips?!): any character can be used as delimiter
@@ -2204,10 +2238,22 @@ Let us write some interspaces
     \end{itemize}
   \item Consider this: load \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}, use it to mix your colors \verb|\colorlet{halfbw}{black!50}|, now how to get its \texttt{RGB}/\texttt{HTML} (\ldots) code? Use \verb|\convertcolorspec| or \verb|\extractcolorspec| as explained \href{https://tex.stackexchange.com/questions/35033/figuring-out-rgb-or-hex-color-from-xcolor}{here}.
   \item Cookbook \& recipes (because why not): several packages are proposed \href{https://ctan.org/topic/cooking}{here}. \texttt{cuisine}, and \texttt{[x]cookybooky} appear to be the most popular.
-  \item (Not exactly \TeX{}-related) pdf utilities (extract, concatenate, rotate, modify,\ldots): checkout \texttt{pdfjam} (easy stuff like concatenate, rotate, extract) and \texttt{pdftk} (adding background/watermark with option \texttt{background} or \texttt{stamp}).
+  \item (Not exactly \TeX{}-related) pdf utilities (extract, concatenate, rotate, modify,\ldots): checkout \href{https://github.com/DavidFirth/pdfjam#using}{\texttt{pdfjam}} (easy stuff like concatenate, rotate, extract) and \texttt{pdftk} (adding background/watermark with option \texttt{background} or \texttt{stamp}). The ultimate tool is \href{https://www.ghostscript.com/doc/current/Use.htm}{\texttt{ghostscript}}. Some examples
+    \begin{itemize}
+      \item Extract and concatenate: Examples of accepted ranges: \texttt{'1,6-9'}, \texttt{'-2,4,6'}
+\begin{verbatim}
+pdfjam [options] -- file_1.pdf ['<page_range>'] \
+                   [file_2.pdf ['<page_range>'] ...]
+\end{verbatim}
+      \item If you need to extract and fit to the pdf size, use \texttt{ghostscript} (for the pages, the option \texttt{-sPageList} is also available and accepts ranges)
+\begin{verbatim}
+gs -dBATCH -dNOPAUSE -dSAFER -sDEVICE=pdfwrite -dPSFitPage \
+   -dFirstPage=2 -dLastPage=5 -o out.pdf in.pdf
+\end{verbatim}
+    \end{itemize}
   \item (Not exactly \TeX{}-related) Collaborative and cloud tools for \TeX{}:
     \begin{itemize}
-      \item For a large collaborative (or solo) project \texttt{git} might be a good idea, however this implies the knowledge of \texttt{git}, hence, it might not be for everyone. Possibly, the largest cloud-based collaborative \TeX{} platform is \href{https://www.overleaf.com/}{\texttt{Overleaf}}: it requires a login, it gives sufficient cloud space, and with its ``\texttt{Rich Text}'' (a \texttt{Word}-like interface) option one doesn't even need to know \TeX{}. It could be interesting also for personal projects. The possibility to choose \texttt{vim} or \texttt{Emacs} key-binding is a killer-feature if one is used to those editors. \texttt{Overleaf} also allows to export you project to \texttt{GitHub} or alike: look \href{https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F}{here}.
+      \item For a large collaborative (or solo) project \texttt{git} might be a good idea, however this implies the knowledge of \texttt{git}, hence, it might not be for everyone. Possibly, the largest cloud-based collaborative \TeX{} platform is \href{https://www.overleaf.com/}{\texttt{Overleaf}}: it requires a login, it gives sufficient cloud space, and with its ``\texttt{Rich Text}'' (a \texttt{Word}-like interface) option one doesn't even need to know \TeX{}. It could be interesting also for personal projects. The possibility to choose \texttt{vim} or \texttt{Emacs} key-binding is a killer-feature if one is used to those editors. \texttt{Overleaf} also allows to export you project to \texttt{GitHub} or alike: look \href{https://www.overleaf.com/learn/how-to/Using_Git_and_GitHub}{here} and \href{https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F}{here}.
       \item Live chats with \TeX{} support (mostly taken from \href{https://math.stackexchange.com/questions/81365/chatting-about-mathematics-with-real-time-latex-rendering}{here}): \href{https://mathim.com/}{\texttt{MathIM}} or \href{https://hack.chat/}{\texttt{hack.chat}} (the latter, through \texttt{Markdown}, has support for code typing too).
     \end{itemize}
 %
