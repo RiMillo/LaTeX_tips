@@ -574,6 +574,10 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4      \
 \begin{verbatim}
 convert -strip -interlace Plane -gaussian-blur 0.05 -quality 85% in.jpg out.jpg
 \end{verbatim}
+You may also try (out will be the \verb|n|\% of the in)
+\begin{verbatim}
+convert -size <n>% in.jpg out.jpg
+\end{verbatim}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1201,9 +1205,16 @@ Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 \begin{verbatim}
 \usetikzlibrary{calc}
 %[...]
-\coordinate (A)       at (1,0);
-\coordinate (Aplus11) at ($(A) + (1,1)$);
+\coordinate (A)            at (1,0);
+\coordinate (Aplus11)      at ($(A) + (1,1)$);
+\coordinate (B)            at (0,1);
+\coordinate (betweenAandB) at ($(A)!0.5!(B)$)
 \end{verbatim}
+    \item Drawing in 3D: \texttt{TikZ} naturally allows one to draw in 3D \verb|\draw (0,0,0)--(1,1,1);|. It is not always easy and straightforward, though. Below some remarks:
+      \begin{itemize}
+        \item In 2D, first coordinate (let's call it \texttt{x}) control the horizontal displacement (from left to right). The second coordinate, the vertical one (from bottom to top). In 3D that doesn't change, hence the third coordinate is the depth, if I may (from inside to paper to outside). This is somehow confusing since the third coordinates is usually associated with \texttt{z} and it's the vertical direction.
+        \item Some kinds of drawings are easier to draw in spherical coordinates. Then, have a look at \href{https://ctan.crest.fr/tex-archive/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf}{\texttt{tikz-3dplot}}.
+      \end{itemize}
     \item Layers: \texttt{TikZ} by default will overwrite, hence the last command that you type will be printed on top of the previous ones (although, see the \texttt{clip mode} item in the \autoref{sub:pgfplots}). For instance, notice as the black circle covers the red one:
 
       \begin{minipage}[T]{.68\textwidth}
@@ -1229,7 +1240,7 @@ Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
   [...]
 \end{pgfonlayer}
 \end{Verbatim}
-    \item \texttt{tikz} and \texttt{beamer}: such a great potential, yet so much possible ways to mess up
+    \item \texttt{tikz} and \texttt{beamer}: such a great potential, yet so many possible ways to mess up
       \begin{itemize}
         \item As for \texttt{verbatim}, it is advised to used \texttt{fragile} frames when inserting \texttt{tikz} content;
         \item Overlays can be a pain in the neck as well, not many of them work. More details in \autoref{sub:pgfplots}
@@ -1435,12 +1446,23 @@ restrict y to domain:<min>:<max>
 \end{verbatim}
       Mind however that this filter somehow the points but does not set the limits of the plot, hence you might want to set also e.g.~\texttt{ymin=<min>}
     \item Show colorbar: option \texttt{colorbar}. Yup, that was easy. Default is vertical on the right. One may choose \texttt{colorbar left}, \texttt{colorbar horizontal}.
-    \item Ticks: ticks are the markers on the axes. They are computed automatically but you can force them
+    \item Ticks: ticks are the markers on the axes. With tick labels one refers to the (usually) numbers describing the tick values.
       \begin{itemize}
-        \item \texttt{xtick distance}: set the distance between two ticks. The version \texttt{ytick} is available as well.
-        \item \texttt{xtick=\{1,2,2.1,2.2\}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
-        \item \texttt{xticklabel={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
-        \item \texttt{extra x ticks}: additional ticks. Control with \texttt{extra x tick labels} and \texttt{extra x tick style}. The version \texttt{y tick} is available as well.
+        \item They are computed automatically but you can force them:
+          \begin{itemize}
+            \item \texttt{xtick distance}: set the distance between two ticks. The version \texttt{ytick} is available as well.
+            \item \texttt{xtick=\{1,2,2.1,2.2\}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
+            \item \texttt{xticklabel={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
+            \item \texttt{extra x ticks}: additional ticks. Control with \texttt{extra x tick labels} and \texttt{extra x tick style}. The version \texttt{y tick} is available as well.
+          \end{itemize}
+        \item Space between tick label and axis label: \verb!x|ylabel shift={<sep>}!.
+        \item \texttt{pgfplots} sometimes use a particular format for the tick label: basically, instead of \verb|0.1, 0.2, 0.3| it uses \verb|1, 2, 3| with the factor $\cdot10^{-1}$ written (in the case of the \texttt{y} axsis) above the plot. This is somehow unnerving. Disable it with \verb!scaled y ticks=false! (it applies to \texttt{x}, too).
+        \item The format of the tick labels may not be uniform. For instance, instead of \verb|0, 0.05, 0.1| you might get \verb|0, 5x10^2, 0.1|. This is somehow unnerving, given also the fact that the scientific notation might takes more space than the fixed point one. Control the tick label style with, for instance:
+\begin{verbatim}
+yticklabel style={
+  /pgf/number format/fixed,
+}
+\end{verbatim}
       \end{itemize}
     \item Help grids:
       \begin{itemize}
@@ -2085,7 +2107,7 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
 \section{Miscellaneous}
 \label{sec:Miscellaneous}
 \begin{itemize}
-  \item Define macros: we treat here the \LaTeX{} mode (more primitive \Tex{} commands such as \verb|\def|, \verb|\let| are available as well but won't be addressed here). Intro \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{here}
+  \item Define macros: we treat here the \LaTeX{} mode (more primitive \TeX{} commands such as \verb|\def|, \verb|\let| are available as well but won't be addressed here). Intro \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{here}
     \begin{itemize}
       \item \verb|\newcommand\macro{<stuff>}|: defines a new command \verb|\macro| that will expand to \verb|<stuff>|. Gives an error if \verb|\macro| is already defined
       \item \verb|\renewcommand\macro{<stuff>}|: redefines (overwrite) command \verb|\macro|. Gives an error if \verb|\macro| is not defined yet
