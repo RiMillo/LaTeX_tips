@@ -1139,33 +1139,33 @@ A file with some proper examples of \texttt{pgfplots}-ing has been added to the 
 
 REMEMBER - It is like \texttt{C}, every \texttt{draw}-like command ends with a semicolon \texttt{;}. Do yourself a favor and remember to double-check for semicolons!
 
-  %%%%%%%%%%%%%%%%%%%%%% TikZ
-  \subsection{\texttt{TikZ}}
-  Here is the \texttt{TikZ} and \texttt{pgf} \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
-  \begin{itemize}
-    \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence, \begin{inparaenum}[(i)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}.\end{inparaenum}
-    \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
-    \item ATTENTION: some incompatibilities can occur when languages with special characters are loaded with \texttt{babel} (see \autoref{sec:languages}). An example is the semicolon ``;'' in French (but Spanish and German may be affected as well). You are advised in this case to load the related library which should solve most of these issues: \verb|\usetikzlibrary{babel}|.
-    \item Global settings / style definitions: e.g.~\verb|\tikzset{color=red[,...]}|
-      \begin{itemize}
-        \item You can put as many valid \texttt{TikZ} commands inside a \verb|\tikzset| as long as they are comma-separated.
-        \item Custom styles: imagine you have to draw dozen of red thick lines, hence you should repeat \verb|\draw[color=red,thick] ...| many times. It would be nice to have a shortcut, innit? So define a style:
+%%%%%%%%%%%%%%%%%%%%%% TikZ
+\subsection{\texttt{TikZ}}
+Here is the \texttt{TikZ} and \texttt{pgf} \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
+\begin{itemize}
+  \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence, \begin{inparaenum}[(i)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}.\end{inparaenum}
+  \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
+  \item ATTENTION: some incompatibilities can occur when languages with special characters are loaded with \texttt{babel} (see \autoref{sec:languages}). An example is the semicolon ``;'' in French (but Spanish and German may be affected as well). You are advised in this case to load the related library which should solve most of these issues: \verb|\usetikzlibrary{babel}|.
+  \item Global settings / style definitions: e.g.~\verb|\tikzset{color=red[,...]}|
+    \begin{itemize}
+      \item You can put as many valid \texttt{TikZ} commands inside a \verb|\tikzset| as long as they are comma-separated.
+      \item Custom styles: imagine you have to draw dozen of red thick lines, hence you should repeat \verb|\draw[color=red,thick] ...| many times. It would be nice to have a shortcut, innit? So define a style:
 \begin{verbatim}
 \tikzset{%
-  % Explanation:
-  % <name>/.<handler>={<actual keys>}
-  red thick line/.style={color=red, thick},
+% Explanation:
+% <name>/.<handler>={<actual keys>}
+red thick line/.style={color=red, thick},
 }
 \end{verbatim}
-          and now the same result as above is obtained with \verb|\draw[red thick line] ...| (OK, the shortcut name is longer than the original command, not the best I could have chosen, but you get the idea). Of course the \texttt{name} is arbitrary. The key \texttt{handler} (notice the dot just before it) is one of the keys accepted by \texttt{TikZ} and it depends on what you are going to put in \verb|actual_keys|. For instance, if \verb|actual_keys| concerns (loosely speaking) the appearance, most of the times \texttt{style} will suffice. You can have also \texttt{append style} or \texttt{prepend style}: this will affect the order of the shortcut when used with other keys. Other admissible types for \texttt{handler} are \texttt{code}, \texttt{filter}.
-        \item Arguments: Suppose now that your line may not always be red (I skip some code here, but you always have to put it in a \verb|\tikzset|)
+        and now the same result as above is obtained with \verb|\draw[red thick line] ...| (OK, the shortcut name is longer than the original command, not the best I could have chosen, but you get the idea). Of course the \texttt{name} is arbitrary. The key \texttt{handler} (notice the dot just before it) is one of the keys accepted by \texttt{TikZ} and it depends on what you are going to put in \verb|actual_keys|. For instance, if \verb|actual_keys| concerns (loosely speaking) the appearance, most of the times \texttt{style} will suffice. You can have also \texttt{append style} or \texttt{prepend style}: this will affect the order of the shortcut when used with other keys. Other admissible types for \texttt{handler} are \texttt{code}, \texttt{filter}.
+      \item Arguments: Suppose now that your line may not always be red (I skip some code here, but you always have to put it in a \verb|\tikzset|)
 \begin{verbatim}
 thick line/.style={color=#1, thick},
 thick line/.default={red},
 \end{verbatim}
-          And now you can use for instance \verb|\draw[thick line=blue] ...|. Notice as we set the default, so \verb|\draw[thick line] ...| will produce a.... yeah, you guessed it right: a red thick line.
-          \begin{itemize}
-            \item For more than one parameter
+        And now you can use for instance \verb|\draw[thick line=blue] ...|. Notice as we set the default, so \verb|\draw[thick line] ...| will produce a.... yeah, you guessed it right: a red thick line.
+        \begin{itemize}
+          \item For more than one parameter
 \begin{verbatim}
 % Generic
 %<name>/.style n args={<n>}{<actual_keys},
@@ -1175,33 +1175,42 @@ thick line/.default={red},
 my line/.style 2 args={color=#1,#2},
 my line/.default={red}{thick},
 \end{verbatim}
-          \end{itemize}
-      \end{itemize}
-    \item Environments:
-      \begin{itemize}
-        \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
-        \item Inline: \verb|\tikz{...}|.
-      \end{itemize}
-    \item Align inline \texttt{tikz} with normal text:
+        \end{itemize}
+    \end{itemize}
+  \item Environments:
+    \begin{itemize}
+      \item Display: \verb|\begin{tikzpicture}[<opt>] ... \end{tikzpicture}| (this is not a float, one should combine one or more of it with a \texttt{figure} environment in order to have a float).
+      \item Inline: \verb|\tikz{...}|.
+    \end{itemize}
+  \item Align inline \texttt{tikz} with normal text:
 \begin{verbatim}
 Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 \end{verbatim}
-    \item Drawing lines:
-      \begin{itemize}
-        \item When drawing some lines, \verb|--| leads to a straight line, \verb|->| (as option to \verb|draw|) creates an arrow, \verb!|-! or \verb!-|! draws angles (kind of the Manhattan norm).
-        \item Relative coordinates: this enables one to build coordinate relative to previously defined ones. Two commands: \verb|++| relative and update the point in the path, \verb|+| relative and \textbf{do not} update the point in the path. Hence, the following commands give the same result
+  \item Size: one CANNOT choose the exact size of the final \texttt{tikz} picture: differently from, for instance, including a picture, options like \verb|width=0.5\linewidth| do not exists. In alternative, one can scale the picture
+\begin{verbatim}
+\begin{tikzpicture}[scale=0.5]
+  % My beatiful TikZ picture here
+\end{tikzpicture}
+\end{verbatim}
+    \begin{itemize}
+      \item \texttt{scale} has a major drawback: it acts on drawings but not on text: try option \verb|every node/.style={scale=<n>}|, more info \href{https://tex.stackexchange.com/questions/26846/how-to-scale-a-tikzpicture-including-texts}{here}.
+    \end{itemize}
+  \item Drawing lines:
+    \begin{itemize}
+      \item When drawing some lines, \verb|--| leads to a straight line, \verb|->| (as option to \verb|draw|) creates an arrow, \verb!|-! or \verb!-|! draws angles (kind of the Manhattan norm).
+      \item Relative coordinates: this enables one to build coordinate relative to previously defined ones. Two commands: \verb|++| relative and update the point in the path, \verb|+| relative and \textbf{do not} update the point in the path. Hence, the following commands give the same result
 \begin{verbatim}
 \draw (A) -- ++(1cm,1cm) % relative to A
-          -- ++(1cm,1cm);% relative to second pt
+        -- ++(1cm,1cm);% relative to second pt
 \draw (A) --  +(1cm,1cm) % relative to A
-          --  +(2cm,2cm);% relative to A
+        --  +(2cm,2cm);% relative to A
 \end{verbatim}
-        \item Here is how to bend a line (give it a curved look). Adjust the direction (\texttt{left} or \texttt{right}) and the angle to suit your wishes.
+      \item Here is how to bend a line (give it a curved look). Adjust the direction (\texttt{left} or \texttt{right}) and the angle to suit your wishes.
 \begin{verbatim}
 \draw (0,0) to[bend left=45] (10,0);
 \end{verbatim}
-      \end{itemize}
-    \item Coordinate calculation: example
+    \end{itemize}
+  \item Coordinate calculation: example
 \begin{verbatim}
 \usetikzlibrary{calc}
 %[...]
@@ -1210,76 +1219,76 @@ Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 \coordinate (B)            at (0,1);
 \coordinate (betweenAandB) at ($(A)!0.5!(B)$)
 \end{verbatim}
-    \item Drawing in 3D: \texttt{TikZ} naturally allows one to draw in 3D \verb|\draw (0,0,0)--(1,1,1);|. It is not always easy and straightforward, though. Below some remarks:
-      \begin{itemize}
-        \item In 2D, first coordinate (let's call it \texttt{x}) control the horizontal displacement (from left to right). The second coordinate, the vertical one (from bottom to top). In 3D that doesn't change, hence the third coordinate is the depth, if I may (from inside to paper to outside). This is somehow confusing since the third coordinates is usually associated with \texttt{z} and it's the vertical direction.
-        \item Some kinds of drawings are easier to draw in spherical coordinates. Then, have a look at \href{https://ctan.crest.fr/tex-archive/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf}{\texttt{tikz-3dplot}}.
-      \end{itemize}
-    \item Layers: \texttt{TikZ} by default will overwrite, hence the last command that you type will be printed on top of the previous ones (although, see the \texttt{clip mode} item in the \autoref{sub:pgfplots}). For instance, notice as the black circle covers the red one:
+  \item Drawing in 3D: \texttt{TikZ} naturally allows one to draw in 3D \verb|\draw (0,0,0)--(1,1,1);|. It is not always easy and straightforward, though. Below some remarks:
+    \begin{itemize}
+      \item In 2D, first coordinate (let's call it \texttt{x}) control the horizontal displacement (from left to right). The second coordinate, the vertical one (from bottom to top). In 3D that doesn't change, hence the third coordinate is the depth, if I may (from inside to paper to outside). This is somehow confusing since the third coordinates is usually associated with \texttt{z} and it's the vertical direction.
+      \item Some kinds of drawings are easier to draw in spherical coordinates. Then, have a look at \href{https://ctan.crest.fr/tex-archive/graphics/pgf/contrib/tikz-3dplot/tikz-3dplot_documentation.pdf}{\texttt{tikz-3dplot}}.
+    \end{itemize}
+  \item Layers: \texttt{TikZ} by default will overwrite, hence the last command that you type will be printed on top of the previous ones (although, see the \texttt{clip mode} item in the \autoref{sub:pgfplots}). For instance, notice as the black circle covers the red one:
 
-      \begin{minipage}[T]{.68\textwidth}
-        \begin{verbatim}
-          \draw[fill=red]   (0,0) circle (.3);
-          \draw[fill=black] (0,0) circle (.1);
-        \end{verbatim}
-      \end{minipage} \hfill%
-      \begin{minipage}[T]{.28\textwidth}
-        \begin{tikzpicture}
-          \draw[fill=red,color=red] (0,0) circle (.3);
-          \draw[fill=black,draw=black] (0, 0) circle (.1);
-        \end{tikzpicture}
-      \end{minipage}
+    \begin{minipage}[T]{.68\textwidth}
+      \begin{verbatim}
+        \draw[fill=red]   (0,0) circle (.3);
+        \draw[fill=black] (0,0) circle (.1);
+      \end{verbatim}
+    \end{minipage} \hfill%
+    \begin{minipage}[T]{.28\textwidth}
+      \begin{tikzpicture}
+        \draw[fill=red,color=red] (0,0) circle (.3);
+        \draw[fill=black,draw=black] (0, 0) circle (.1);
+      \end{tikzpicture}
+    \end{minipage}
 
-      However, one can define layers, set them in the desired order, and then use them
+    However, one can define layers, set them in the desired order, and then use them
 \begin{Verbatim}[samepage=true]
 \pgfdeclarelayer{bg} % Declaring layers
 \pgfdeclarelayer{fg}
 \pgfsetlayers{bg,main,fg} % Defining the order
 [...]
 \begin{pgfonlayer}{bg} % Use a given layer
-  [...]
+[...]
 \end{pgfonlayer}
 \end{Verbatim}
-    \item \texttt{tikz} and \texttt{beamer}: such a great potential, yet so many possible ways to mess up
-      \begin{itemize}
-        \item As for \texttt{verbatim}, it is advised to used \texttt{fragile} frames when inserting \texttt{tikz} content;
-        \item Overlays can be a pain in the neck as well, not many of them work. More details in \autoref{sub:pgfplots}
-      \end{itemize}
-    \item Rotation and translation: use the options \verb|shift={(1cm,2cm)}| and \verb|rotate={45}| (modify to suit your needs, of course). It is possibly useful to put them in a scope. Look \href{https://tex.stackexchange.com/questions/49169/translate-and-rotate-an-object-in-tikz-2d}{here}.
-    \item The library \texttt{decorations} is very powerful and allow one to create pattern. See, for instance, the treasure hunting in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
-    \item A nice example of matrices in \texttt{tikz} \href{https://tex.stackexchange.com/questions/40/how-do-i-label-different-rows-or-columns-of-a-matrix-using-braces}{here}
-    \item The library \verb|fit| allows to draw shapes that fit the list of coordinates in argument, cf.~related section in the \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
-    \item Magnifying, zoom: \verb|\usetikzlibrary{spy}| and the \verb|\spy on (A) in node at (B);| command. Some examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
-      \begin{itemize}
-        \item If you put a \verb|\label{<...>}| inside a \verb|spy| zone, you'll probably get a warning for multiply defined labels. That is because the \verb|spy| zone are printed twice, the original and the magnified. A workaround might be the one proposed \href{https://tex.stackexchange.com/questions/25557/multiply-defined-label-warnings-when-using-subcaption-in-a-tikz-picture}{here}, where it is suggested to use a node with a dummy \verb|fit| external to the \verb|scope|/\verb|spy| zone.
-        \item ATTENTION: there is an incompatibility between the \texttt{spy} library and the French by \texttt{babel}. The solution is \href{https://tex.stackexchange.com/questions/74860/unexpected-clash-between-babel-and-pgf-spy}{here}: \verb|\shorthandoff{;}| before the picture and activate it again after it with \verb|\shorthandon{;}|
-      \end{itemize}
-    \item Trees - two frameworks: \verb|\usetikzlibrary{trees}| or package (TikZ-based) \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/graphics/pgf/contrib/forest/forest-doc.pdf}{\texttt{forest}}
+  \item \texttt{tikz} and \texttt{beamer}: such a great potential, yet so many possible ways to mess up
+    \begin{itemize}
+      \item As for \texttt{verbatim}, it is advised to used \texttt{fragile} frames when inserting \texttt{tikz} content;
+      \item Overlays can be a pain in the neck as well, not many of them work. More details in \autoref{sub:pgfplots}
+    \end{itemize}
+  \item Rotation and translation: use the options \verb|shift={(1cm,2cm)}| and \verb|rotate={45}| (modify to suit your needs, of course). It is possibly useful to put them in a scope. Look \href{https://tex.stackexchange.com/questions/49169/translate-and-rotate-an-object-in-tikz-2d}{here}.
+  \item The library \texttt{decorations} is very powerful and allow one to create pattern. See, for instance, the treasure hunting in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+  \item A nice example of matrices in \texttt{tikz} \href{https://tex.stackexchange.com/questions/40/how-do-i-label-different-rows-or-columns-of-a-matrix-using-braces}{here}
+  \item The library \verb|fit| allows to draw shapes that fit the list of coordinates in argument, cf.~related section in the \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/graphics/pgf/base/doc/pgfmanual.pdf}{manual}.
+  \item Magnifying, zoom: \verb|\usetikzlibrary{spy}| and the \verb|\spy on (A) in node at (B);| command. Some examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+    \begin{itemize}
+      \item If you put a \verb|\label{<...>}| inside a \verb|spy| zone, you'll probably get a warning for multiply defined labels. That is because the \verb|spy| zone are printed twice, the original and the magnified. A workaround might be the one proposed \href{https://tex.stackexchange.com/questions/25557/multiply-defined-label-warnings-when-using-subcaption-in-a-tikz-picture}{here}, where it is suggested to use a node with a dummy \verb|fit| external to the \verb|scope|/\verb|spy| zone.
+      \item ATTENTION: there is an incompatibility between the \texttt{spy} library and the French by \texttt{babel}. The solution is \href{https://tex.stackexchange.com/questions/74860/unexpected-clash-between-babel-and-pgf-spy}{here}: \verb|\shorthandoff{;}| before the picture and activate it again after it with \verb|\shorthandon{;}|
+    \end{itemize}
+  \item Trees - two frameworks: \verb|\usetikzlibrary{trees}| or package (TikZ-based) \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/graphics/pgf/contrib/forest/forest-doc.pdf}{\texttt{forest}}
 
-      \bigskip
-      \texttt{forest}: \hspace{1cm}
-      \begin{minipage}{.35\linewidth}
+    \bigskip
+    \texttt{forest}: \hspace{1cm}
+    \begin{minipage}{.35\linewidth}
 \begin{Verbatim}
 \begin{forest}
 [A
-  [B1]
-  [B2]
+[B1]
+[B2]
 ]
 \end{forest}
 \end{Verbatim}
-      \end{minipage} gives  \hspace{1cm}
-      \begin{minipage}{.20\linewidth}
-        \begin{forest}
-         [A
-            [B1]
-            [B2]
-         ]
-        \end{forest}
-      \end{minipage}
-      \bigskip
+    \end{minipage} gives  \hspace{1cm}
+    \begin{minipage}{.20\linewidth}
+      \begin{forest}
+       [A
+          [B1]
+          [B2]
+       ]
+      \end{forest}
+    \end{minipage}
+    \bigskip
 
-      \texttt{trees}: \hspace{1cm}
-      \begin{minipage}{.35\linewidth}
+    \texttt{trees}: \hspace{1cm}
+    \begin{minipage}{.35\linewidth}
 \begin{Verbatim}
 \begin{tikzpicture}
 \node {A}
@@ -1288,206 +1297,206 @@ child{node {B2}}
 ;
 \end{tikzpicture}
 \end{Verbatim}
-      \end{minipage} gives  \hspace{1cm}
-      \begin{minipage}{.20\linewidth}
-        \begin{tikzpicture}
-          \node {A}
-            child{node {B1}}
-            child{node {B2}}
-          ;
-        \end{tikzpicture}
-      \end{minipage}
-    \item Grids: use \verb|\draw[<options>] (a) grid (b)| where \texttt{(a)} and \texttt{(b)} are the endpoint of a diagonal (we assume a rectangular mesh). Options may include \texttt{step=<n>}, which sets the width of the cells. The options \texttt{xstep} and \texttt{ystep} are available, as well.
-    \item Arrows - heads: \href{https://gist.github.com/AndiH/f99d9b0cbd3519c27af5b96cfbeff97c}{list}, customization \href{https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf/161238#161238}{here}.
-    \item One may want to have a look at the section about loops, \autoref{sec:loops}.
-    \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation. It basically create separates pdf that will be included in the followings compilations.
-      \begin{itemize}
-        \item You are invited to read the related chapter in the manual (it should be the 87).
-        \item \LaTeX{} compilation needs to be called with the \verb|-shell-escape| option: the compiler should be allowed to run commands to build the external figures.
-        \item The \texttt{list and make} mode (activated with \verb|\tikzexternalize[mode=list and make]|) will create a list of the external figure. This list can be processed with \texttt{make}, Hence one has to \begin{inparaenum}[(i)] \item compile the pdf, \item run \verb|make -f -j 4 file.makefile|, \item compile the sources again to ensure the external pictures are included\end{inparaenum}. Notice that the \texttt{make} step can be done in parallel (cf.~\verb|-j <n>|).
-          \begin{itemize}
-            \item Of course the make step will not always be included in the compilations steps of the automatic compiler. Look \href{https://tex.stackexchange.com/questions/145501/integrating-latexmk-and-tikz-external-mode-list-and-make}{here} for an example of integration with \texttt{latexmk} (see \autoref{sec:latexmk}).
-          \end{itemize}
-        \item Load with \verb|\usetikzlibrary{external}| or (if loaded) \verb|\usepgfplotslibrary{external}|.
-        \item Prefix: it can easily become pretty messy, a prefix can be used to store the files in a directory: \verb|\tikzsetexternalprefix{dir_ext/}|.
-        \item Enable, the first time use: \verb|\tikzexternalize|. Disable: \verb|\tikzexternaldisable|. After a disabling, re-enable: \verb|\tikzexternalenable|.
-        \item Choose the type of check to perform to see a compilation is needed (via \texttt{tikzset}): \verb|external/up to date check=<type>|: \texttt{simple} (default, just existence), \texttt{md5}, \texttt{diff}.
-        \item Force remake of the figure (via \texttt{tikzset}): \verb!external/force remake=true|false!, or just the following picture  \verb!external/remake next=true|false!.
-        \item Choose figure name (the one used in the generated pdf): \verb|\tikzsetfigurename{<name>}|, \verb|\tikzsetnextfilename{<name>}|.
-        \item \verb|external/only named|: only figures which have be given a name (cf.~here above) are externalized.
-        \item Warnings may be issued when using externalization and compiling with draft mode activated. Since the figures are now external pdf they are skipped accordingly to the draft mode. However, the dimensions of the placeholders are not the right one. The solution is \href{https://tex.stackexchange.com/a/82224/206129}{here}:
+    \end{minipage} gives  \hspace{1cm}
+    \begin{minipage}{.20\linewidth}
+      \begin{tikzpicture}
+        \node {A}
+          child{node {B1}}
+          child{node {B2}}
+        ;
+      \end{tikzpicture}
+    \end{minipage}
+  \item Grids: use \verb|\draw[<options>] (a) grid (b)| where \texttt{(a)} and \texttt{(b)} are the endpoint of a diagonal (we assume a rectangular mesh). Options may include \texttt{step=<n>}, which sets the width of the cells. The options \texttt{xstep} and \texttt{ystep} are available, as well.
+  \item Arrows - heads: \href{https://gist.github.com/AndiH/f99d9b0cbd3519c27af5b96cfbeff97c}{list}, customization \href{https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf/161238#161238}{here}.
+  \item One may want to have a look at the section about loops, \autoref{sec:loops}.
+  \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation. It basically create separates pdf that will be included in the followings compilations.
+    \begin{itemize}
+      \item You are invited to read the related chapter in the manual (it should be the 87).
+      \item \LaTeX{} compilation needs to be called with the \verb|-shell-escape| option: the compiler should be allowed to run commands to build the external figures.
+      \item The \texttt{list and make} mode (activated with \verb|\tikzexternalize[mode=list and make]|) will create a list of the external figure. This list can be processed with \texttt{make}, Hence one has to \begin{inparaenum}[(i)] \item compile the pdf, \item run \verb|make -f -j 4 file.makefile|, \item compile the sources again to ensure the external pictures are included\end{inparaenum}. Notice that the \texttt{make} step can be done in parallel (cf.~\verb|-j <n>|).
+        \begin{itemize}
+          \item Of course the make step will not always be included in the compilations steps of the automatic compiler. Look \href{https://tex.stackexchange.com/questions/145501/integrating-latexmk-and-tikz-external-mode-list-and-make}{here} for an example of integration with \texttt{latexmk} (see \autoref{sec:latexmk}).
+        \end{itemize}
+      \item Load with \verb|\usetikzlibrary{external}| or (if loaded) \verb|\usepgfplotslibrary{external}|.
+      \item Prefix: it can easily become pretty messy, a prefix can be used to store the files in a directory: \verb|\tikzsetexternalprefix{dir_ext/}|.
+      \item Enable, the first time use: \verb|\tikzexternalize|. Disable: \verb|\tikzexternaldisable|. After a disabling, re-enable: \verb|\tikzexternalenable|.
+      \item Choose the type of check to perform to see a compilation is needed (via \texttt{tikzset}): \verb|external/up to date check=<type>|: \texttt{simple} (default, just existence), \texttt{md5}, \texttt{diff}.
+      \item Force remake of the figure (via \texttt{tikzset}): \verb!external/force remake=true|false!, or just the following picture  \verb!external/remake next=true|false!.
+      \item Choose figure name (the one used in the generated pdf): \verb|\tikzsetfigurename{<name>}|, \verb|\tikzsetnextfilename{<name>}|.
+      \item \verb|external/only named|: only figures which have be given a name (cf.~here above) are externalized.
+      \item Warnings may be issued when using externalization and compiling with draft mode activated. Since the figures are now external pdf they are skipped accordingly to the draft mode. However, the dimensions of the placeholders are not the right one. The solution is \href{https://tex.stackexchange.com/a/82224/206129}{here}:
 \begin{verbatim}
 \pgfkeys{/pgf/images/include external/.code=\includegraphics{#1}}
 \end{verbatim}
-      \end{itemize}
+    \end{itemize}
 %
-  \end{itemize}
-  %%%%%%%%%%%%%%%%%%%%%% pgfplots
-  \subsection{\texttt{pgf(plots)}}
-  \label{sub:pgfplots}
-  With an \emph{abuse of notations}, here we gather both \texttt{pgf} and \texttt{pgfplots} (and related) tricks. Here is the \href{http://ctan.tetaneutral.net/graphics/pgf/contrib/pgfplots/doc/pgfplots.pdf}{manual}.
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%% pgfplots
+\subsection{\texttt{pgf(plots)}}
+\label{sub:pgfplots}
+With an \emph{abuse of notations}, here we gather both \texttt{pgf} and \texttt{pgfplots} (and related) tricks. Here is the \href{http://ctan.tetaneutral.net/graphics/pgf/contrib/pgfplots/doc/pgfplots.pdf}{manual}.
 
-  Before going into the details, if you are familiar with \texttt{gnuplot} you may want to check the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/gnuplottex/gnuplottex.pdf}{\texttt{gnuplottex}} out.
+Before going into the details, if you are familiar with \texttt{gnuplot} you may want to check the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/gnuplottex/gnuplottex.pdf}{\texttt{gnuplottex}} out.
 
-  \begin{itemize}
-    \item Basic math operations: compute the result of an expression \verb|\pgfmathparse{<expr>}|, retrieve it with \verb|\pgfmathresult| and use it. It is advised to store it in a variable with \verb|\pgfmathsetmacro\newmacro{\cmd}|
+\begin{itemize}
+  \item Basic math operations: compute the result of an expression \verb|\pgfmathparse{<expr>}|, retrieve it with \verb|\pgfmathresult| and use it. It is advised to store it in a variable with \verb|\pgfmathsetmacro\newmacro{\cmd}|
 \begin{verbatim}
-  \pgfmathparse{sqrt(4)*6}
-  \pgfmathsetmacro\result{\pgfmathresult}
+\pgfmathparse{sqrt(4)*6}
+\pgfmathsetmacro\result{\pgfmathresult}
 \end{verbatim}
-    \item Basic plotting: examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}} (preview \href{run:./ex_plot.pdf}{here}).
-    \item 3D plot: \verb|\addplot3| example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}
-      \begin{itemize}
-        \item For surface plots, use option \verb|surf| or \verb|mesh|. Watch out for the matrix-like structure that your data must have in order to be interpreted as an actual surface. In particular, blank-lines are very important and separate two rows.
-      \end{itemize}
-    \item Define commands, set global options: \verb|\pgfplotsset{[...]}|, usually in preamble (advice: use \verb|\pgfplotsst{compt=newest}| for compatibility with the most recent available version).
-    \item External plot shape: The plot is usually square, one may prefer to stretch it, here are some options
-      \begin{itemize}
-        \item \verb!x|y post scale=<n>!;
-        \item \verb!x|y scale=<n>!;
-        \item \verb|unit vector ratio=<x_value> <y_value>| e.g.~\verb|unit vector ratio=2 1| for a \texttt{x} axis two times longer than the \texttt{y} one
-      \end{itemize}
-    \item Change the width: \texttt{width=<n>cm}.
-    \item Lines\ldots
-      \begin{itemize}
-        \item Styles: \texttt{solid}, \texttt{dashed}, \texttt{dotted}, \texttt{dashdotted}, \texttt{dashdotdotted}; two modifiers can be use in combination with the styles: \texttt{densely}, \texttt{loosely} (e.g.~\texttt{densely dotted}, \texttt{loosely dashed}).
-        \item Width: \texttt{ultra thin}, \texttt{very thin}, \texttt{thin}, \texttt{semithick}, \texttt{thick}, \texttt{very thick}, \texttt{ultra thick}. Or just: \verb|draw[line width=<n>cm, <...>] <...>;|
-        \item {\bfseries ATTENTION:} the styles are passed to the markers as well, hence the markers may not appear well printed. When using \texttt{dashed, dotted} or similar remember to add also \verb|mark options={solid[,...]}|, or also \verb|every mark/.append style={solid}| (possibly in a global setting).
-      \end{itemize}
-    \item Markers\ldots
-      \begin{itemize}
-        \item \texttt{only marks} vs. \texttt{no markers} / \texttt{mark=none}.
-        \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
-        \item Look here above at the line style items in order to prevent weird looking markers.
-        \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|, for instance \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
-      \end{itemize}
-    \item \verb|draw=none|: (actually a \verb|TikZ| key) "switches off" line and marker drawing
-    \item Plot style\ldots
-      \begin{itemize}
-        \item Smoothing a plot: \verb|\addplot[smooth[,...]]|
-        \item Constant (stairs) plot: options \texttt{const}/\texttt{jump plot} and you may want to choose the position of the mark (\texttt{const plot mark mid}/\texttt{right}/\texttt{leftt}) and fill (\texttt{fill=<color>}). Try also \texttt{jump plot}.
-        \item \texttt{clip mode=individual}: later plots are plotted on top of preceding markers, otherwise markers are plotted in a second phase and they always overwrite any lines (the order doesn't matter). Hence, with \texttt{individual} a line and its markers are always on the same layer, and if a line covers another one, the latter's markers are covered as well.
-      \end{itemize}
-    \item Legend\ldots
-      \begin{itemize}
-        \item Have a look at \verb|legend to name=<name>|, which, combined with \verb|\ref{<name>}| allows one to draw a complete legend even outside a \texttt{tikz} scope.
-        \item Exclude plot from legend (and cycles): option \verb|forget plot|.
-        \item Transparency: the legend box has by default a solid white background, hence it covers part of the canvas. E.g.
+  \item Basic plotting: examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}} (preview \href{run:./ex_plot.pdf}{here}).
+  \item 3D plot: \verb|\addplot3| example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}
+    \begin{itemize}
+      \item For surface plots, use option \verb|surf| or \verb|mesh|. Watch out for the matrix-like structure that your data must have in order to be interpreted as an actual surface. In particular, blank-lines are very important and separate two rows.
+    \end{itemize}
+  \item Define commands, set global options: \verb|\pgfplotsset{[...]}|, usually in preamble (advice: use \verb|\pgfplotsst{compt=newest}| for compatibility with the most recent available version).
+  \item External plot shape: The plot is usually square, one may prefer to stretch it, here are some options
+    \begin{itemize}
+      \item \verb!x|y post scale=<n>!;
+      \item \verb!x|y scale=<n>!;
+      \item \verb|unit vector ratio=<x_value> <y_value>| e.g.~\verb|unit vector ratio=2 1| for a \texttt{x} axis two times longer than the \texttt{y} one
+    \end{itemize}
+  \item Change the width: \texttt{width=<n>cm}.
+  \item Lines\ldots
+    \begin{itemize}
+      \item Styles: \texttt{solid}, \texttt{dashed}, \texttt{dotted}, \texttt{dashdotted}, \texttt{dashdotdotted}; two modifiers can be use in combination with the styles: \texttt{densely}, \texttt{loosely} (e.g.~\texttt{densely dotted}, \texttt{loosely dashed}).
+      \item Width: \texttt{ultra thin}, \texttt{very thin}, \texttt{thin}, \texttt{semithick}, \texttt{thick}, \texttt{very thick}, \texttt{ultra thick}. Or just: \verb|draw[line width=<n>cm, <...>] <...>;|
+      \item {\bfseries ATTENTION:} the styles are passed to the markers as well, hence the markers may not appear well printed. When using \texttt{dashed, dotted} or similar remember to add also \verb|mark options={solid[,...]}|, or also \verb|every mark/.append style={solid}| (possibly in a global setting).
+    \end{itemize}
+  \item Markers\ldots
+    \begin{itemize}
+      \item \texttt{only marks} vs. \texttt{no markers} / \texttt{mark=none}.
+      \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
+      \item Look here above at the line style items in order to prevent weird looking markers.
+      \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|, for instance \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
+    \end{itemize}
+  \item \verb|draw=none|: (actually a \verb|TikZ| key) "switches off" line and marker drawing
+  \item Plot style\ldots
+    \begin{itemize}
+      \item Smoothing a plot: \verb|\addplot[smooth[,...]]|
+      \item Constant (stairs) plot: options \texttt{const}/\texttt{jump plot} and you may want to choose the position of the mark (\texttt{const plot mark mid}/\texttt{right}/\texttt{leftt}) and fill (\texttt{fill=<color>}). Try also \texttt{jump plot}.
+      \item \texttt{clip mode=individual}: later plots are plotted on top of preceding markers, otherwise markers are plotted in a second phase and they always overwrite any lines (the order doesn't matter). Hence, with \texttt{individual} a line and its markers are always on the same layer, and if a line covers another one, the latter's markers are covered as well.
+    \end{itemize}
+  \item Legend\ldots
+    \begin{itemize}
+      \item Have a look at \verb|legend to name=<name>|, which, combined with \verb|\ref{<name>}| allows one to draw a complete legend even outside a \texttt{tikz} scope.
+      \item Exclude plot from legend (and cycles): option \verb|forget plot|.
+      \item Transparency: the legend box has by default a solid white background, hence it covers part of the canvas. E.g.
 \begin{verbatim}
 legend style={fill=none} % see-through
 legend style={fill=white,fill opacity=0.3,draw opacity=1,%
-              text opacity=1} % Custom
+            text opacity=1} % Custom
 \end{verbatim}
-        \item Font size: \verb|legend style={font={\scriptsize}}|
-        \item Legend box color: \verb|legend style={draw={<color>}}| or \verb|none| for no box.
-        \item Alignment: \verb!legend cell align=left|center|right!
-        \item Scale: \verb|legend style={nodes={scale=0.7}}|
-        \item Legend outside the plot: add \texttt{legend pos=outer north east} (only \texttt{north east} is available so far); or specify the position: \verb|legend style={at={(0.5,-0.1)},anchor=north}|, mind that the coordinates are relative to the axis line, hence those mean below the chart in the middle.
-        \item More columns / horizontal growing: \verb|legend style={legend columns=<n>}| where \texttt{n} is the wished number of columns, \texttt{-1} means \emph{horizontally}. For horizontal, one can also use \texttt{transpose legend}
-        \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
-        \item Interesting options: \texttt{reverse legend} (invert the order)
-      \end{itemize}
-    \item Cycle lists. When printing more than one plot on the same canvas, if no options are given \texttt{pgfplots} will choose a line style itself in order to identify easily the plots. Those are the \texttt{cycle list}s.
-      \begin{itemize}
-        \item Choose the list to use by passing option \verb|cycle list name=<name>| or define directly one via \verb|cycle list|
-        \item Some preloaded cycle lists are: \texttt{color}, \texttt{black white}, \texttt{mark list} (and starred version), \texttt{color list} (and starred version), \texttt{linestyles} (and starred version). Ed: I personally like the \texttt{exotic}, it reminds me of what you get on the newest \texttt{Matlab} or \texttt{pyplot}.
-        \item Define new lists
+      \item Font size: \verb|legend style={font={\scriptsize}}|
+      \item Legend box color: \verb|legend style={draw={<color>}}| or \verb|none| for no box.
+      \item Alignment: \verb!legend cell align=left|center|right!
+      \item Scale: \verb|legend style={nodes={scale=0.7}}|
+      \item Legend outside the plot: add \texttt{legend pos=outer north east} (only \texttt{north east} is available so far); or specify the position: \verb|legend style={at={(0.5,-0.1)},anchor=north}|, mind that the coordinates are relative to the axis line, hence those mean below the chart in the middle.
+      \item More columns / horizontal growing: \verb|legend style={legend columns=<n>}| where \texttt{n} is the wished number of columns, \texttt{-1} means \emph{horizontally}. For horizontal, one can also use \texttt{transpose legend}
+      \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
+      \item Interesting options: \texttt{reverse legend} (invert the order)
+    \end{itemize}
+  \item Cycle lists. When printing more than one plot on the same canvas, if no options are given \texttt{pgfplots} will choose a line style itself in order to identify easily the plots. Those are the \texttt{cycle list}s.
+    \begin{itemize}
+      \item Choose the list to use by passing option \verb|cycle list name=<name>| or define directly one via \verb|cycle list|
+      \item Some preloaded cycle lists are: \texttt{color}, \texttt{black white}, \texttt{mark list} (and starred version), \texttt{color list} (and starred version), \texttt{linestyles} (and starred version). Ed: I personally like the \texttt{exotic}, it reminds me of what you get on the newest \texttt{Matlab} or \texttt{pyplot}.
+      \item Define new lists
 \begin{verbatim}
 \pgfplotscreateplotcyclelist{ACMilan}{%
-  {color=red,solid},
-  {color=black,solid},
-  {color=red,dashed},
-  {color=black,dashed} % <- No comma on the last
+{color=red,solid},
+{color=black,solid},
+{color=red,dashed},
+{color=black,dashed} % <- No comma on the last
 }
 \end{verbatim}
-        \item MIND:
-          \begin{itemize}
-            \item \verb|\addplot [<opt>]|: the style is entirely defined by \verb|<opt>| and \verb|<opt>| only,
-            \item \verb|\addplot+[<opt>]|: \verb|<opt>| is appended to the \texttt{cycle list} option.
-          \end{itemize}
-      \end{itemize}
-    \item Grouping plots: if you have to print plots side-by-side, many options are available: using \verb|subfigure| (see \fullref{sec:Floats}), only one \texttt{figure} and only one \texttt{tikzpicture} multiples \texttt{axis},\ldots{} A simple way might be to use the utility proposed by library \texttt{groupplots}. Use environment \verb|groupplot|, examples below and also in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+      \item MIND:
+        \begin{itemize}
+          \item \verb|\addplot [<opt>]|: the style is entirely defined by \verb|<opt>| and \verb|<opt>| only,
+          \item \verb|\addplot+[<opt>]|: \verb|<opt>| is appended to the \texttt{cycle list} option.
+        \end{itemize}
+    \end{itemize}
+  \item Grouping plots: if you have to print plots side-by-side, many options are available: using \verb|subfigure| (see \fullref{sec:Floats}), only one \texttt{figure} and only one \texttt{tikzpicture} multiples \texttt{axis},\ldots{} A simple way might be to use the utility proposed by library \texttt{groupplots}. Use environment \verb|groupplot|, examples below and also in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
 \begin{verbatim}
 \usepgfplotslibrary{groupplots}
 \begin{tikzpicture}
-  \begin{groupplot}[%
-    group style={%
-      group size=2 by 1,
-    },
-    % The following applies to every subplot
-    width=0.48\linewidth,
-    ]
-    \nextgroupplot
-      % Now use addplot as you would do normally
-      \addplot[blue] table[x index=0,y index=1] {tab1.dat};
-    \nextgroupplot
-      \addplot[blue] table[x index=0,y index=2] {tab1.dat};
-  \end{groupplot}
+\begin{groupplot}[%
+  group style={%
+    group size=2 by 1,
+  },
+  % The following applies to every subplot
+  width=0.48\linewidth,
+  ]
+  \nextgroupplot
+    % Now use addplot as you would do normally
+    \addplot[blue] table[x index=0,y index=1] {tab1.dat};
+  \nextgroupplot
+    \addplot[blue] table[x index=0,y index=2] {tab1.dat};
+\end{groupplot}
 \end{tikzpicture}
 \end{verbatim}
-      \begin{itemize}
-        \item No \texttt{axis} environment is needed
-        \item Command \verb|\nextgroupplot| indicates switching the following plot
-          \begin{itemize}
-            \item Order: From top to bottom, from right to left
-            \item Pass option \verb|\nextgroupplot[group/empty plot]| to skip the following position
-          \end{itemize}
-      \end{itemize}
-    \item By default, \texttt{pgfplots} leaves some withespace between the axes/plot side and the outermost point of the plot. You might control the behaviour by setting the \texttt{enlarge limits} parameter
+    \begin{itemize}
+      \item No \texttt{axis} environment is needed
+      \item Command \verb|\nextgroupplot| indicates switching the following plot
+        \begin{itemize}
+          \item Order: From top to bottom, from right to left
+          \item Pass option \verb|\nextgroupplot[group/empty plot]| to skip the following position
+        \end{itemize}
+    \end{itemize}
+  \item By default, \texttt{pgfplots} leaves some withespace between the axes/plot side and the outermost point of the plot. You might control the behaviour by setting the \texttt{enlarge limits} parameter
 \begin{verbatim}
 enlarge x limits=auto|true|false|upper|lower|<val>|value=<val>
 % or even...
 enlarge x limits=abs value=<val>|abs=<val>|rel=<val>
 \end{verbatim}
-      You may replace \texttt{x} with the concerned component or use \texttt{enlargelimits=} for all the components at the same time
-    \item Error \texttt{Dimension too large}: look \href{https://tex.stackexchange.com/questions/13816/dimension-too-large-while-plotting-with-pgfplots}{here}, use
+    You may replace \texttt{x} with the concerned component or use \texttt{enlargelimits=} for all the components at the same time
+  \item Error \texttt{Dimension too large}: look \href{https://tex.stackexchange.com/questions/13816/dimension-too-large-while-plotting-with-pgfplots}{here}, use
 \begin{verbatim}
 restrict y to domain:<min>:<max>
 \end{verbatim}
-      Mind however that this filter somehow the points but does not set the limits of the plot, hence you might want to set also e.g.~\texttt{ymin=<min>}
-    \item Show colorbar: option \texttt{colorbar}. Yup, that was easy. Default is vertical on the right. One may choose \texttt{colorbar left}, \texttt{colorbar horizontal}.
-    \item Ticks: ticks are the markers on the axes. With tick labels one refers to the (usually) numbers describing the tick values.
-      \begin{itemize}
-        \item They are computed automatically but you can force them:
-          \begin{itemize}
-            \item \texttt{xtick distance}: set the distance between two ticks. The version \texttt{ytick} is available as well.
-            \item \texttt{xtick=\{1,2,2.1,2.2\}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
-            \item \texttt{xticklabel={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
-            \item \texttt{extra x ticks}: additional ticks. Control with \texttt{extra x tick labels} and \texttt{extra x tick style}. The version \texttt{y tick} is available as well.
-          \end{itemize}
-        \item Space between tick label and axis label: \verb!x|ylabel shift={<sep>}!.
-        \item \texttt{pgfplots} sometimes use a particular format for the tick label: basically, instead of \verb|0.1, 0.2, 0.3| it uses \verb|1, 2, 3| with the factor $\cdot10^{-1}$ written (in the case of the \texttt{y} axsis) above the plot. This is somehow unnerving. Disable it with \verb!scaled y ticks=false! (it applies to \texttt{x}, too).
-        \item The format of the tick labels may not be uniform. For instance, instead of \verb|0, 0.05, 0.1| you might get \verb|0, 5x10^2, 0.1|. This is somehow unnerving, given also the fact that the scientific notation might takes more space than the fixed point one. Control the tick label style with, for instance:
+    Mind however that this filter somehow the points but does not set the limits of the plot, hence you might want to set also e.g.~\texttt{ymin=<min>}
+  \item Show colorbar: option \texttt{colorbar}. Yup, that was easy. Default is vertical on the right. One may choose \texttt{colorbar left}, \texttt{colorbar horizontal}.
+  \item Ticks: ticks are the markers on the axes. With tick labels one refers to the (usually) numbers describing the tick values.
+    \begin{itemize}
+      \item They are computed automatically but you can force them:
+        \begin{itemize}
+          \item \texttt{xtick distance}: set the distance between two ticks. The version \texttt{ytick} is available as well.
+          \item \texttt{xtick=\{1,2,2.1,2.2\}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
+          \item \texttt{xticklabel={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
+          \item \texttt{extra x ticks}: additional ticks. Control with \texttt{extra x tick labels} and \texttt{extra x tick style}. The version \texttt{y tick} is available as well.
+        \end{itemize}
+      \item Space between tick label and axis label: \verb!x|ylabel shift={<sep>}!.
+      \item \texttt{pgfplots} sometimes use a particular format for the tick label: basically, instead of \verb|0.1, 0.2, 0.3| it uses \verb|1, 2, 3| with the factor $\cdot10^{-1}$ written (in the case of the \texttt{y} axsis) above the plot. This is somehow unnerving. Disable it with \verb!scaled y ticks=false! (it applies to \texttt{x}, too).
+      \item The format of the tick labels may not be uniform. For instance, instead of \verb|0, 0.05, 0.1| you might get \verb|0, 5x10^2, 0.1|. This is somehow unnerving, given also the fact that the scientific notation might takes more space than the fixed point one. Control the tick label style with, for instance:
 \begin{verbatim}
 yticklabel style={
-  /pgf/number format/fixed,
+/pgf/number format/fixed,
 }
 \end{verbatim}
-      \end{itemize}
-    \item Help grids:
-      \begin{itemize}
-        \item Set the level of the help grid that should appear on your plot via the option \verb|grid=<type>|. Possible types are \verb|none|, \verb|major|, \verb|minor|, \verb|both|
-        \item Set the style of a type of grid: e.g.~\verb|major grid style={dotted,very thin}|
-        \item Even if the \verb|minor| (or \verb|both|) is requested, it may not actually printed. In fact, in order to be printed the plot need to have minor ticks as well. For instance, use \verb|minor tick num=<n>| where \verb|n| is how many minor ticks between two major one you want.
-      \end{itemize}
-    \item \verb|forget plot|: it has already been mentioned that this allows to skip a plot from a legend. Additionally, the "forgotten" plots, will not affect the axis of the plot, been considered in the \texttt{cycle}s, not increase the number of plots.
-    \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
-    \item A couple of ideas about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}.
-    \item Fill area between two lines: \href{http://pgfplots.net/tikz/examples/fill-between-plots/}{here} is a really cool example.
-    \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
-    \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
-    \begin{itemize}
-      \item A remark about compiling time when plotting from an external file is in the following, \verb|pgfplotstable|-related section.
     \end{itemize}
-    \item \texttt{tikz} and \texttt{beamer}
-      \begin{itemize}
-        \item If you get weird errors, try the \texttt{fragile} option \verb|\begin[fragile]{Title}|.
-        \item \texttt{beamer} does nasty things under the hood and we do not want to know. If you are bound to use \verb|#1| or alike, and you get some errors about \verb|\test| or \verb|\iterate| use instead \verb|####1| (yes, you read it right, 4 \verb|#|'s). Have a look at this \href{https://tex.stackexchange.com/a/420454/206129}{answer}.
-        \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
-        \item Some convenient definitions are given in the library \verb|overlay-beamer-styles|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
-        \item For legends, use options as follows: \verb|\addentrylegend[visible on<>]{}|
-      \end{itemize}
+  \item Help grids:
+    \begin{itemize}
+      \item Set the level of the help grid that should appear on your plot via the option \verb|grid=<type>|. Possible types are \verb|none|, \verb|major|, \verb|minor|, \verb|both|
+      \item Set the style of a type of grid: e.g.~\verb|major grid style={dotted,very thin}|
+      \item Even if the \verb|minor| (or \verb|both|) is requested, it may not actually printed. In fact, in order to be printed the plot need to have minor ticks as well. For instance, use \verb|minor tick num=<n>| where \verb|n| is how many minor ticks between two major one you want.
+    \end{itemize}
+  \item \verb|forget plot|: it has already been mentioned that this allows to skip a plot from a legend. Additionally, the "forgotten" plots, will not affect the axis of the plot, been considered in the \texttt{cycle}s, not increase the number of plots.
+  \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
+  \item A couple of ideas about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}.
+  \item Fill area between two lines: \href{http://pgfplots.net/tikz/examples/fill-between-plots/}{here} is a really cool example.
+  \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
+  \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
+  \begin{itemize}
+    \item A remark about compiling time when plotting from an external file is in the following, \verb|pgfplotstable|-related section.
   \end{itemize}
+  \item \texttt{tikz} and \texttt{beamer}
+    \begin{itemize}
+      \item If you get weird errors, try the \texttt{fragile} option \verb|\begin[fragile]{Title}|.
+      \item \texttt{beamer} does nasty things under the hood and we do not want to know. If you are bound to use \verb|#1| or alike, and you get some errors about \verb|\test| or \verb|\iterate| use instead \verb|####1| (yes, you read it right, 4 \verb|#|'s). Have a look at this \href{https://tex.stackexchange.com/a/420454/206129}{answer}.
+      \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
+      \item Some convenient definitions are given in the library \verb|overlay-beamer-styles|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
+      \item For legends, use options as follows: \verb|\addentrylegend[visible on<>]{}|
+    \end{itemize}
+\end{itemize}
 
 \subsubsection{\texttt{pgfplotstable}}
 \label{ssub:pgfplotstable}
@@ -1757,139 +1766,139 @@ This line is ignored
     You can try different locations where to put \verb|\noopsort{}|. For instance, after the first author name, in the year or title fields. Remember however, that if you put it with the author name, you should use it in every entry with the same author.
 \end{itemize}
 
-  \subsection{\texttt{natbib}}
-  \label{sub:natbib}
-  \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/natbib/natbib.pdf}{User guide} (in \href{http://mirror.ibcp.fr/pub/CTAN/info/translations/natbib/fr/f-natbib.pdf}{French} too!) and \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/natbib/natnotes.pdf}{cheat-sheet} or this \href{http://merkel.texture.rocks/Latex/natbib.php}{cheat-sheet too}. If you do not use a \LaTeX{} integrated editor (IDE) (although it could be useful to know this anyway) but compile from terminal, you should:
-    \begin{enumerate}
-      \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
-      \item Compile the bibliography with \texttt{bibtex}: \verb|$bibtex main.aux|;
-      \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
-    \end{enumerate}
-
-    \begin{itemize}
-      \item If you have more than one bibliography files, just put them in the \texttt{bibliography} command separated by a comma (remember that you should not write the extension \texttt{.bib}):
-    \begin{verbatim}
-      \bibliography{my_biblio_1,my_biblio_2}
-    \end{verbatim}
-      \item \texttt{natbib} automatically creates a new section for the references. One get rid of it by overriding the \texttt{bibsection} command: one may choose to defining it as a subsection, or simply remove it, as follows
-\begin{verbatim}
-  \renewcommand{\bibsection}{}
-\end{verbatim}
-      \item For three or more authors, \texttt{natbib} will print \emph{First\_Author et al.}. In order to print all the authors, use the starred-version of the commands: \verb|\citep*{<ref_name>}|
-      \item Multiple bibliography / bibliography in each chapter: package \href{http://wiki.davidhaberthuer.ch/latex#chapterbib}{\texttt{chapterbib}} and option \texttt{sectionbib} as explained \href{http://wiki.davidhaberthuer.ch/latex#chapterbib}{here} or \href{https://tex.stackexchange.com/questions/229846/different-bibliographies-for-each-chapter-with-shared-references}{here}. Remember to call \verb|\bibliography{<chap_bib>}| in each chapter. Another possibility is package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/bibunits/bibunits.pdf}{\texttt{bibunits}}, have a look \href{https://texfaq.org/FAQ-chapbib}{here}.
-      \item ATTENTION: It does not work well with \texttt{beamer} (\autoref{sec:Beamer}).
-    \end{itemize}
-
-  \subsection{\texttt{biblatex}}
-  \label{sub:biblatex}
-  \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf}{User guide} (in the introduction, there is a nice overview of other bibliography-related packages which could be useful). A quick \href{https://www.overleaf.com/learn/latex/Articles/Getting_started_with_BibLaTeX}{tutorial} (see also \href{https://www.overleaf.com/learn/latex/Biblatex_citation_styles}{this} and \href{https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles}{that} for examples of citation/bibliography styles). And a useful \href{http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{cheatsheet}. \texttt{biblatex} relies on \texttt{biber}, thus the compiling sequence becomes:
-    \begin{enumerate}
-      \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
-      \item Compile the bibliography with \texttt{biber}: \verb|$biber main.bcf|;
-      \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
-    \end{enumerate}
-  If you use an IDE, you may have to change the compiling stage command to something like: \verb|biber %.bcf|. However, \texttt{biber} is not available on the EDF-controlled OS, but you can change the bibliography compiler. When loading \texttt{biblatex} use \texttt{bibtex} or \texttt{bibtex8} as backend (both available on EDF PCs): e.g.~\verb|\usepackage[backend=bibtex]{biblatex}|. Now the compiling process will be the same as for \texttt{natbib}:
-    \begin{enumerate}
-      \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
-      \item Compile the bibliography with \texttt{bibtex}, \verb|$bibtex main.aux|, or with \texttt{bibtex8}, \verb|$bibtex8 main.aux|;
-      \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
-    \end{enumerate}
-    In IDE such as \TeX Maker, the default compiling command is usually \texttt{bibtex}, hence if you are using \texttt{bibtex8} you should modify it accordingly: \verb|bibtex8 %.aux|
+\subsection{\texttt{natbib}}
+\label{sub:natbib}
+\href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/natbib/natbib.pdf}{User guide} (in \href{http://mirror.ibcp.fr/pub/CTAN/info/translations/natbib/fr/f-natbib.pdf}{French} too!) and \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/natbib/natnotes.pdf}{cheat-sheet} or this \href{http://merkel.texture.rocks/Latex/natbib.php}{cheat-sheet too}. If you do not use a \LaTeX{} integrated editor (IDE) (although it could be useful to know this anyway) but compile from terminal, you should:
+  \begin{enumerate}
+    \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
+    \item Compile the bibliography with \texttt{bibtex}: \verb|$bibtex main.aux|;
+    \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
+  \end{enumerate}
 
   \begin{itemize}
-    \item It is preferable to load \texttt{biblatex} \emph{before} \texttt{hyperref};
-    \item The file containing the bibliography is set in the preamble, it is advised to do it just after you load the package:
+    \item If you have more than one bibliography files, just put them in the \texttt{bibliography} command separated by a comma (remember that you should not write the extension \texttt{.bib}):
+  \begin{verbatim}
+    \bibliography{my_biblio_1,my_biblio_2}
+  \end{verbatim}
+    \item \texttt{natbib} automatically creates a new section for the references. One get rid of it by overriding the \texttt{bibsection} command: one may choose to defining it as a subsection, or simply remove it, as follows
 \begin{verbatim}
-  \usepackage{biblatex}
-  \addbibresource{my_biblio.bib}
+\renewcommand{\bibsection}{}
 \end{verbatim}
-    \item Print the bibliography: \verb|\printbibliography|;
-    \item Set the style: use option
-      \begin{itemize}
-        \item \texttt{citestyle=<style>} for the \emph{citation} style (what appears when your call \verb|\cite{}|),
-        \item \texttt{bibstyle=<style>} for the style in the list,
-        \item \texttt{style=<style>} for setting both of the above.
-      \end{itemize}
-    \item Sort the citations:
-      \begin{itemize}
-        \item In the bibliography: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g.~\texttt{nyt}, \texttt{nty}).
-        \item When citing: option \verb!sortcites=true|false!
-      \end{itemize}
-    \item Use \texttt{natbib} commands: option \verb!natbib=true|false!
-    \item You can even provide a direct link to your \href{https://www.zotero.org/}{\texttt{Zotero}} bibliography (see the manual).
-    \item Footnote-like citation (could be useful in \texttt{beamer}): \verb|\footcite{<ref_name>}|, look also \verb|\footfullcite{<ref_name>}|.
-    \item Avoid \emph{et al.}: put in the options when loading the package \texttt{maxnames=<n>} or \texttt{minnames=<n>}.
-    \item In some predefined styles, the mention "\emph{In:}" precedes the article title, for instance. One may remove it by calling: \verb|\renewbibmacro{in:}{}|, as explained \href{https://tex.stackexchange.com/a/10686/206129}{here}. Have a look \href{https://tex.stackexchange.com/questions/10682/suppress-in-biblatex}{here} for a custom solution involving only the articles.
-    \item No URL, ISSN, nor DOI: options \texttt{url=false,doi=false,isbn=false}.
-    \item Add \emph{see}, \emph{chapter n} or alike: \verb|\command[<prenote>][<postnote>]{<ref_name>}|. For example, \verb|\parencite[see][chpt 2]{Aliceetal}| gives something like: (see \emph{Alice et al.}, chpt 2)
-      \begin{itemize}
-        \item If only one optional argument is given, it is understood as post-note. For example, \verb|\parencite[chpt 2]{Aliceetal}| gives (\emph{Alice et al.}, chpt 2).
-        \item Using \verb|\cite| with optional arguments inside an optional argument: put the whole command inside curly brackets
+    \item For three or more authors, \texttt{natbib} will print \emph{First\_Author et al.}. In order to print all the authors, use the starred-version of the commands: \verb|\citep*{<ref_name>}|
+    \item Multiple bibliography / bibliography in each chapter: package \href{http://wiki.davidhaberthuer.ch/latex#chapterbib}{\texttt{chapterbib}} and option \texttt{sectionbib} as explained \href{http://wiki.davidhaberthuer.ch/latex#chapterbib}{here} or \href{https://tex.stackexchange.com/questions/229846/different-bibliographies-for-each-chapter-with-shared-references}{here}. Remember to call \verb|\bibliography{<chap_bib>}| in each chapter. Another possibility is package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/bibunits/bibunits.pdf}{\texttt{bibunits}}, have a look \href{https://texfaq.org/FAQ-chapbib}{here}.
+    \item ATTENTION: It does not work well with \texttt{beamer} (\autoref{sec:Beamer}).
+  \end{itemize}
+
+\subsection{\texttt{biblatex}}
+\label{sub:biblatex}
+\href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf}{User guide} (in the introduction, there is a nice overview of other bibliography-related packages which could be useful). A quick \href{https://www.overleaf.com/learn/latex/Articles/Getting_started_with_BibLaTeX}{tutorial} (see also \href{https://www.overleaf.com/learn/latex/Biblatex_citation_styles}{this} and \href{https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles}{that} for examples of citation/bibliography styles). And a useful \href{http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{cheatsheet}. \texttt{biblatex} relies on \texttt{biber}, thus the compiling sequence becomes:
+  \begin{enumerate}
+    \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
+    \item Compile the bibliography with \texttt{biber}: \verb|$biber main.bcf|;
+    \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
+  \end{enumerate}
+If you use an IDE, you may have to change the compiling stage command to something like: \verb|biber %.bcf|. However, \texttt{biber} is not available on the EDF-controlled OS, but you can change the bibliography compiler. When loading \texttt{biblatex} use \texttt{bibtex} or \texttt{bibtex8} as backend (both available on EDF PCs): e.g.~\verb|\usepackage[backend=bibtex]{biblatex}|. Now the compiling process will be the same as for \texttt{natbib}:
+  \begin{enumerate}
+    \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
+    \item Compile the bibliography with \texttt{bibtex}, \verb|$bibtex main.aux|, or with \texttt{bibtex8}, \verb|$bibtex8 main.aux|;
+    \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
+  \end{enumerate}
+  In IDE such as \TeX Maker, the default compiling command is usually \texttt{bibtex}, hence if you are using \texttt{bibtex8} you should modify it accordingly: \verb|bibtex8 %.aux|
+
+\begin{itemize}
+  \item It is preferable to load \texttt{biblatex} \emph{before} \texttt{hyperref};
+  \item The file containing the bibliography is set in the preamble, it is advised to do it just after you load the package:
+\begin{verbatim}
+\usepackage{biblatex}
+\addbibresource{my_biblio.bib}
+\end{verbatim}
+  \item Print the bibliography: \verb|\printbibliography|;
+  \item Set the style: use option
+    \begin{itemize}
+      \item \texttt{citestyle=<style>} for the \emph{citation} style (what appears when your call \verb|\cite{}|),
+      \item \texttt{bibstyle=<style>} for the style in the list,
+      \item \texttt{style=<style>} for setting both of the above.
+    \end{itemize}
+  \item Sort the citations:
+    \begin{itemize}
+      \item In the bibliography: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g.~\texttt{nyt}, \texttt{nty}).
+      \item When citing: option \verb!sortcites=true|false!
+    \end{itemize}
+  \item Use \texttt{natbib} commands: option \verb!natbib=true|false!
+  \item You can even provide a direct link to your \href{https://www.zotero.org/}{\texttt{Zotero}} bibliography (see the manual).
+  \item Footnote-like citation (could be useful in \texttt{beamer}): \verb|\footcite{<ref_name>}|, look also \verb|\footfullcite{<ref_name>}|.
+  \item Avoid \emph{et al.}: put in the options when loading the package \texttt{maxnames=<n>} or \texttt{minnames=<n>}.
+  \item In some predefined styles, the mention "\emph{In:}" precedes the article title, for instance. One may remove it by calling: \verb|\renewbibmacro{in:}{}|, as explained \href{https://tex.stackexchange.com/a/10686/206129}{here}. Have a look \href{https://tex.stackexchange.com/questions/10682/suppress-in-biblatex}{here} for a custom solution involving only the articles.
+  \item No URL, ISSN, nor DOI: options \texttt{url=false,doi=false,isbn=false}.
+  \item Add \emph{see}, \emph{chapter n} or alike: \verb|\command[<prenote>][<postnote>]{<ref_name>}|. For example, \verb|\parencite[see][chpt 2]{Aliceetal}| gives something like: (see \emph{Alice et al.}, chpt 2)
+    \begin{itemize}
+      \item If only one optional argument is given, it is understood as post-note. For example, \verb|\parencite[chpt 2]{Aliceetal}| gives (\emph{Alice et al.}, chpt 2).
+      \item Using \verb|\cite| with optional arguments inside an optional argument: put the whole command inside curly brackets
 \begin{verbatim}
 \begin{theorem}[The one and only {\cite[Thm 1]{Aliceetal}}]
-  $a^2+b^2=c^2$
+$a^2+b^2=c^2$
 \end{theorem}
 \end{verbatim}
-      \end{itemize}
-    \item Citing more than one reference at the same time
-      \begin{itemize}
-        \item For standard citations, just put a comma-separated list of entries. Capitalized version available.
+    \end{itemize}
+  \item Citing more than one reference at the same time
+    \begin{itemize}
+      \item For standard citations, just put a comma-separated list of entries. Capitalized version available.
 \begin{verbatim}
 \cite{Aliceetal,Bobetal}
 \end{verbatim}
-        \item For citations with pre- and post-note use \verb|\cites|, which accepts a generic number of arguments. Capitalized version available.
+      \item For citations with pre- and post-note use \verb|\cites|, which accepts a generic number of arguments. Capitalized version available.
 \begin{verbatim}
 \cites[see][chpt 2]{Aliceetal}[and][sect 3.1]{Bobetal}
 \end{verbatim}
-      \end{itemize}
-    \item Option \texttt{backref} puts after each bibliography entry the pages/places where that entry has been cited.
-    \item Avoid the warning about \texttt{utf8} encoding (possibly if the backend is set to \texttt{bibtex}): pass option \texttt{bibencoding=ascii}. However, this may cause problems if you use non-ASCII character (fancy accented symbols,\ldots).
-    \item When using \texttt{biblatex} and \texttt{babel}, it is advised to load \texttt{csquotes} as well, in order to ensure that quoted texts are typeset according to the chosen language rules.
-    \item \texttt{giveninits=true}: force initials for given names in bibliography.
-    \item Two-letter initials, for instance Ph.~for Philippe: use \verb|Abba, {\relax Ph}ilippe|
-    \item When \texttt{hyperref} (see \autoref{sec:Referencing}) is used, links to the bibliography page are produced. They can be weird, for instance in author-year format only the year is concerned by the link. Have a look \href{https://tex.stackexchange.com/questions/15951/hyperlink-name-with-biblatex-authoryear-biblatex-1-4b}{here} on how to modify this behavior.
-    \item Option \verb!uniquelist=true|false|minyear!. I need an example here. Suppose you have two references: \begin{inparaenum}[i)] \item Alice, Bob, Clint, and Don, 12; \item Alice, Bob, Ed, and Florent, 13. \end{inparaenum} Moreover suppose that you have an author-year--like citation styles with \emph{et al.}~enabled after the first author name. Both references would result in: Alice \emph{et al.}, yy. Someone may want to distinguish them, since they have not the same authors. If \verb|uniquelist| is disabled (\verb|false|), they both appear as: Alice \emph{et al.}, yy. If enabled (\verb|true|), \begin{inparaenum}[i)] \item Alice, Bob, Clint, \emph{et al.}, 12; \item Alice, Bob, Ed, \emph{et al.}, 13 \end{inparaenum}; notice as the max-citation name has been overruled in order to show at least one non-unique author. If \verb|minyear|, this happens only if the year is the same (hence, not in our example).
-    \item Choose the order for given a family name in the bibliography: choose between \texttt{family-given} or \texttt{given-family}. For instance:
+    \end{itemize}
+  \item Option \texttt{backref} puts after each bibliography entry the pages/places where that entry has been cited.
+  \item Avoid the warning about \texttt{utf8} encoding (possibly if the backend is set to \texttt{bibtex}): pass option \texttt{bibencoding=ascii}. However, this may cause problems if you use non-ASCII character (fancy accented symbols,\ldots).
+  \item When using \texttt{biblatex} and \texttt{babel}, it is advised to load \texttt{csquotes} as well, in order to ensure that quoted texts are typeset according to the chosen language rules.
+  \item \texttt{giveninits=true}: force initials for given names in bibliography.
+  \item Two-letter initials, for instance Ph.~for Philippe: use \verb|Abba, {\relax Ph}ilippe|
+  \item When \texttt{hyperref} (see \autoref{sec:Referencing}) is used, links to the bibliography page are produced. They can be weird, for instance in author-year format only the year is concerned by the link. Have a look \href{https://tex.stackexchange.com/questions/15951/hyperlink-name-with-biblatex-authoryear-biblatex-1-4b}{here} on how to modify this behavior.
+  \item Option \verb!uniquelist=true|false|minyear!. I need an example here. Suppose you have two references: \begin{inparaenum}[i)] \item Alice, Bob, Clint, and Don, 12; \item Alice, Bob, Ed, and Florent, 13. \end{inparaenum} Moreover suppose that you have an author-year--like citation styles with \emph{et al.}~enabled after the first author name. Both references would result in: Alice \emph{et al.}, yy. Someone may want to distinguish them, since they have not the same authors. If \verb|uniquelist| is disabled (\verb|false|), they both appear as: Alice \emph{et al.}, yy. If enabled (\verb|true|), \begin{inparaenum}[i)] \item Alice, Bob, Clint, \emph{et al.}, 12; \item Alice, Bob, Ed, \emph{et al.}, 13 \end{inparaenum}; notice as the max-citation name has been overruled in order to show at least one non-unique author. If \verb|minyear|, this happens only if the year is the same (hence, not in our example).
+  \item Choose the order for given a family name in the bibliography: choose between \texttt{family-given} or \texttt{given-family}. For instance:
 \begin{verbatim}
 \DeclareNameAlias{sortname}{family-given}
 \DeclareNameAlias{author}{family-given}
 \DeclareNameAlias{editor}{family-given}
 \end{verbatim}
-    \item Group of references:
+  \item Group of references:
 \begin{verbatim}
 \DeclareBibliographyCategory{<category}
 \addtocategory{<category}{<ref_key>[,<ref_keys>]}
 \end{verbatim}
-      \begin{itemize}
-        \item Print only/other than category: \verb|\printbibliography[[not]category=<category>]|
-        \item Print only/other than type: \verb|\printbibliography[[not]type=<type>]|, with \texttt{type} being article, book\ldots
-      \end{itemize}
-    \item According to the style, the author in the bibliography might be replaced by a dash if it is repeated. One may disable this feature (and always print the author) with the option \texttt{dashed=false}.
-    \item ATTENTION: for label printing use \texttt{showkeys} (incompatibility with \texttt{showlabels} and pre/post-cite).
-    \item Change size: \verb|\renewcommand{\bibfont}{\scriptsize}|
-    \item Multiple bibliography / bibliography in each chapter: take advantage of the \texttt{refsegment} environment as explained \href{https://tex.stackexchange.com/questions/87414/per-chapter-bibliographies-in-biblatex}{here}. You may also want to have a look \href{https://tex.stackovernet.com/fr/q/63260}{here}.
+    \begin{itemize}
+      \item Print only/other than category: \verb|\printbibliography[[not]category=<category>]|
+      \item Print only/other than type: \verb|\printbibliography[[not]type=<type>]|, with \texttt{type} being article, book\ldots
+    \end{itemize}
+  \item According to the style, the author in the bibliography might be replaced by a dash if it is repeated. One may disable this feature (and always print the author) with the option \texttt{dashed=false}.
+  \item ATTENTION: for label printing use \texttt{showkeys} (incompatibility with \texttt{showlabels} and pre/post-cite).
+  \item Change size: \verb|\renewcommand{\bibfont}{\scriptsize}|
+  \item Multiple bibliography / bibliography in each chapter: take advantage of the \texttt{refsegment} environment as explained \href{https://tex.stackexchange.com/questions/87414/per-chapter-bibliographies-in-biblatex}{here}. You may also want to have a look \href{https://tex.stackovernet.com/fr/q/63260}{here}.
 \begin{verbatim}
-  \begin{refsegment}
-    \chapter{Chpt 1}
-    Lorem lipsum
-    \printbibliography[segment=1,title={Chpt1 references},heading=subbibintoc]
-  \end{refsegment}
-  \printbibliography[title={Global references},heading=subbibintoc]
+\begin{refsegment}
+  \chapter{Chpt 1}
+  Lorem lipsum
+  \printbibliography[segment=1,title={Chpt1 references},heading=subbibintoc]
+\end{refsegment}
+\printbibliography[title={Global references},heading=subbibintoc]
 \end{verbatim}
-      \begin{itemize}
-        \item Remember to change the number of \texttt{segment} according to the chapter
-        \item If you plan to use \verb|\include| and \verb|\includeonly| with, for instance, one file per chapter you'd better NOT put \verb|\begin{refsegment}| in the chapter \texttt{.tex} but leave it in the main, in order to avoid problem with undefined segment when \verb|\includeonly| is used
+    \begin{itemize}
+      \item Remember to change the number of \texttt{segment} according to the chapter
+      \item If you plan to use \verb|\include| and \verb|\includeonly| with, for instance, one file per chapter you'd better NOT put \verb|\begin{refsegment}| in the chapter \texttt{.tex} but leave it in the main, in order to avoid problem with undefined segment when \verb|\includeonly| is used
 \begin{verbatim}
-  \begin{refsegment}
-    \include{chpt1}
-  \end{refsegment}
-  \printbibliography[title={Global references}, heading=subbibintoc]
+\begin{refsegment}
+  \include{chpt1}
+\end{refsegment}
+\printbibliography[title={Global references}, heading=subbibintoc]
 \end{verbatim}
-      \end{itemize}
-    \item Warnings may be issued with footnotes and \texttt{beamer} (e.g.~\texttt{Patching footnotes}), although this should happen only in old versions. Have a look at this \href{https://tex.stackexchange.com/questions/202988/beamer-patching-footnotes-warning-patching-footnotes-failed-footnote-detectio}{answer} and this \href{https://tex.stackexchange.com/questions/369266/beamer-and-biblatex-possible-remedy-for-warning-patching-footnotes-failed/405186#405186}{reference} therein.
-  \end{itemize}
+    \end{itemize}
+  \item Warnings may be issued with footnotes and \texttt{beamer} (e.g.~\texttt{Patching footnotes}), although this should happen only in old versions. Have a look at this \href{https://tex.stackexchange.com/questions/202988/beamer-patching-footnotes-warning-patching-footnotes-failed-footnote-detectio}{answer} and this \href{https://tex.stackexchange.com/questions/369266/beamer-and-biblatex-possible-remedy-for-warning-patching-footnotes-failed/405186#405186}{reference} therein.
+\end{itemize}
 
-  Have a look at the \href{http://ctan.mines-albi.fr/macros/latex/contrib/biblatex/doc/biblatex.pdf}{manual} for more details about these options/commands and many useful other ones.
+Have a look at the \href{http://ctan.mines-albi.fr/macros/latex/contrib/biblatex/doc/biblatex.pdf}{manual} for more details about these options/commands and many useful other ones.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: Standalone
@@ -2054,52 +2063,53 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Loops}
 \label{sec:loops}
-  \begin{itemize}
-    \item Load \verb|pgffor| (it is already loaded by \verb|TikZ| and by the \verb|pgf*| packages, cf.~\autoref{sec:tikzpgf}).
-    \item A quick \href{https://stuff.mit.edu/afs/athena/contrib/tex-contrib/beamer/pgf-1.01/doc/generic/pgf/version-for-tex4ht/en/pgfmanualse15.html}{guide}.
-    \item Structure:
+\begin{itemize}
+  \item Load \verb|pgffor| (it is already loaded by \verb|TikZ| and by the \verb|pgf*| packages, cf.~\autoref{sec:tikzpgf}).
+  \item A quick \href{https://stuff.mit.edu/afs/athena/contrib/tex-contrib/beamer/pgf-1.01/doc/generic/pgf/version-for-tex4ht/en/pgfmanualse15.html}{guide}.
+  \item Structure:
 \begin{verbatim}
 \foreach <variables> in {<list>} {<commands>}
 \end{verbatim}
-    \item Hands-on start:
+  \item Hands-on start:
 \begin{Verbatim}[samepage=true]
 \foreach \what in {apple,banana,cinnamonbun}{
-  I eat a yellow~\what. \\ % ~ = force space, one never knows
+I eat a yellow~\what. \\ % ~ = force space, one never knows
 }
 \end{Verbatim}
-      one may choose to name the for-loop variable \verb|\what| as he wishes.
-    \item More than one variable:
+    one may choose to name the for-loop variable \verb|\what| as he wishes.
+  \item More than one variable:
 \begin{Verbatim}[samepage=true]
 \foreach \what\color in {apple/red,banana/yellow,cinnamonbun/creamy}{
-  I eat a \color~\what. \\
+I eat a \color~\what. \\
 }
 \end{Verbatim}
-      Notice the slash \texttt{/} two separate the arguments in the list. The \texttt{/} can be use in the definition too, like this \verb|\foreach \what/\color ...|
-    \item Let's nest them:
+    Notice the slash \texttt{/} two separate the arguments in the list. The \texttt{/} can be use in the definition too, like this \verb|\foreach \what/\color ...|
+  \item Let's nest them:
 \begin{Verbatim}[samepage=true]
 \foreach \what in {apple,banana,cinnamonbun}{
-  \foreach \color in {red,yellow,creamy}{
-    I eat a \color~\what. \\
-  }
+\foreach \color in {red,yellow,creamy}{
+  I eat a \color~\what. \\
+}
 }
 \end{Verbatim}
-    \item \LaTeX{} understands the argument of the list. Examples
-      \begin{itemize}
-        \item \verb|{1,2,...,6}| yields \verb|{1,2,3,4,5,6}|
-        \item \verb|{10,9,...,0}| yields \verb|{10,9,8,7,6,5,4,3,2,1,0}| (Happy new year!)
-        \item \verb|{1,3,...,7}| yields \verb|{1,3,5,7}|
-        \item \verb|{1,2,...,6,a,b,...,e}| yields \verb|{1,2,3,4,5,6,a,b,c,d,e}|
-        \item \verb|{1.25,1.50,...,2}| yields \verb|{1.25,1.50,1.75,2.00}|
-        \item and so on
-      \end{itemize}
-    \item \verb|\breakforeach| breaks the loop, quits it (that was easy, wasn't it?).
-    \item If the variables are to be used in \verb|pgfplots*| (\autoref{sub:pgfplots}) commands, it is better to use \verb|pgfplotsinvokeforeach| which has a slightly different structure. Here is an example. Notice that one denotes the variables as one would in a \verb|\newcommand|-like framework, with an \#
+  \item \LaTeX{} understands the argument of the list. Examples
+    \begin{itemize}
+      \item \verb|{1,2,...,6}| yields \verb|{1,2,3,4,5,6}|
+      \item \verb|{10,9,...,0}| yields \verb|{10,9,8,7,6,5,4,3,2,1,0}| (Happy new year!)
+      \item \verb|{1,3,...,7}| yields \verb|{1,3,5,7}|
+      \item \verb|{1,2,...,6,a,b,...,e}| yields \verb|{1,2,3,4,5,6,a,b,c,d,e}|
+      \item \verb|{1.25,1.50,...,2}| yields \verb|{1.25,1.50,1.75,2.00}|
+      \item and so on
+    \end{itemize}
+  \item \verb|\breakforeach| breaks the loop, quits it (that was easy, wasn't it?).
+  \item If the variables are to be used in \verb|pgfplots*| (\autoref{sub:pgfplots}) commands, it is better to use \verb|pgfplotsinvokeforeach| which has a slightly different structure. Here is an example. Notice that one denotes the variables as one would in a \verb|\newcommand|-like framework, with an \#
 \begin{Verbatim}[samepage=true]
 \pgfplotsinvokeforeach{red,cyan}{%
-  \addplot[color=#1] table[x=x,y=y] {mytab.dat};
+\addplot[color=#1] table[x=x,y=y] {mytab.dat};
 }
 \end{Verbatim}
-  \end{itemize}
+  \item An example of looping with more than arguments and conditionals is in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: MISCELLANEOUS

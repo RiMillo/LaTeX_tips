@@ -372,4 +372,46 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
     \end{tikzpicture}
   \end{center}
 
+  \clearpage
+  Another game: archery - an example of looping and conditionals
+
+  \begin{center}
+    \begin{tikzpicture}[
+        scale=0.3,
+        tgtline/.style={line width=1.2pt},
+        target/.style 2 args={tgtline,
+                             fill=#1,draw=#2},
+        target/.default={white}{black},
+        tgtnumbers/.style 2 args={color=#1,font={#2},},
+        tgtnumbers/.default={black}{\bfseries},
+      ]
+      \foreach \l\fl\cl in {0/white/black,1/black/white,2/blue/black,3/red/black,4/yellow/black}{
+        \foreach \j in {0,1} {
+          % Inwards so that smaller circles cover the bigger ones (instead of being covered by them)
+          \pgfmathsetmacro\crcl{20-4*\l-2*\j}
+          \draw[target={\fl}{\cl}] (0,0) circle (\crcl);
+          \pgfmathsetmacro\posnum{\crcl-1}
+          \pgfmathtruncatemacro\printnum{2*\l+\j+1}
+          % 10 is a special case
+          \ifnum \numexpr \printnum < 10
+            \foreach \jj in {\posnum,-\posnum}{
+              \node[tgtnumbers={\cl}{\bfseries}] at (0,\jj) {\printnum};
+              \node[tgtnumbers={\cl}{\bfseries}] at (\jj,0) {\printnum};
+            }
+          \fi
+        }
+      }
+      % 10s
+      \newcommand{\tencl}{black}
+      \draw[target={none}{\tencl}] (0,0) circle (1);
+      \foreach \jj in {1.5,-1.5}{
+        \node[tgtnumbers={\tencl}{\footnotesize\bfseries}] at (0,\jj) {10};
+        \node[tgtnumbers={\tencl}{\footnotesize\bfseries}] at (\jj,0) {10};
+      }
+      % Inner Cross
+      \draw[tgtline,draw=black] (0.7,0) -- (-0.7,0);
+      \draw[tgtline,draw=black] (0,0.7) -- (0,-0.7);
+    \end{tikzpicture}
+  \end{center}
+
 \end{document}
