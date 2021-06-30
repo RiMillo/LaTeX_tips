@@ -37,6 +37,7 @@
 
 \usepackage{amsmath,amssymb,amsfonts,mathtools,amsthm}
 \usepackage{empheq}
+\usepackage{xfrac,nicefrac}
 
 \usepackage{fontawesome}
 
@@ -108,7 +109,7 @@ Indeed, this is not a tutorial, this is not an introduction to \LaTeX{}, we assu
 
 There is no particular structure or whatsoever. We identified some major themes and then simply put an itemize in there. A brief ToC is given here below.
 
-We try to give the snippet of the solution, hopefully commented, and an example: please copy them, and play around with them in order to make them suit your desires! If a loading of a package is required, you'll often see \verb|%...| or alike, usually meaning that what comes before it, goes in the preamble, what comes next into the document. Sometimes, when we were too lazy and we found it pretty clear, a link to an on-line solution is given. In our snippets, you'll find words in \texttt{< >}, that means that it is something that you have to / can choose. When discussing a package, we often provide the link to the PDF of the user manual: this might change and not be accessible anymore, if that happens, just google "in:ctan.org <name\_of\_the\_package>" and open the related \href{https://ctan.org/}{CTAN} (Comprehensive \TeX{} Archive Network) address, and please, modify the link in this document, or, at least, report the issue.
+We try to give the snippet of the solution, hopefully commented, and an example: please copy them, and play around with them in order to make them suit your desires! If a loading of a package is required, you'll often see \verb|%...| or alike, usually meaning that what comes before it, goes in the preamble, what comes next into the document. Sometimes, when we were too lazy and we found it pretty clear, a link to an on-line solution is given. In our snippets, you'll find words in \texttt{< >}, that means that it is something that you have to / can choose. When discussing a package, we often provide the link to the PDF of the user manual: this might change and not be accessible anymore, if that happens, just google "in:ctan.org <name\_of\_the\_package>" and open the related \href{https://ctan.org/}{CTAN} (Comprehensive \TeX{} Archive Network) address, and please, modify the link in this document, or, at least, report the issue. Moreover, one can retrieve the manual of an installed package by running \verb|texdoc <name\_of\_the\_package>| (on *nix machines).
 
 If one would like more details about a subject, or if [s]he couldn't find / solve his/her problem with this document, there are a couple of websites that could be useful. \href{https://ctan.org/}{CTAN}, has already been mentioned, and (all hail!) \href{https://tex.stackexchange.com/}{TexExchange} as well. Other references are: \href{https://www.tug.org/}{\TeX{} Users Group}, \href{https://www.overleaf.com/learn/}{Overleaf}, \href{https://en.wikibooks.org/wiki/LaTeX}{WikiBooks}, \href{https://latex.org/forum/index.php}{\LaTeX.org} and \href{https://www.texfaq.org/}{\TeX{} FAQ}.
 
@@ -269,7 +270,21 @@ A space after my \cmd here. There shouldn't be one after my \cmd.
         \end{itemize}
       \item The package \href{http://ctan.tetaneutral.net/macros/latex/contrib/soul/soul.pdf}{\texttt{soul}} gives interesting hyphenatable (can be cut to go to next line) styles: spaced-out, highlighted, underlined\ldots{}
     \end{itemize}
-  \item (Semi-)Transparent text: obtaining a faded text is easy in \texttt{TikZ} (\autoref{sec:tikzpgf}): use option \verb|opacity=<r>| where \texttt{r} is a number between 0 (completely transparent) and 1 (solid). Some others options are available for standard text. The dedicated package \href{http://ctan.mines-albi.fr/macros/latex/contrib/transparent/transparent.pdf}{\texttt{transparent}} with \verb|\transparentcolor{<r>}{<text>}|, or the first two answers of this \href{https://stackoverflow.com/questions/3594329/semi-transparent-text-in-beamer-pdflatex}{post}.
+  \item Color
+    \begin{itemize}
+      \item Load package \texttt{color} or \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}
+      \item Some colors are pre-loaded: red, magenta, green, blue, cyan,\ldots
+      \item \verb|\color{<clr>}| select the color for the \emph{whole} current scope (that is an environment, current braces\ldots). \verb|\textcolor{<clr>}{<colored text>}| will write only \texttt{colored text} in the chosen color
+      \item Define colors: \verb|\definecolor{<name>}{<model>}{<spec>}|. The \texttt{name} it's up to you, \texttt{model} is \texttt{rgb} (in [0,1] or \texttt{RGB} in 0-255), \texttt{cmyk}, \texttt{gray}. \texttt{spec} is what defines the color according to the given model. If you want to mix pre-loaded colors, use \verb|\colorlet| (\verb|<clr1>!<n>!<clr2>| means ``mix \texttt{n}\% of \texttt{clr1} with (100-\texttt{n})\% of \texttt{clr2}''; \texttt{clr2} can be omitted and defaults to \texttt{white})
+\begin{verbatim}
+\definecolor{fullred}{RGB}{255,0,0}
+\colorlet{mygray}{black!50}
+\end{verbatim}
+      \item Outline text: use \verb|\contour{<contour color>}{<text>}| from package \texttt{contour} (option \texttt{outline} is advised)
+      \item (Semi-)Transparent text: obtaining a faded text is easy in \texttt{TikZ} (\autoref{sec:tikzpgf}): use option \verb|opacity=<r>| where \texttt{r} is a number between 0 (completely transparent) and 1 (solid). Some others options are available for standard text. The dedicated package \href{http://ctan.mines-albi.fr/macros/latex/contrib/transparent/transparent.pdf}{\texttt{transparent}} with \verb|\transparentcolor{<r>}{<text>}|, or the first two answers of this \href{https://stackoverflow.com/questions/3594329/semi-transparent-text-in-beamer-pdflatex}{post}.
+      \item Black\&White / grayscale output: pass option \texttt{monochrome} (for disabling colored output) or \texttt{gray|Gray} to package \texttt{color} (or \texttt{xcolor} according to what you are using). This won't however work on the images that you load. With \texttt{beamer} (\autoref{sec:Beamer}), \texttt{monochrome} does not work well, so prefer \texttt{gray}.
+      \item Consider this: you mixed your colors \verb|\colorlet{halfbw}{black!50}|, now how to get its \texttt{RGB}/\texttt{HTML} (\ldots) code? Use \verb|\convertcolorspec| or \verb|\extractcolorspec| as explained \href{https://tex.stackexchange.com/questions/35033/figuring-out-rgb-or-hex-color-from-xcolor}{here}.
+    \end{itemize}
   \item Poetry: reference packages \href{https://ctan.gutenberg.eu.org/macros/latex/contrib/verse/verse.pdf}{\texttt{verse}} (pretty basic but it does the job; it seems to be frozen) and \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/poemscol/poemscol.pdf}{\texttt{poemscol}} (a complete and huge package).
 \end{itemize}
 \begin{table}
@@ -371,7 +386,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
         \end{itemize}
       \item Spacing
         \begin{itemize}
-          \item No indent: \texttt{leftmargin=*};
+          \item No indent: \texttt{leftmargin=*}; another way: \verb|\setlength{\leftmargini}{0pt}| (or \verb|\leftmarginii| for subitems etc.) or \verb|\itemindent|
           \item No separations between items: \texttt{noitemsep};
           \item No separations whatsoever: \texttt{nosep};
           \item Modify top spacing: \texttt{topsep=<len>};
@@ -534,6 +549,13 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \begin{verbatim}
 \animategraphics[<...>, autoplay, loop]{40}{img/img_}{1}{100}
 \end{verbatim}
+        \begin{itemize}
+          \item You can extract images from a video using
+\begin{verbatim}
+ffmpeg -i inputfile.avi -r <n_frame_per_second \
+  -f image2 -ss <start> -t <duration> output-%3d.jpeg
+\end{verbatim}
+        \end{itemize}
 
       \item Embed an external video. With this strategy, the video is not included in the pdf, in fact, it is just a link, sort of, so that the video is actually read by an external app. That means that if you share the pdf, the video should be joined too.
 \begin{verbatim}
@@ -654,31 +676,6 @@ x&y\\1&2
       \item \href{http://detexify.kirelabs.org/classify.html}{\texttt{Detexify}} (both web and mobile application) lets you draw the sought symbol and returns the associated command (and possibly the package to load).
       \item Bold symbols may not always available (for example \verb|\mathbf{\delta}| will print a normal delta). Try package \texttt{bm} and its \verb|\bm{...}| command.
     \end{itemize}
-  \item Usually, for every math environment there exists also its \texttt{-ed}-form to be used when math-mode is already activated. Mind:
-
-\begin{minipage}[T]{.4\textwidth}
-\begin{Verbatim}[frame=single]
-[text-mode: on]
-\begin{align}
-  [math-mode: on]
-  e^{i\pi}+1=0
-\end{align}
-[text-mode: on]
-\end{Verbatim}
-\end{minipage} \hspace*{2em}  vs.\hspace*{2em} \hfill %
-\begin{minipage}[T]{.4\textwidth}
-\begin{Verbatim}[frame=single]
-[text-mode: on]
-\begin{equation}
-  [math-mode: on]
-  \begin{aligned}
-    e^{i\pi}+1=0
-  \end{aligned}
-\end{equation}
-[text-mode: on]
-\end{Verbatim}
-\end{minipage}
-
   \item A little bit about the different environments.
     \begin{itemize}
       \item \verb|$ [...] $| delimits an inlined equation.
@@ -692,6 +689,42 @@ x&y\\1&2
   & \gamma &= \delta & \\
 \end{flalign}
 \end{verbatim}
+      \item Usually, for every math environment there exists also its \texttt{-ed}-form to be used when math-mode is already activated. Mind:
+
+    \begin{minipage}[T]{.35\textwidth}
+    \begin{Verbatim}[frame=single]
+    [text-mode: on]
+    \begin{align}
+      [math-mode: on]
+      e^{i\pi}+1=0
+    \end{align}
+    [text-mode: on]
+    \end{Verbatim}
+    \end{minipage} \hspace*{2em}  vs.\hspace*{2em}%
+    \begin{minipage}[T]{.35\textwidth}
+    \begin{Verbatim}[frame=single]
+    [text-mode: on]
+    \begin{equation}
+      [math-mode: on]
+      \begin{aligned}
+        e^{i\pi}+1=0
+      \end{aligned}
+    \end{equation}
+    [text-mode: on]
+    \end{Verbatim}
+    \end{minipage}
+
+    \end{itemize}
+  \item Fractions. Some info \href{https://www.overleaf.com/learn/latex/Fractions_and_Binomials}{here}. The no-fuss command is \verb|\frac{num}{den}| (from \texttt{amsmath}). It will give a nice fraction in display mode, like this
+    \[
+      \frac12, \qquad \frac{x}{1+x}, \qquad \frac{x}{1+\frac{1}{x}}
+    \]
+    and a more compact style in inline mode, like this $\frac12$, $\frac{x}{1+x}$, $\frac{x}{1+\frac{1}{x}}$.
+    \begin{itemize}
+      \item \verb|\dfrac{num}{den}| forces display mode, whereas \verb|\tfrac{num}{den}| forces inline mode: \verb|\dfrac{x}{y}| $\dfrac{x}{y}$ vs.~\verb|\tfrac{x}{y}| $\tfrac{x}{y}$ (in fact, \verb|\frac| automatically chooses between \verb|\tfrac| or \verb|\dfrac| according to the position). Notice, however, that both commands lead to an increased interline with respect to the usual textual one.
+      \item For good-looking inline fractions, use \verb|\sfrac{num}{dem}|, $\sfrac{1}{2}$, (from package \href{https://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/l3packages/xfrac.pdf}{\texttt{xfrac}}) or \verb|\nicefrac{num}{den}|, $\nicefrac{1}{2}$, (from \href{https://ctan.mines-albi.fr/macros/latex/contrib/units/units.pdf}{\texttt{nicefrac}})\ldots or just use the slashed form, $1/2$. The interline space is not increased.
+      \item For continued fractions, use \verb|\cfrac|
+        \[ a_0+\cfrac{1}{a_1+\cfrac{1}{a_2+\cfrac{1}{a_3+\cdots}}} \]
     \end{itemize}
   \item Use \verb|\limits| (respectively \verb|\nolimits|) to force a display-style (resp.~inline-style) of the limits of a symbol in an inlined (resp.~display) math environment. Look at this: without \verb|\limits| $\sum_{1}^\infty\frac1n$, with  $\sum\limits_{1}^\infty\frac1n$
   \item In order two reference an equation two common commands are \verb|\ref{<tag>}| and \verb|\eqref{<tag>}| (see \fullref{sec:Referencing} for other commands that add \emph{Equation} automatically). Suppose that you want to reference equation (1). \verb|\ref{...}| will give only the number, hence you may want to use \verb|(\ref{...})|. \verb|\eqref{...}| adds the parenthesis for you, so that you get automatically (1). However, \verb|\eqref{...}| does not work with, for instance, \verb|\textbf|: you'd rather use \verb|\textbf{(\ref{...})}|.
@@ -1176,6 +1209,7 @@ my line/.style 2 args={color=#1,#2},
 my line/.default={red}{thick},
 \end{verbatim}
         \end{itemize}
+      \item Access the value of a key wit \verb|\pgfkeyvalueof{<key>}|
     \end{itemize}
   \item Environments:
     \begin{itemize}
@@ -1186,6 +1220,32 @@ my line/.default={red}{thick},
 \begin{verbatim}
 Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 \end{verbatim}
+  \item Computations: it is possible to do (more or less) complex computations in \texttt{pgf}. We give the bases below, but you are invited to see the manual
+    \begin{itemize}
+      \item Load library \texttt{fpu} for floating point computations (like, double precision), otherwise the basic routines are limited to $\pm16384$.
+      \item Commands:
+        \begin{itemize}
+          \item \verb|\pgfmathparse{<expr>}|: evaluate the expression passed as argument and store it in \verb|\pgfmathresult|. The result is a decimal.
+          \item \verb|\pgfmathsetmacro{\<macro>}{<expr>}|: evaluate the expression passed as argument and store it in \verb|\<macro>|. The result is a decimal. It could be used to both define or redefine a macro.
+          \item \verb|\pgfmathtruncatemacro{\<macro>}{<expr>}|: As above but the result is an integer
+          \item \ldots
+        \end{itemize}
+      \item Warning: \verb|\pgfmathresult| is temporary and it is sometimes used by \texttt{pgf} itself under the hood, for instance when computing point coordinates. Hence, unless your are going to use the result just after the evaluation, you'd better use \verb|\pgfmathsetmacro| or alike
+      \item The expression accepts:
+        \begin{itemize}
+          \item Standard mathematical functions: \verb|+-*/^|, \verb|sin(.)|, \verb|sqrt(.)|, \verb|>=<|, \verb|log(.)|, \verb|e|, \verb|round(.)|\ldots
+          \item Several number formats: \verb|0.00005|, \verb|5e-5|
+          \item Units \verb|2pt+1cm|. However, the results will be given without units, unless commands \verb|\pgfmathsetlength[macro]| are used
+          \item Brackets: \verb|[i]| to access the \texttt{i}-th element of an array (array are defined with braces \verb|{.}|)
+          \item (Pseudo) random functions: \verb|rnd(.)|,\ldots
+          \item \ldots
+        \end{itemize}
+      \item Functions: they can be used in \texttt{pgfplots}, see below. Some examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}
+        \begin{itemize}
+          \item Command \verb|\pgfmathdeclarefunction{<name>}{<algorithm code>}|
+          \item Key: \verb|declare function={<function declarations>}|
+        \end{itemize}
+    \end{itemize}
   \item Size: one CANNOT choose the exact size of the final \texttt{tikz} picture: differently from, for instance, including a picture, options like \verb|width=0.5\linewidth| do not exists. In alternative, one can scale the picture
 \begin{verbatim}
 \begin{tikzpicture}[scale=0.5]
@@ -1209,6 +1269,44 @@ Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 \begin{verbatim}
 \draw (0,0) to[bend left=45] (10,0);
 \end{verbatim}
+      \item Corners: Two examples (taken from \texttt{TikZ} manual)
+
+        \begin{minipage}{.30\textwidth}
+          \begin{tikzpicture}[line width=10pt]
+            \draw[line join=round] (0,0) -- ++(.5,1) -- ++(.5,-1);
+            \draw[line join=bevel] (1.25,0) -- ++(.5,1) -- ++(.5,-1);
+            \draw[line join=miter] (2.5,0) -- ++(.5,1) -- ++(.5,-1);
+            %\useasboundingbox (0,1.5); % enlarge bounding box
+          \end{tikzpicture}
+        \end{minipage}%
+        \begin{minipage}{.48\textwidth}
+          \scriptsize
+          \begin{verbatim}
+\begin{tikzpicture}[line width=10pt]
+  \draw[line join=round] (0,0) -- ++(.5,1) -- ++(.5,-1);
+  \draw[line join=bevel] (1.25,0) -- ++(.5,1) -- ++(.5,-1);
+  \draw[line join=miter] (2.5,0) -- ++(.5,1) -- ++(.5,-1);
+\end{tikzpicture}
+          \end{verbatim}
+        \end{minipage}
+
+        \begin{minipage}{.30\textwidth}
+          \begin{tikzpicture}
+            \draw[thick,rounded corners=8pt]
+            (0,0) -- (0,2) -- (1,3.25) -- (2,2) -- (2,0) -- (0,2) -- (2,2) -- (0,0) -- (2,0);
+          \end{tikzpicture}
+        \end{minipage}%
+        \begin{minipage}{.48\textwidth}
+          \scriptsize
+          \begin{verbatim}
+\begin{tikzpicture}
+  \draw[thick,rounded corners=8pt]
+        (0,0) -- (0,2) -- (1,3.25) --
+        (2,2) -- (2,0) -- (0,2)    --
+        (2,2) -- (0,0) -- (2,0);
+\end{tikzpicture}
+          \end{verbatim}
+        \end{minipage}
     \end{itemize}
   \item Coordinate calculation: example
 \begin{verbatim}
@@ -1219,6 +1317,18 @@ Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 \coordinate (B)            at (0,1);
 \coordinate (betweenAandB) at ($(A)!0.5!(B)$)
 \end{verbatim}
+  \item Nodes\ldots
+\begin{verbatim}
+\node[<opt>] at (<point>) {<Description>}; or
+\draw[<opt>] node[<opt>] {<Description>};
+\end{verbatim}
+    \begin{itemize}
+      \item Colors: \texttt{draw=<clr>} sets the color of the edge of the node, \texttt{text=<clr>} sets the color of the description, \texttt{fill=<clr>} sets the color of the node background, simply \texttt{<clr>} is like fill.
+      \item Opacity: in order to different level of opacity for the background and the text, use, respectively, \texttt{opacity} and \texttt{text opacity}
+      \item Font: \verb|font={<font>}|
+      \item Width and text alignment: by default, \texttt{tikz} writes everything on the same line. One can force a width, to make it go to newline: \texttt{text width=5cm}. Then, one might select the alignment: \verb!align=left|center|right!
+      \item \texttt{rounded corners}
+    \end{itemize}
   \item Drawing in 3D: \texttt{TikZ} naturally allows one to draw in 3D \verb|\draw (0,0,0)--(1,1,1);|. It is not always easy and straightforward, though. Below some remarks:
     \begin{itemize}
       \item In 2D, first coordinate (let's call it \texttt{x}) control the horizontal displacement (from left to right). The second coordinate, the vertical one (from bottom to top). In 3D that doesn't change, hence the third coordinate is the depth, if I may (from inside to paper to outside). This is somehow confusing since the third coordinates is usually associated with \texttt{z} and it's the vertical direction.
@@ -1309,10 +1419,16 @@ child{node {B2}}
   \item Grids: use \verb|\draw[<options>] (a) grid (b)| where \texttt{(a)} and \texttt{(b)} are the endpoint of a diagonal (we assume a rectangular mesh). Options may include \texttt{step=<n>}, which sets the width of the cells. The options \texttt{xstep} and \texttt{ystep} are available, as well.
   \item Arrows - heads: \href{https://gist.github.com/AndiH/f99d9b0cbd3519c27af5b96cfbeff97c}{list}, customization \href{https://tex.stackexchange.com/questions/5461/is-it-possible-to-change-the-size-of-an-arrowhead-in-tikz-pgf/161238#161238}{here}.
   \item One may want to have a look at the section about loops, \autoref{sec:loops}.
-  \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation. It basically create separates pdf that will be included in the followings compilations.
+  \item Externalization: for big pictures it is advised to use the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation. It basically create separates pdf that will be included in the followings compilations.
     \begin{itemize}
       \item You are invited to read the related chapter in the manual (it should be the 87).
       \item \LaTeX{} compilation needs to be called with the \verb|-shell-escape| option: the compiler should be allowed to run commands to build the external figures.
+      \item If strange errors occurs:
+        \begin{itemize}
+          \item Check that you passed the \verb|-shell-escape| option. If you had it but the errors persist, see below.
+          \item Check that you are not using language that modify some characters (for instance, French and "\texttt';", see \fullref{sec:languages} and the \texttt{babel} item at the beginning of this section),
+          \item Try disabling the optimization: pass option \texttt{optimization=false} when activating the externalization (see below).
+        \end{itemize}
       \item The \texttt{list and make} mode (activated with \verb|\tikzexternalize[mode=list and make]|) will create a list of the external figure. This list can be processed with \texttt{make}, Hence one has to \begin{inparaenum}[(i)] \item compile the pdf, \item run \verb|make -f -j 4 file.makefile|, \item compile the sources again to ensure the external pictures are included\end{inparaenum}. Notice that the \texttt{make} step can be done in parallel (cf.~\verb|-j <n>|).
         \begin{itemize}
           \item Of course the make step will not always be included in the compilations steps of the automatic compiler. Look \href{https://tex.stackexchange.com/questions/145501/integrating-latexmk-and-tikz-external-mode-list-and-make}{here} for an example of integration with \texttt{latexmk} (see \autoref{sec:latexmk}).
@@ -1339,24 +1455,28 @@ With an \emph{abuse of notations}, here we gather both \texttt{pgf} and \texttt{
 Before going into the details, if you are familiar with \texttt{gnuplot} you may want to check the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/gnuplottex/gnuplottex.pdf}{\texttt{gnuplottex}} out.
 
 \begin{itemize}
-  \item Basic math operations: compute the result of an expression \verb|\pgfmathparse{<expr>}|, retrieve it with \verb|\pgfmathresult| and use it. It is advised to store it in a variable with \verb|\pgfmathsetmacro\newmacro{\cmd}|
-\begin{verbatim}
-\pgfmathparse{sqrt(4)*6}
-\pgfmathsetmacro\result{\pgfmathresult}
-\end{verbatim}
   \item Basic plotting: examples in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}} (preview \href{run:./ex_plot.pdf}{here}).
   \item 3D plot: \verb|\addplot3| example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}
     \begin{itemize}
       \item For surface plots, use option \verb|surf| or \verb|mesh|. Watch out for the matrix-like structure that your data must have in order to be interpreted as an actual surface. In particular, blank-lines are very important and separate two rows.
     \end{itemize}
   \item Define commands, set global options: \verb|\pgfplotsset{[...]}|, usually in preamble (advice: use \verb|\pgfplotsst{compt=newest}| for compatibility with the most recent available version).
+  \item Plot combinations of usual mathematical functions or use \texttt{pgf} function defined as shown above. In the following example, we control the number of points and the domain of the function (see also \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}})
+\begin{verbatim}
+\addplot[samples=20,domain=-pi:pi] {1+sin(2*x)};
+\end{verbatim}
   \item External plot shape: The plot is usually square, one may prefer to stretch it, here are some options
     \begin{itemize}
       \item \verb!x|y post scale=<n>!;
       \item \verb!x|y scale=<n>!;
       \item \verb|unit vector ratio=<x_value> <y_value>| e.g.~\verb|unit vector ratio=2 1| for a \texttt{x} axis two times longer than the \texttt{y} one
     \end{itemize}
-  \item Change the width: \texttt{width=<n>cm}.
+  \item Sizes\ldots
+    \begin{itemize}
+      \item Change the size: \texttt{width=<len>} (similar for \texttt{height}).
+      \item Set default size: \verb|\axisdefaultwidth{<len>}| (similar for \texttt{height}).
+      \item \verb!scale only axis=true|false!: default is \texttt{false}. Is false, \texttt{pgfplots} will try to make the whole plot, that is labels and ticks included, fit the given width / height. If true, only the axis is scaled.
+    \end{itemize}
   \item Lines\ldots
     \begin{itemize}
       \item Styles: \texttt{solid}, \texttt{dashed}, \texttt{dotted}, \texttt{dashdotted}, \texttt{dashdotdotted}; two modifiers can be use in combination with the styles: \texttt{densely}, \texttt{loosely} (e.g.~\texttt{densely dotted}, \texttt{loosely dashed}).
@@ -1368,7 +1488,7 @@ Before going into the details, if you are familiar with \texttt{gnuplot} you may
       \item \texttt{only marks} vs. \texttt{no markers} / \texttt{mark=none}.
       \item \texttt{mark repeat=<n>}, filter the markers, print only every \texttt{n}.
       \item Look here above at the line style items in order to prevent weird looking markers.
-      \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|, for instance \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible.
+      \item Use markers outside \texttt{TikZ} environments: \verb|\pgfuseplotmark{<marker_code>}|, for instance \verb|\pgfuseplotmark{square*}| (a \verb|\raisebox{<how_much>}{<what>}| may be needed). However, use \verb|\label{<label>}| and \verb|\ref{<ref>}| when possible, see the legend section below.
     \end{itemize}
   \item \verb|draw=none|: (actually a \verb|TikZ| key) "switches off" line and marker drawing
   \item Plot style\ldots
@@ -1380,7 +1500,12 @@ Before going into the details, if you are familiar with \texttt{gnuplot} you may
   \item Legend\ldots
     \begin{itemize}
       \item Have a look at \verb|legend to name=<name>|, which, combined with \verb|\ref{<name>}| allows one to draw a complete legend even outside a \texttt{tikz} scope.
+      \item Referencing a plot: one can give a \verb|\label{<lab>}| to a plot and recover with the usual tools \verb|\ref{<lab>}|. This enables one to manually build a legend. For instance consider put a bunch of labels then writing a table outside the \texttt{tikz} scope explaining them. Or even inline references: ``\verb|the results (\ref{res} in the plot)...|''
+\begin{verbatim}
+\addplot[red] {sin(x)};\label{pgf:sin}
+\end{verbatim}
       \item Exclude plot from legend (and cycles): option \verb|forget plot|.
+      \item Only lines / marks: sometimes, styles \texttt{draw=none} and \texttt{mark=none} are not well interpreted by the legend (it happens that lines are drawn in the legend even if one used \texttt{draw=none}). Instead, try \texttt{no markers} and \texttt{only marks}.
       \item Transparency: the legend box has by default a solid white background, hence it covers part of the canvas. E.g.
 \begin{verbatim}
 legend style={fill=none} % see-through
@@ -1396,6 +1521,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
       \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
       \item Interesting options: \texttt{reverse legend} (invert the order)
     \end{itemize}
+  \item \verb!unbounded coords=jump|discard!: choose how to deal with bad data (NaNs). Suppose you try to plot the following data: (0,1,NaN,3,4). With \texttt{discard} you end up with a continuous plot, from 1 to 3 directly. Whereas with \texttt{jump}, the plot will not be continuous: there will be a first line joining 0 and 1, and a second one joining 3 and 4. 
   \item Cycle lists. When printing more than one plot on the same canvas, if no options are given \texttt{pgfplots} will choose a line style itself in order to identify easily the plots. Those are the \texttt{cycle list}s.
     \begin{itemize}
       \item Choose the list to use by passing option \verb|cycle list name=<name>| or define directly one via \verb|cycle list|
@@ -1441,6 +1567,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
           \item Order: From top to bottom, from right to left
           \item Pass option \verb|\nextgroupplot[group/empty plot]| to skip the following position
         \end{itemize}
+      \item Use \texttt{x|ymod=log} for logarithmic plots
     \end{itemize}
   \item By default, \texttt{pgfplots} leaves some withespace between the axes/plot side and the outermost point of the plot. You might control the behaviour by setting the \texttt{enlarge limits} parameter
 \begin{verbatim}
@@ -1461,7 +1588,10 @@ restrict y to domain:<min>:<max>
         \begin{itemize}
           \item \texttt{xtick distance}: set the distance between two ticks. The version \texttt{ytick} is available as well.
           \item \texttt{xtick=\{1,2,2.1,2.2\}}: choose where to draw them. The version \texttt{ytick} is available as well. Only the selected ticks are marked, that is not an add (for addition, see below). Instead of the list, you can pass \texttt{empty} or \texttt{data} (all and only coordinate of the plot).
-          \item \texttt{xticklabel={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
+          \item \texttt{xticklabels={1e0,Marco,2}}: choose what is printed. The version \texttt{ytick} is available as well. Set the style with \texttt{xticklabel style}.
+            \begin{itemize}
+              \item MIND: \texttt{xticklabel={1e0}} (singular) will set the same label for all the ticks
+            \end{itemize}
           \item \texttt{extra x ticks}: additional ticks. Control with \texttt{extra x tick labels} and \texttt{extra x tick style}. The version \texttt{y tick} is available as well.
         \end{itemize}
       \item Space between tick label and axis label: \verb!x|ylabel shift={<sep>}!.
@@ -1478,11 +1608,20 @@ yticklabel style={
       \item Set the level of the help grid that should appear on your plot via the option \verb|grid=<type>|. Possible types are \verb|none|, \verb|major|, \verb|minor|, \verb|both|
       \item Set the style of a type of grid: e.g.~\verb|major grid style={dotted,very thin}|
       \item Even if the \verb|minor| (or \verb|both|) is requested, it may not actually printed. In fact, in order to be printed the plot need to have minor ticks as well. For instance, use \verb|minor tick num=<n>| where \verb|n| is how many minor ticks between two major one you want.
+      \item \verb!x|ycomb!: draw a line from a plot point to the \verb!x|y! axis
     \end{itemize}
   \item \verb|forget plot|: it has already been mentioned that this allows to skip a plot from a legend. Additionally, the "forgotten" plots, will not affect the axis of the plot, been considered in the \texttt{cycle}s, not increase the number of plots.
   \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
   \item A couple of ideas about confidence levels and errors: one is \href{https://tex.stackexchange.com/questions/185111/adding-confidence-intervals-in-pgfplots}{here} and the other \href{https://tex.stackexchange.com/questions/96954/plotting-two-time-series-with-bounds}{there}.
   \item Fill area between two lines: \href{http://pgfplots.net/tikz/examples/fill-between-plots/}{here} is a really cool example.
+    \begin{itemize}
+      \item Use \verb|soft clip={domain=<lower>:<upper>}| to limits to a certain domain
+      \item To fill an entire vertical strip of the plot use \texttt{tikz} \texttt{rectangle} action and access the \texttt{y} limits. E.g.~fill between \texttt{x=-2} and \texttt{x=2}
+\begin{verbatim}
+\fill[red] (-2,\pgfkeysvalueof{/pgfplots/ymin})
+  rectangle (+2,\pgfkeysvalueof{/pgfplots/ymax});
+\end{verbatim}
+    \end{itemize}
   \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
   \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
   \begin{itemize}
@@ -1492,7 +1631,7 @@ yticklabel style={
     \begin{itemize}
       \item If you get weird errors, try the \texttt{fragile} option \verb|\begin[fragile]{Title}|.
       \item \texttt{beamer} does nasty things under the hood and we do not want to know. If you are bound to use \verb|#1| or alike, and you get some errors about \verb|\test| or \verb|\iterate| use instead \verb|####1| (yes, you read it right, 4 \verb|#|'s). Have a look at this \href{https://tex.stackexchange.com/a/420454/206129}{answer}.
-      \item Overlays and \texttt{pgfplots} (\autoref{sub:pgfplots}) can give great satisfactions, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
+      \item Overlays and \texttt{pgfplots} can give great satisfaction, however it might not always work, especially if using fancy overlays like \verb|\uncover|. The one that will always work (well, let's say "should always work", shall we?) is \verb|\only|. This \href{https://tex.stackexchange.com/a/269558/206129}{answer} offers a workaround for \verb|\alt|, and it could be used with \verb|\temporal|: in fact, that is the core code you should use for these fancy things.
       \item Some convenient definitions are given in the library \verb|overlay-beamer-styles|, part of the \href{https://mirrors.chevalier.io/CTAN/graphics/pgf/contrib/aobs-tikz/aobs-tikz.pdf}{\texttt{aobs-tikz}} package. An \href{https://tex.stackexchange.com/questions/175228/how-can-i-make-beamer-overlays-with-tikz-node-attributes}{example}.
       \item For legends, use options as follows: \verb|\addentrylegend[visible on<>]{}|
     \end{itemize}
@@ -1508,14 +1647,21 @@ Two are the main reasons to use (and to love) \texttt{pgfplotstable}: creating p
 
   \begin{itemize}
     \item Global settings / style definitions: e.g.~\verb|\pgfplotstableset{[...]}|
-    \item When using \texttt{pgfplotstable} with plots, if the table has headers you can use
+    \item When using \texttt{pgfplotstable} with plots, one can use:
+      \begin{itemize}
+        \item Labels, if the table has headers
 \begin{verbatim}
 \addplot table[x=<head_x>,y=<head_y>] {<table>};
 \end{verbatim}
-      Otherwise, you can use the column indices
+        \item Indexes (zero-based)
 \begin{verbatim}
 \addplot table[x index=<n_x>,y index=<n_y>] {<table>};
 \end{verbatim}
+        \item Expressions (use \verb|\thisrow{.}|, \verb|\thisrowno{.}| to refer to the data, see below; mathematical functions accepted by \texttt{pgf} are accepted, see above). Example: plot column \texttt{ysq} squared against the values of the first (index 0) column multiplied by 3
+\begin{verbatim}
+\addplot table[x expr={3*\thisrowno{0}},y expr={\thisrow{ysq}^2}] {<table>};
+\end{verbatim}
+      \end{itemize}
     \item \verb|\pgfplotstabletypeset{<table>}| just translates the table into something readable by \TeX{}. By default is a \texttt{tabular}. You can change the environment with \texttt{begin table} and \texttt{end table}. An example
 \begin{verbatim}
 \pgfplotstableset{
@@ -1526,15 +1672,13 @@ end table=\end{longtable},
       \begin{itemize}
         \item You can see the \TeX{} code that \texttt{pgfplotstable} produces by passing the option \texttt{outfile=<name>.tex}: \texttt{pgf} creates a file with the same name and containing the actual \TeX{} code. This option can be useful if debugging or if you want to re-use the table elsewhere.
       \end{itemize}
-    \item \texttt{pgfplotstable} works column-wise. Need to work by rows?
-      Use (see \href{https://tex.stackexchange.com/questions/183519/plotting-data-from-rows-instead-of-columns-in-latex}{here})
+    \item \texttt{pgfplotstable} works column-wise. Need to work by row? Use (see \href{https://tex.stackexchange.com/questions/183519/plotting-data-from-rows-instead-of-columns-in-latex}{here})
 \begin{verbatim}
   \pgfplotstabletranspose\newtable{<table>}
 \end{verbatim}
     \item Separators: options \verb|col sep=<char>,row sep=<char>|, the default are white-space and newline. For \texttt{csv}, use \verb|col sep=comma|.
     \item Ignore characters: option \verb|ignore chars=<chars>|.
     \item \verb|clear infinite|: if NaN or infinite are found, they are considered as empty cells.
-    \item Bad data: select how to treat bad data: e.g.~\verb!unbounded coords=jump|discard!.
     \item How to treat empty cells: \verb|empty cells with={<...>}|.
     \item Option \verb!header=true|false|has colnames!. Tell whether or not the first non-commented line should be treated as the names of the columns. \texttt{has colnames} force it even if it is number and not string.
     \item Sort\&Filter: options \verb|sort,sort key={<key>}| and also \href{https://tex.stackexchange.com/questions/66177/how-can-i-filter-select-data-from-a-table-and-plot-it}{here}.
@@ -2102,13 +2246,29 @@ I eat a \color~\what. \\
       \item and so on
     \end{itemize}
   \item \verb|\breakforeach| breaks the loop, quits it (that was easy, wasn't it?).
-  \item If the variables are to be used in \verb|pgfplots*| (\autoref{sub:pgfplots}) commands, it is better to use \verb|pgfplotsinvokeforeach| which has a slightly different structure. Here is an example. Notice that one denotes the variables as one would in a \verb|\newcommand|-like framework, with an \#
+  \item If the variables are to be used in \verb|pgfplots*| (\autoref{sub:pgfplots}) commands, it is better to use \verb|\pgfplotsinvokeforeach| which has a slightly different structure. Here is an example. Notice that one denotes the variables as one would in a \verb|\newcommand|-like framework, with an \#
 \begin{Verbatim}[samepage=true]
 \pgfplotsinvokeforeach{red,cyan}{%
 \addplot[color=#1] table[x=x,y=y] {mytab.dat};
 }
 \end{Verbatim}
-  \item An example of looping with more than arguments and conditionals is in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+    \begin{itemize}
+      \item What if I need to use a two-argument loop in \texttt{pgfplots}? and a three-argument loop? Well, then \verb|\pgfplotsinvokeforeach| is useless and one has to stick to \verb|\foreach| and toy around with the dark side of \TeX, in particular, \verb|\edef| and \verb|\noexpand| are your friends. Hints: define a temporary command with the wished instruction and, most importantly, where no expansion is requested, then use the command:
+\begin{verbatim}
+\begin{axis}
+  \foreach \l\fl\cl in {2/cyan/black,3/red/black,4/yellow/black}{
+    \foreach \j in {0,1} {
+      \pgfmathsetmacro\crcl{(20-4*\l-2*\j)/2}
+      \edef\temp{%
+        \noexpand\draw[fill=\fl,color=\cl] (0,0) circle (\crcl);
+      }
+      \temp
+    }
+  }
+\end{axis}
+\end{verbatim}
+    \end{itemize}
+  \item An example of looping with more than one arguments and conditionals is in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2117,6 +2277,7 @@ I eat a \color~\what. \\
 \section{Miscellaneous}
 \label{sec:Miscellaneous}
 \begin{itemize}
+  \item Get the manual of an installed package by running \verb|texdoc <name\_of\_the\_package>|
   \item Define macros: we treat here the \LaTeX{} mode (more primitive \TeX{} commands such as \verb|\def|, \verb|\let| are available as well but won't be addressed here). Intro \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{here}
     \begin{itemize}
       \item \verb|\newcommand\macro{<stuff>}|: defines a new command \verb|\macro| that will expand to \verb|<stuff>|. Gives an error if \verb|\macro| is already defined
@@ -2241,7 +2402,6 @@ Let us write some interspaces
       \verb|conditional_statement| is an expression involving booleans and it can be constructed also using \verb|\AND|, \verb|\OR|, \verb|\NOT|, \verb|\(...\)|.
     \item Another package is \href{http://texdoc.net/texmf-dist/doc/latex/etoolbox/etoolbox.pdf}{\texttt{etoolbox}}: its scope of usage is way larger than booleans.
     \end{itemize}
-  \item Black\&White / grayscale output: pass option \texttt{monochrome} (for disabling colored output) or \texttt{gray|Gray} to package \texttt{color} (or \texttt{xcolor} according to what you are using). This won't however work on the images that you load. With \texttt{beamer} (\autoref{sec:Beamer}), \texttt{monochrome} does not work well, so prefer \texttt{gray}.
   \item More than one page on the same page: use the \verb|\pgfpagesuselayout{<n> in 1}[...]| (\verb|n| may be 2, 4, 6, 8 or 16). Load \texttt{pgfpages} (which is part of \texttt{pgf}, \autoref{sec:tikzpgf}). E.g.~for two pages in A4 paper, and let's throw in a landscape too
 \begin{verbatim}
 \pgfpagesuselayout{2 in 1}[a4paper,border shrink=5mm]
@@ -2268,7 +2428,6 @@ Let us write some interspaces
       \item Pop-up's and mouseover effects: package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/fancytooltips/fancytooltips.pdf}{\texttt{fancytooltips}} (supported by \texttt{Adobe} only).
       \item Add annotations and notes to the pdf: package \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/pdfcomment/doc/pdfcomment.pdf}{\texttt{pdfcomment}}.
     \end{itemize}
-  \item Consider this: load \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/xcolor/xcolor.pdf}{\texttt{xcolor}}, use it to mix your colors \verb|\colorlet{halfbw}{black!50}|, now how to get its \texttt{RGB}/\texttt{HTML} (\ldots) code? Use \verb|\convertcolorspec| or \verb|\extractcolorspec| as explained \href{https://tex.stackexchange.com/questions/35033/figuring-out-rgb-or-hex-color-from-xcolor}{here}.
   \item Cookbook \& recipes (because why not): several packages are proposed \href{https://ctan.org/topic/cooking}{here}. \texttt{cuisine}, and \texttt{[x]cookybooky} appear to be the most popular.
   \item (Not exactly \TeX{}-related) pdf utilities (extract, concatenate, rotate, modify,\ldots): checkout \href{https://github.com/DavidFirth/pdfjam#using}{\texttt{pdfjam}} (easy stuff like concatenate, rotate, extract) and \texttt{pdftk} (adding background/watermark with option \texttt{background} or \texttt{stamp}). The ultimate tool is \href{https://www.ghostscript.com/doc/current/Use.htm}{\texttt{ghostscript}}. Some examples
     \begin{itemize}
