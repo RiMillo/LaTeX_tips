@@ -727,15 +727,7 @@ x&y\\1&2
         \[ a_0+\cfrac{1}{a_1+\cfrac{1}{a_2+\cfrac{1}{a_3+\cdots}}} \]
     \end{itemize}
   \item Use \verb|\limits| (respectively \verb|\nolimits|) to force a display-style (resp.~inline-style) of the limits of a symbol in an inlined (resp.~display) math environment. Look at this: without \verb|\limits| $\sum_{1}^\infty\frac1n$, with  $\sum\limits_{1}^\infty\frac1n$
-  \item In order two reference an equation two common commands are \verb|\ref{<tag>}| and \verb|\eqref{<tag>}| (see \fullref{sec:Referencing} for other commands that add \emph{Equation} automatically). Suppose that you want to reference equation (1). \verb|\ref{...}| will give only the number, hence you may want to use \verb|(\ref{...})|. \verb|\eqref{...}| adds the parenthesis for you, so that you get automatically (1). However, \verb|\eqref{...}| does not work with, for instance, \verb|\textbf|: you'd rather use \verb|\textbf{(\ref{...})}|.
-  \item Parenthesis built with the \verb|\left|-\verb|\right| structure should be both in the same scope in order for the environment to be balance. If errors occur, try by adding void delimiters with the \verb|.| (dot). The following example is useless, but you get the idea
-\begin{verbatim}
-% CODE:|<start -------------------------------------------- end>|
-%      |            |<start end>|                               |
-  \left[\overbrace{a\left.\right]}_{Comment over bracket} \right.
-% PDF: |<start ------------ end>|
-\end{verbatim}
-  \item Matrices: have a look \href{http://www.sascha-frank.com/Faq/matrices.html}{here}. \texttt{matrix}, \texttt{pmatrix} (parentheses), \texttt{bmatrix} (brackets), \texttt{Bmatrix} (curly), \texttt{vmatrix} (vertical), \texttt{Vmatrix} (double vertical), \texttt{smallmatrix} (small inline matrix).
+  \item In order two reference an equation, two common commands are \verb|\ref{<tag>}| and \verb|\eqref{<tag>}| (see \fullref{sec:Referencing} for other commands that add \emph{Equation} automatically). Suppose that you want to reference equation (1). \verb|\ref{...}| will give only the number, hence you may want to use \verb|(\ref{...})|. \verb|\eqref{...}| adds the parenthesis for you, so that you get automatically (1). However, \verb|\eqref{...}| does not work with, for instance, \verb|\textbf|: you'd rather use \verb|\textbf{(\ref{...})}|.
   \item Tagged equations: name instead of the usual number. Notice that this works with unnumbered environments as well. \verb|\tag{}| puts parenthesis around the tag, \verb|\tag*{}| does not.
         \begin{minipage}{.45\linewidth}
 \begin{Verbatim}[frame=single]
@@ -752,6 +744,58 @@ x&y\\1&2
           \end{equation*}
         \end{minipage}
         Notice that the tag is used when referencing the equation: e.g.,~here \verb|\eqref{eq:euler}| gives \eqref{eq:euler}.
+  \item Parentheses:
+    \begin{itemize}
+      \item Have a look \href{https://www.overleaf.com/learn/latex/Brackets_and_Parentheses}{here}
+      \item Types and commands: ``$()$'' \verb|()|; ``$[]$'' \verb|[]|; ``$\{\}$'' \verb|\{\}| (yes, you need a backslash); ``$||$'' \verb!||!; ``$\|\|$'' \verb!\|\|!; ``$\langle\rangle$'' \verb|\langle\rangle|; ``$\lceil\rceil$'' \verb|\lceil\rceil|; ``$\lfloor\rfloor$'' \verb|\lfloor\rfloor|;
+      \item Sizes:
+        \begin{itemize}
+          \item Choosing manually the size by combining one of the parenthesis type and (ascending order) \verb|\big|, \verb|\Big|, \verb|\bigg|, \verb|\Bigg|. E.g.~$\displaystyle \big(\Big(\bigg(\Bigg($
+          \item Use \verb|\left( \right)| for parentheses which automatically adapt to the size of the content: e.g.
+            % Leave it
+
+            \begin{tabular}{ll@{\hspace{1em}vs.\hspace{1em}}ll}
+              $\displaystyle(\sum^N_{0} n)$ & \verb|(\sum^N_{0} n)| & $\displaystyle\left(\sum^N_{0} n\right)$ & \verb|\left(\sum^N_{0} n\right)|
+            \end{tabular}
+          \item You can combine different types of parentheses with the left-right construction: $\displaystyle\left(\sum^N_{0} n\right\}$ given by \verb|\left(\sum^N_{0} n\right\}|. Even ``void'' type (use ``\verb|.|'') is accepted: $\displaystyle\left(\sum^N_{0} n\right.$ given by \verb|\left(\sum^N_{0} n\right.|
+          \item The void type is useful, for instance, when closing a system. See:
+            % Leave it
+
+            \begin{minipage}{.45\linewidth}
+\begin{Verbatim}[frame=single]
+\begin{equation*}
+  \left\{
+    \begin{aligned}
+      x + y ={}& 5 \\
+      x - y ={}& 5
+    \end{aligned}
+  \right.
+\end{equation*}
+\end{Verbatim}
+            \end{minipage}\hspace{1cm} gives  \hspace{1cm}
+            \begin{minipage}{.35\linewidth}
+              \begin{equation*}
+                \left\{
+                  \begin{aligned}
+                    x + y ={}& 5 \\x - y ={}& 5
+                  \end{aligned}
+                \right.
+              \end{equation*}
+            \end{minipage}
+          \item Parenthesis built with the \verb|\left|-\verb|\right| structure should be both in the same scope (for instance in the same cell with \texttt{align}) in order for the environment to be balance. If errors occur, try by adding void delimiters with the ``\verb|.|'' (dot). The following example is useless, but you get the idea
+\begin{verbatim}
+% CODE:|<start -------------------------------------------- end>|
+%      |            |<start end>|                               |
+  \left[\overbrace{a\left.\right]}^{Comment over bracket} \right.
+% PDF: |<start ------------ end>|
+\end{verbatim}
+        \end{itemize}
+    \end{itemize}
+  \item Matrices:
+    \begin{itemize}
+      \item For basic stuff, have a look \href{http://www.sascha-frank.com/Faq/matrices.html}{here}. \texttt{matrix}, \texttt{pmatrix} (parentheses), \texttt{bmatrix} (brackets), \texttt{Bmatrix} (curly), \texttt{vmatrix} (vertical), \texttt{Vmatrix} (double vertical), \texttt{smallmatrix} (small inline matrix).
+      \item \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/nicematrix/nicematrix.pdf}{\texttt{nicematrix}}: powerful package which enables one to have the control on many matrix parameters (for instance, spaces), create external rows/columns, and even tables.
+    \end{itemize}
   \item Cross out term from equation, for instance if they vanish. Example:
 \begin{verbatim}
 \usepackage[makeroom]{cancel}
@@ -1521,7 +1565,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
       \item Add lines not related to plot: first, use \verb|\addlegendimage{empty legend}|, the use \verb|\addlegendentry{<lorem>}| to fill the newly line. This could be useful for giving the legend a title. Of course the order is important.
       \item Interesting options: \texttt{reverse legend} (invert the order)
     \end{itemize}
-  \item \verb!unbounded coords=jump|discard!: choose how to deal with bad data (NaNs). Suppose you try to plot the following data: (0,1,NaN,3,4). With \texttt{discard} you end up with a continuous plot, from 1 to 3 directly. Whereas with \texttt{jump}, the plot will not be continuous: there will be a first line joining 0 and 1, and a second one joining 3 and 4. 
+  \item \verb!unbounded coords=jump|discard!: choose how to deal with bad data (NaNs). Suppose you try to plot the following data: (0,1,NaN,3,4). With \texttt{discard} you end up with a continuous plot, from 1 to 3 directly. Whereas with \texttt{jump}, the plot will not be continuous: there will be a first line joining 0 and 1, and a second one joining 3 and 4.
   \item Cycle lists. When printing more than one plot on the same canvas, if no options are given \texttt{pgfplots} will choose a line style itself in order to identify easily the plots. Those are the \texttt{cycle list}s.
     \begin{itemize}
       \item Choose the list to use by passing option \verb|cycle list name=<name>| or define directly one via \verb|cycle list|
@@ -1608,7 +1652,7 @@ yticklabel style={
       \item Set the level of the help grid that should appear on your plot via the option \verb|grid=<type>|. Possible types are \verb|none|, \verb|major|, \verb|minor|, \verb|both|
       \item Set the style of a type of grid: e.g.~\verb|major grid style={dotted,very thin}|
       \item Even if the \verb|minor| (or \verb|both|) is requested, it may not actually printed. In fact, in order to be printed the plot need to have minor ticks as well. For instance, use \verb|minor tick num=<n>| where \verb|n| is how many minor ticks between two major one you want.
-      \item \verb!x|ycomb!: draw a line from a plot point to the \verb!x|y! axis
+      \item \verb!x|ycomb!: draw a line from a plot point to the \verb!x|y! axis. An alternative could be using error bars: \verb|[error bars/]x fixed relative=1,x dir=minus| for both x and y
     \end{itemize}
   \item \verb|forget plot|: it has already been mentioned that this allows to skip a plot from a legend. Additionally, the "forgotten" plots, will not affect the axis of the plot, been considered in the \texttt{cycle}s, not increase the number of plots.
   \item Print zero axes: have a look \href{https://tex.stackexchange.com/questions/55718/how-can-i-add-a-zero-line-to-a-plot}{here}.
