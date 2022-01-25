@@ -552,7 +552,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
         \begin{itemize}
           \item You can extract images from a video using
 \begin{verbatim}
-ffmpeg -i inputfile.avi -r <n_frame_per_second \
+ffmpeg -i inputfile.avi -r <n_frame_per_second> \
   -f image2 -ss <start> -t <duration> output-%3d.jpeg
 \end{verbatim}
         \end{itemize}
@@ -1028,6 +1028,7 @@ family=\sffamily,series=\bfseries,size=\normalsize
 %  Lorem Ipsum
 \end{frame}
 \end{verbatim}
+      \item \verb|\appendix| may issue some warnings. See \href{https://tex.stackexchange.com/questions/192686/hyperref-warning-caused-by-beamer-appendix}{here}
     \end{itemize}
   \item It has been seen \fullref{sec:Items} that \texttt{beamer} and \texttt{enumitem} may interfere, typically with this latter erasing the settings done by the former. Here how to restore the \texttt{beamer} bullets:
 \begin{Verbatim}[samepage=true]
@@ -1897,6 +1898,7 @@ The \texttt{hyperref} package enables to create hyperlinks. Here is an \href{htt
 
 Some tips about \texttt{cleveref}:
 \begin{itemize}
+  \item ATTENTION: \texttt{cleveref} does not like French-\texttt{babel}, especially its symbols such as ``\texttt{:}'' (colon). Hence, one cannot use labels like \verb|eq:euler|, because of the colon. Hence, either one does not use colons, or they should be prepended by \verb|\string|, see the comments of this \href{https://tex.stackexchange.com/a/83818}{post}.
   \item \verb|\labelcref{<label>}|: print only the label. E.g.~\texttt{1.1} (without \texttt{Section}).
   \item \verb|\namecref{<label>}|: print only the name, type. E.g.~\texttt{Section} (without \texttt{1.1}).
   \item \verb|\crefrange{<start_label>}{<end_label>}|: typeset a range of references. For uppercase names \verb|\Crefrange{<start_label>}{<end_label>}|
