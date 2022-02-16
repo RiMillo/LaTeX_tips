@@ -54,6 +54,8 @@
 \usetikzlibrary{trees}
 \usepackage{forest}
 
+\usepackage{siunitx}
+
 \usepackage{titlesec} % Modify the style of the sections, chapters...
 \titleformat{\section} %command
     %[display] %shape
@@ -2462,7 +2464,17 @@ Let us write some interspaces
     \end{itemize}
   \item For hundreds of logos (even well-known ones as Google \faGoogle, FB \faFacebookSquare,\ldots) use package \href{https://ctan.crest.fr/tex-archive/fonts/fontawesome/doc/fontawesome.pdf}{\texttt{fontawesome}}.
   \item An exhaustive (?) list of all symbols is available \href{http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf}{here} or via a simple command line \verb|texdoc comprehensive| (beware, hundreds of pages).
-  \item For typesetting units the reference package is \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/siunitx/siunitx.pdf}{\texttt{siunitx}} and its \verb|\si{<unit>}| and \verb|SI{<num>}{<unit>}| commands.
+  \item For typesetting units the reference package is \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/siunitx/siunitx.pdf}{\texttt{siunitx}}
+    \begin{itemize}
+      \item Predefined commands for units and prefixes: \verb|\milli\meter\per\second\squared| gives \si{\milli\meter\per\second\squared}
+        \begin{itemize}
+          \item Format for \verb|\per| can be customized as well as the (invisible) product (for instance, add a dot)
+          \item Some non-SI units are defined as well: \verb|\degreeCelsius|, \verb|\percent|,\ldots
+        \end{itemize}
+      \item Basic commands: \verb|\si{<unit>}| (just units) and \verb|\SI{<num>}{<unit>}| (values and units). For angles use \verb|\ang{<num>}|
+      \item Lists (highly customizable): \verb|\SIlist{<number1;number2;...>}{<unit>}|
+      \item Ranges (highly customizable): \verb|\SIrange{<number1>}{<number2>}{<unit>}|
+    \end{itemize}
   \item Comment large parts of the file out: check this \href{https://tex.stackexchange.com/questions/17816/commenting-out-large-sections}{question}. The proposed solutions are \verb|\iffalse ... \fi|, package \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/comment/comment.pdf}{\texttt{comment}} or restructuring the project and working with \verb|\includeonly{...}|
   \item How can I get LaTeX to warn about unreferenced figures and unused labels in general? Answer \href{https://tex.stackexchange.com/questions/25742/how-can-i-get-latex-to-warn-about-unreferenced-figures-and-unused-labels-in-gene/25743#25743}{here}.
   \item Add your own \texttt{.sty} and \texttt{.cls} to the path so that they are always found: create a dedicate directory in the \TeX{} home directory and put it there. The location of such directory may be found running \verb|kpsewhich -var-value=TEXMFHOME|, everything is explained \href{https://tex.stackexchange.com/questions/1137/where-do-i-place-my-own-sty-or-cls-files-to-make-them-available-to-all-my-te}{here}.
