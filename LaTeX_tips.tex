@@ -672,7 +672,7 @@ x&y\\1&2
   \item Math symbols:
     \begin{itemize}
       \item basic ones can be found \href{https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols}{here}, otherwise, most modern IDE, such as \TeX Maker (cf.~\autoref{sec:texmaker}) provides a list (anyhow, my advice: think in English. For instance $\forall$ is obtained via \verb|\forall|, $\in$ via \verb|\in|).
-      \item Run on a terminal \verb|texdoc symbols| to get "The Comprehensive \LaTeX{} Symbol List" ($>14000$ entries).
+      \item Run on a terminal \verb|texdoc symbols| to get a list math symbols, or \verb|texdoc comprehensive| for "The Comprehensive \LaTeX{} Symbol List" ($>14000$ entries).
       \item \href{http://detexify.kirelabs.org/classify.html}{\texttt{Detexify}} (both web and mobile application) lets you draw the sought symbol and returns the associated command (and possibly the package to load).
       \item Bold symbols may not always available (for example \verb|\mathbf{\delta}| will print a normal delta). Try package \texttt{bm} and its \verb|\bm{...}| command.
     \end{itemize}
@@ -2461,7 +2461,7 @@ Let us write some interspaces
       \item A \href{https://tex.stackexchange.com/questions/2706/adequate-hyphenation-of-words-already-containing-a-hyphen}{question}
     \end{itemize}
   \item For hundreds of logos (even well-known ones as Google \faGoogle, FB \faFacebookSquare,\ldots) use package \href{https://ctan.crest.fr/tex-archive/fonts/fontawesome/doc/fontawesome.pdf}{\texttt{fontawesome}}.
-  \item An exhaustive (?) list of all symbols is available \href{http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf}{here} (beware, hundreds of pages).
+  \item An exhaustive (?) list of all symbols is available \href{http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf}{here} or via a simple command line \verb|texdoc comprehensive| (beware, hundreds of pages).
   \item For typesetting units the reference package is \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/siunitx/siunitx.pdf}{\texttt{siunitx}} and its \verb|\si{<unit>}| and \verb|SI{<num>}{<unit>}| commands.
   \item Comment large parts of the file out: check this \href{https://tex.stackexchange.com/questions/17816/commenting-out-large-sections}{question}. The proposed solutions are \verb|\iffalse ... \fi|, package \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/comment/comment.pdf}{\texttt{comment}} or restructuring the project and working with \verb|\includeonly{...}|
   \item How can I get LaTeX to warn about unreferenced figures and unused labels in general? Answer \href{https://tex.stackexchange.com/questions/25742/how-can-i-get-latex-to-warn-about-unreferenced-figures-and-unused-labels-in-gene/25743#25743}{here}.
