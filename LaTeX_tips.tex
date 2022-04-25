@@ -198,6 +198,12 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
 \begin{verbatim}
 \setbeamertemplate{footnote}{...}
 \end{verbatim}
+      \item Footnotes in a float caption: see \href{https://tex.stackexchange.com/questions/10181/using-footnote-in-a-figures-caption}{here}. Two ways: Add an optional custom caption for list of Figure, or \texttt{protect} the command
+\begin{verbatim}
+\caption[Caption for LOF]{A caption with a \footnote{Footnote text}}
+% or....
+\caption{A caption with a \protect\footnote{Footnote text}}
+\end{verbatim}
     \end{itemize}
   \item Customize headers and footers: package \href{http://mirrors.standaloneinstaller.com/ctan/macros/latex/contrib/fancyhdr/fancyhdr.pdf}{\texttt{fancyhdr}}.
   \item Position stuff exactly where you wish: use package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/textpos/textpos.pdf}{\texttt{textpos}} and its command
@@ -364,9 +370,10 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%                   SECTION: ITEMIZE & Co.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Items \& Co.}
+\section{List, Enumerations, Items \& Co.}
 \label{sec:Items}
 \begin{itemize}
+  \item Error \texttt{too deeply nested}: too many nested lists / enumerations. \LaTeX{} has a finite number on definition for list and sub-lists, you have reached the end. Unfortunately, as explained \href{https://texfaq.org/FAQ-toodeep}{here} there nothing to do about it
   \item In \texttt{enumerate} start from a different number: just add \verb|\setcounter{enumi}{<n>}| (as proposed \href{https://overleaf.com/learn/latex/Counters}{here}). See also below with package \texttt{enumitem} and \autoref{sec:Miscellaneous} for managing counters.
   \item The \texttt{enumitem} \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/enumitem/enumitem.pdf}{package} enables more control on the \texttt{itemize} environment and alike.
     \begin{itemize}
