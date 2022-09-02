@@ -2324,6 +2324,19 @@ I eat a \color~\what. \\
 \end{verbatim}
     \end{itemize}
   \item An example of looping with more than one arguments and conditionals is in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
+  \item Storing previous values: use option \texttt{remember as}, \texttt{(initially foo)} sets the initial value
+\begin{verbatim}
+\foreach \x[remember=\x as \prevx (initially 0)] in {1,2,3}{
+  $\prevx < \x$,
+}
+\end{verbatim}
+  \item Get the \emph{index}: \texttt{count}. For instance, to draw a node A at position 1, B at position 2, etc
+\begin{verbatim}
+\tikz
+  \foreach \x [count=\xi] in {A,...,E}{
+    \node at (\xi,0) {\x};
+  }
+\end{verbatim}
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2333,15 +2346,30 @@ I eat a \color~\what. \\
 \label{sec:Miscellaneous}
 \begin{itemize}
   \item Get the manual of an installed package by running \verb|texdoc <name\_of\_the\_package>|
-  \item Define macros: we treat here the \LaTeX{} mode (more primitive \TeX{} commands such as \verb|\def|, \verb|\let| are available as well but won't be addressed here). Intro \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{here}
+  \item Define macros/new commands: we treat here the \LaTeX{} mode (more primitive \TeX{} commands such as \verb|\def|, \verb|\let| are available as well but won't be addressed here). Intro \href{https://en.wikibooks.org/wiki/LaTeX/Macros}{here}
     \begin{itemize}
-      \item \verb|\newcommand\macro{<stuff>}|: defines a new command \verb|\macro| that will expand to \verb|<stuff>|. Gives an error if \verb|\macro| is already defined
-      \item \verb|\renewcommand\macro{<stuff>}|: redefines (overwrite) command \verb|\macro|. Gives an error if \verb|\macro| is not defined yet
-      \item \verb|\providecommand\macro{<stuff>}|: defines a new command \verb|\macro|. Does nothing if \verb|\macro| is already defined
+      \item \verb|\newcommand\macro{<definition>}|: defines a new command \verb|\macro| that will expand to \verb|<definition>|. Gives an error if \verb|\macro| is already defined
+      \item \verb|\renewcommand\macro{<definition>}|: redefines (overwrite) command \verb|\macro|. Gives an error if \verb|\macro| is not defined yet
+      \item \verb|\providecommand\macro{<definition>}|: defines a new command \verb|\macro|. Does nothing if \verb|\macro| is already defined
       \item IDEA: use \verb|\providecommand| for an interactively set parameters from outside the sources as explained \href{https://en.wikibooks.org/wiki/LaTeX/Macros#Command-line_LaTeX}{here}
 \begin{verbatim}
 pdflatex '\providecommand\draft{draft}\input{source.tex}'
 \end{verbatim}
+      \item Macros with arguments:
+        \begin{itemize}
+          \item The arguments number has to be told in brackets before the definition. Arguments are referred to with \verb|#n|, where \verb|n| is the position
+\begin{verbatim}
+\newcommand\greet[2]{#1, #2!}
+\greet{Hello}{World} % Renders "Hello, World!"
+\end{verbatim}
+          \item Default arguments: one can specify a default argument, in brackets, after the number of total arguments. If a value should be provided, it should be passed with brackets (not braces). Only the first argument can be defaulted
+\begin{verbatim}
+\newcommand\greet[2][Hello]{#1, #2!}
+\greet{World} % Renders "Hello, World!"
+\greet[Hi]{World} % Renders "Hi, World!"
+\end{verbatim}
+          \item For more flexibility with default arguments, additional packages should be used. Have a look at \href{https://www.ctan.org/pkg/xparse}{\texttt{xparse}} as suggested \href{https://tex.stackexchange.com/a/29975/206129}{here}, or at \href{https://www.ctan.org/pkg/xargs}{\texttt{xargs}} as suggested \href{https://texfaq.org/FAQ-twooptarg}{here}
+      \end{itemize}
     \end{itemize}
   \item Fed up with \verb|Overfull| / \verb|Underfull \hbox|? And what is that all about anyway? Have a look \href{https://www.overleaf.com/learn/how-to/Understanding_underfull_and_overfull_box_warnings}{here}. Sometimes it is that, in way way or another, you are taking more space than that is allowed.
     \begin{itemize}
