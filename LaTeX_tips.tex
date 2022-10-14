@@ -244,7 +244,7 @@ Happy \LaTeX ing! And remember: {\itshape Sharing is caring!}
   \item Spacing:
   \begin{itemize}
     \item \verb|\vspace{<length>}| (resp.~\verb|\hspace{<length>}|) tells \LaTeX{} to leave a vertical (resp.~horizontal) space. Its starred version \verb|\vspace*{<len>}| forces it when you are close to the top/bottom of the page.
-    \item For leaving one-time space between two lines, use \verb|\smallskip|, \verb|\medskip| or \verb|\bigskip| (which are equivalent to e.g.~\verb|\vspace{\smallskipamount}|).
+    \item For leaving one-time space between two lines, use \verb|\smallskip|, \verb|\medskip| or \verb|\bigskip| (which are equivalent to e.g.\ \verb|\vspace{\smallskipamount}|).
     \item \verb!\small|med|bigbreak!: as above but suggests to \LaTeX{} that it would be a good place for a pagebreak if necessary.
     \item When forcing a newline, a custom vertical space may be added: \verb|The end\\[3cm]|.
     \item Fill the line/page: \verb!\hfill!, \verb!\vfill!. Might be useful: for lines \verb|\dotfill|, \verb|\hrulefill|.
@@ -268,9 +268,14 @@ A space after my \cmd here. There shouldn't be one after my \cmd.
 \end{verbatim}
         A space after my \cmdd{} here. There shouldn't be one after my \cmdd{}.
       \end{itemize}
+    \item Dots, abbreviations, and spacing.
+      \begin{itemize}
+        \item Suppose you want to write \verb|cf. there|. \LaTeX{} interprets that dot as a phrase-ending period and it stretches the blank between the dot and the following word. Add a tilde, like this \verb|cf.~there| or write \verb|cf.\ there| (as you would do in math mode) to avoid it. The difference is that the tilde is an unbreakable space, hence the two words are forced to be together and cannot be broken up by a new line, for instance.
+        \item Conversely, \LaTeX{} interprets a dot after a one-letter all-capital word as an abbreviation (e.g.\ for John R. R. Tolkien). If it is not the case for you, add \verb|\@| before the period: \verb|Yesterday, I watched Rambo I\@. It is a good movie|.
+      \end{itemize}
   \end{itemize}
   \item Special and Accented characters: \href{https://en.wikibooks.org/wiki/LaTeX/Special_Characters#Escaped_codes}{here} (the link is useful for other symbols as well).
-  \item Special styles, e.g.~underlined, highlighted, spaced-out\ldots{}
+  \item Special styles, e.g.\ underlined, highlighted, spaced-out\ldots{}
     \begin{itemize}
       \item The package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/ulem/ulem.pdf}{\texttt{ulem}} provides several underlined styles (double, wavy, strike-out\ldots).
         \begin{itemize}
@@ -344,7 +349,7 @@ A space after my \cmd here. There shouldn't be one after my \cmd.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Languages}
 \label{sec:languages}
-Sometimes, especially in a thesis, one may have to use different languages, possibly with different typesetting styles (e.g.~white-space before semicolon in French not in English). \href{https://en.wikibooks.org/wiki/LaTeX/Internationalization}{Here}, one can find an article about the internalization with pieces of advice and examples. When juggling more than one languages, the \texttt{babel} package comes in hand.
+Sometimes, especially in a thesis, one may have to use different languages, possibly with different typesetting styles (e.g.\ white-space before semicolon in French not in English). \href{https://en.wikibooks.org/wiki/LaTeX/Internationalization}{Here}, one can find an article about the internalization with pieces of advice and examples. When juggling more than one languages, the \texttt{babel} package comes in hand.
 \begin{itemize}
   \item Load the \texttt{babel} package with the languages you want to use as options. The order is important since the last one is considered as default one:
 \begin{verbatim}
@@ -363,7 +368,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \end{otherlanguage}
 [English typesetting]
 \end{Verbatim}
-  \item For some languages (e.g.~Italian) \texttt{babel} changes autonomously caption names (figure, table,\ldots) and stuff (table of contents\ldots). With \texttt{french} (and similar) this does not happen for everything, hence one may want to rename manually the captions. For instance, one can use: \verb|\addto\captionsfrench{\def\tablename{Tableau}}|.
+  \item For some languages (e.g.\ Italian) \texttt{babel} changes autonomously caption names (figure, table,\ldots) and stuff (table of contents\ldots). With \texttt{french} (and similar) this does not happen for everything, hence one may want to rename manually the captions. For instance, one can use: \verb|\addto\captionsfrench{\def\tablename{Tableau}}|.
   \item When certain languages are loaded, \texttt{babel} may be incompatible with some packages. This comes down to the fact that it modifies basic characters. Think about the semicolon ``\texttt{;}'' which in French gets modified so that a thin space is added before it. There are packages (for instance, \texttt{tikz}, see \autoref{sec:tikzpgf}) which suppose that such character have its basic and original meaning. This may cause compatibility issues. If you fear that a certain error is due to this incompatibility, you can try to switch off the particular value of the character, with \verb|\shorthandoff{;}|. You may reactivate it with \verb|\shorthandon{;}|. Other incompatibilities may involve Spanish and German, and characters like ``!'', ``>'', ``<'', ``:''.
 \end{itemize}
 
@@ -516,7 +521,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
 \multicolumn{<#cols to merge>}{<type>}{<content>}
 \multirow{<#rows to merge>}{<width(or *)>}{<content>}
 \end{verbatim}
-    e.g.:~\verb!\multicolumn{2}{c|}{Two columns in one}!
+    e.g.: \verb!\multicolumn{2}{c|}{Two columns in one}!
   \item Horizontal tables / landscape: use the environment \texttt{sidewaystable} (instead of \texttt{table}) from the package \texttt{rotating}. Other solution found \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{here};
   \item Wider choice of row / column separators: see package
     \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/macros/latex/required/tools/longtable.pdf}{\texttt{hhline}}, or \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/arydshln/arydshln-man.pdf}{\texttt{arydshln}};
@@ -632,7 +637,7 @@ Paragraph two is the runner-up.
   \item Position of float: this is slippery ground. Theoretically, \LaTeX{} has an algorithm that computes where it's better to print out a float (a float being something like a \texttt{figure} or \texttt{table} environments), however it sometimes does a bad job and one would like to choose. Well, this is not always possible but one can make an attempt.
     \begin{itemize}
       \item An intro is available \href{https://www.overleaf.com/learn/latex/Positioning_images_and_tables}{here}: a solution for wrapping floats is also proposed.
-      \item First, one can tell \LaTeX{} where he prefers to have the float printed. For instance one can pass the following options (e.g.~\verb|\begin{table}[<opt>]|): \texttt{h} (for \emph{here} or as close as possible), \texttt{t} (for \emph{at the top} of a page), \texttt{b} (for \emph{at the bottom} of a page), \texttt{p} (in \emph{page} of floats only, no text), \texttt{!} (to override the \LaTeX{} algorithm), \texttt{H} (from package \texttt{float}, to force the position exactly \emph{Here}). Indeed, lists in order of preference are accepted: hence, \texttt{htb} means "try to print it here, otherwise at the top of a page, otherwise at the bottom of a page".
+      \item First, one can tell \LaTeX{} where he prefers to have the float printed. For instance one can pass the following options (e.g.\ \verb|\begin{table}[<opt>]|): \texttt{h} (for \emph{here} or as close as possible), \texttt{t} (for \emph{at the top} of a page), \texttt{b} (for \emph{at the bottom} of a page), \texttt{p} (in \emph{page} of floats only, no text), \texttt{!} (to override the \LaTeX{} algorithm), \texttt{H} (from package \texttt{float}, to force the position exactly \emph{Here}). Indeed, lists in order of preference are accepted: hence, \texttt{htb} means "try to print it here, otherwise at the top of a page, otherwise at the bottom of a page".
         \item Sometimes it is not enough. Clearing a page, \verb|\clearpage| or \verb|\cleardoublepage|, usually force to print all the hanging floats, so that, for example, floats form a chapter are found far and in another chapter. This kind of commands are thought for the end of a chapter or of a section, but one can also use \verb|\FloatBarrier| (from the package \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/placeins/placeins-doc.pdf}{\texttt{placeins}}) that tells \LaTeX{} to print all the hanging floats before trespassing the barrier.
         \item \href{http://dcwww.camd.dtu.dk/~schiotz/comp/LatexTips/LatexTips.html#figplacement}{Here} is a trick to avoid having figures on a page by themselves.
     \end{itemize}
@@ -752,14 +757,14 @@ x&y\\1&2
             e^{i\pi}+1=0\tag{Euler's}
           \end{equation*}
         \end{minipage}
-        Notice that the tag is used when referencing the equation: e.g.,~here \verb|\eqref{eq:euler}| gives \eqref{eq:euler}.
+        Notice that the tag is used when referencing the equation: e.g., here \verb|\eqref{eq:euler}| gives \eqref{eq:euler}.
   \item Parentheses:
     \begin{itemize}
       \item Have a look \href{https://www.overleaf.com/learn/latex/Brackets_and_Parentheses}{here}
       \item Types and commands: ``$()$'' \verb|()|; ``$[]$'' \verb|[]|; ``$\{\}$'' \verb|\{\}| (yes, you need a backslash); ``$||$'' \verb!||!; ``$\|\|$'' \verb!\|\|!; ``$\langle\rangle$'' \verb|\langle\rangle|; ``$\lceil\rceil$'' \verb|\lceil\rceil|; ``$\lfloor\rfloor$'' \verb|\lfloor\rfloor|;
       \item Sizes:
         \begin{itemize}
-          \item Choosing manually the size by combining one of the parenthesis type and (ascending order) \verb|\big|, \verb|\Big|, \verb|\bigg|, \verb|\Bigg|. E.g.~$\displaystyle \big(\Big(\bigg(\Bigg($
+          \item Choosing manually the size by combining one of the parenthesis type and (ascending order) \verb|\big|, \verb|\Big|, \verb|\bigg|, \verb|\Bigg|. E.g.\ $\displaystyle \big(\Big(\bigg(\Bigg($
           \item Use \verb|\left( \right)| for parentheses which automatically adapt to the size of the content: e.g.
             % Leave it
 
@@ -996,7 +1001,7 @@ Section ``Guidelines for creating presentations'' (it should be section number 5
 And now, some random stuff:
 \begin{itemize}
   \item Being a class, load it like this \verb|\documentclass{beamer}|.
-  \item Many predefined themes and color palettes are available. Change the theme by putting in the preamble \verb|\usetheme{<name>}| (always city names, like Warsaw, Berlin,\ldots), change the color palette with \verb|\usecolortheme{<name>}| (animals or flowers, e.g.~\verb|seagull|, \verb|rose|). You can have a look at all the possible combinations \href{https://hartwork.org/beamer-theme-matrix/}{here}.
+  \item Many predefined themes and color palettes are available. Change the theme by putting in the preamble \verb|\usetheme{<name>}| (always city names, like Warsaw, Berlin,\ldots), change the color palette with \verb|\usecolortheme{<name>}| (animals or flowers, e.g.\ \verb|seagull|, \verb|rose|). You can have a look at all the possible combinations \href{https://hartwork.org/beamer-theme-matrix/}{here}.
   \item Mode: select the mode with \verb|\mode<type>| (you should keep the angle brackets here).
     \begin{itemize}
       \item You are preparing a presentation, you want nice slides to flip on screen: you need the \verb|presentation| mode (this is the default one, you don't have to worry to actually put this piece of code in your file)\ldots
@@ -1007,8 +1012,8 @@ And now, some random stuff:
       \item Redefine: \verb|\setbeamertemplate{<element>}[default]{<commands>}|
       \item Add to: \verb|\addtobeamertemplate{<element>}{<pre_commands>}{<app_commands>}| (prepend or append to existing element)
       \item Modify lengths: \verb|\setbeamersize{...}|
-      \item Colors: \verb|\setbeamercolor{<element>}{<defs>}|. Each element has a foreground and background color, hence \texttt{defs} may include something like \verb|fg=blue,bg=white|. It may also include \verb|use=<parent_element>| if one wants to use the colors of another element: e.g.~\verb|use=title,fg=title.fg!50|. The starred version firstly resets everything then set the new.
-      \item Fonts: \verb|\setbeamerfont{<element>}{<defs>}|. \texttt{defs} may define the \texttt{family} (e.g.~sans serif\ldots), \texttt{series} (e.g.~bold, italics), and the \texttt{size}. E.g.
+      \item Colors: \verb|\setbeamercolor{<element>}{<defs>}|. Each element has a foreground and background color, hence \texttt{defs} may include something like \verb|fg=blue,bg=white|. It may also include \verb|use=<parent_element>| if one wants to use the colors of another element: e.g.\ \verb|use=title,fg=title.fg!50|. The starred version firstly resets everything then set the new.
+      \item Fonts: \verb|\setbeamerfont{<element>}{<defs>}|. \texttt{defs} may define the \texttt{family} (e.g.\ sans serif\ldots), \texttt{series} (e.g.\ bold, italics), and the \texttt{size}. E.g.
 \begin{verbatim}
 family=\sffamily,series=\bfseries,size=\normalsize
 \end{verbatim}
@@ -1135,7 +1140,7 @@ end{enumerate}
 
 \subsection{Overlays}
 \label{sub:overlays}
-Overlays, that is how to make something (dis)appear (e.g.~\verb|\only|, \verb|\uncover|...): \href{https://openclassrooms.com/courses/creez-vos-diaporamas-en-latex-avec-beamer/les-overlays-1}{here} or also \href{https://www.texdev.net/2014/01/17/the-beamer-slide-overlay-concept/}{here}
+Overlays, that is how to make something (dis)appear (e.g.\ \verb|\only|, \verb|\uncover|...): \href{https://openclassrooms.com/courses/creez-vos-diaporamas-en-latex-avec-beamer/les-overlays-1}{here} or also \href{https://www.texdev.net/2014/01/17/the-beamer-slide-overlay-concept/}{here}
 \begin{itemize}
   \item Syntax: \verb|\cmd<when>{...}| (mind that this time the angle brackets \verb|<.>| should really be there). Some examples,
     \begin{itemize}
@@ -1233,7 +1238,7 @@ Here is the \texttt{TikZ} and \texttt{pgf} \href{https://mirrors.chevalier.io/CT
   \item \texttt{TikZ} internally loads \texttt{xcolor} if not already loaded. This may cause an option clash if \texttt{xcolor} was already loaded. Hence, \begin{inparaenum}[(i)] \item load \texttt{xcolor} with the desired options, and then \item load \texttt{TikZ}.\end{inparaenum}
   \item The site \href{https://www.mathcha.io/}{\texttt{matcha.io}} has an editor in which you can draw a figure with the mouse and then export it in \texttt{TikZ} code (or image).
   \item ATTENTION: some incompatibilities can occur when languages with special characters are loaded with \texttt{babel} (see \autoref{sec:languages}). An example is the semicolon ``;'' in French (but Spanish and German may be affected as well). You are advised in this case to load the related library which should solve most of these issues: \verb|\usetikzlibrary{babel}|.
-  \item Global settings / style definitions: e.g.~\verb|\tikzset{color=red[,...]}|
+  \item Global settings / style definitions: e.g.\ \verb|\tikzset{color=red[,...]}|
     \begin{itemize}
       \item You can put as many valid \texttt{TikZ} commands inside a \verb|\tikzset| as long as they are comma-separated.
       \item Custom styles: imagine you have to draw dozen of red thick lines, hence you should repeat \verb|\draw[color=red,thick] ...| many times. It would be nice to have a shortcut, innit? So define a style:
@@ -1523,7 +1528,7 @@ Before going into the details, if you are familiar with \texttt{gnuplot} you may
     \begin{itemize}
       \item \verb!x|y post scale=<n>!;
       \item \verb!x|y scale=<n>!;
-      \item \verb|unit vector ratio=<x_value> <y_value>| e.g.~\verb|unit vector ratio=2 1| for a \texttt{x} axis two times longer than the \texttt{y} one
+      \item \verb|unit vector ratio=<x_value> <y_value>| e.g.\ \verb|unit vector ratio=2 1| for a \texttt{x} axis two times longer than the \texttt{y} one
     \end{itemize}
   \item Sizes\ldots
     \begin{itemize}
@@ -1533,7 +1538,7 @@ Before going into the details, if you are familiar with \texttt{gnuplot} you may
     \end{itemize}
   \item Lines\ldots
     \begin{itemize}
-      \item Styles: \texttt{solid}, \texttt{dashed}, \texttt{dotted}, \texttt{dashdotted}, \texttt{dashdotdotted}; two modifiers can be use in combination with the styles: \texttt{densely}, \texttt{loosely} (e.g.~\texttt{densely dotted}, \texttt{loosely dashed}).
+      \item Styles: \texttt{solid}, \texttt{dashed}, \texttt{dotted}, \texttt{dashdotted}, \texttt{dashdotdotted}; two modifiers can be use in combination with the styles: \texttt{densely}, \texttt{loosely} (e.g.\ \texttt{densely dotted}, \texttt{loosely dashed}).
       \item Width: \texttt{ultra thin}, \texttt{very thin}, \texttt{thin}, \texttt{semithick}, \texttt{thick}, \texttt{very thick}, \texttt{ultra thick}. Or just: \verb|draw[line width=<n>cm, <...>] <...>;|
       \item {\bfseries ATTENTION:} the styles are passed to the markers as well, hence the markers may not appear well printed. When using \texttt{dashed, dotted} or similar remember to add also \verb|mark options={solid[,...]}|, or also \verb|every mark/.append style={solid}| (possibly in a global setting).
     \end{itemize}
@@ -1634,7 +1639,7 @@ enlarge x limits=abs value=<val>|abs=<val>|rel=<val>
 \begin{verbatim}
 restrict y to domain:<min>:<max>
 \end{verbatim}
-    Mind however that this filter somehow the points but does not set the limits of the plot, hence you might want to set also e.g.~\texttt{ymin=<min>}
+    Mind however that this filter somehow the points but does not set the limits of the plot, hence you might want to set also e.g.\ \texttt{ymin=<min>}
   \item Show colorbar: option \texttt{colorbar}. Yup, that was easy. Default is vertical on the right. One may choose \texttt{colorbar left}, \texttt{colorbar horizontal}.
   \item Ticks: ticks are the markers on the axes. With tick labels one refers to the (usually) numbers describing the tick values.
     \begin{itemize}
@@ -1660,7 +1665,7 @@ yticklabel style={
   \item Help grids:
     \begin{itemize}
       \item Set the level of the help grid that should appear on your plot via the option \verb|grid=<type>|. Possible types are \verb|none|, \verb|major|, \verb|minor|, \verb|both|
-      \item Set the style of a type of grid: e.g.~\verb|major grid style={dotted,very thin}|
+      \item Set the style of a type of grid: e.g.\ \verb|major grid style={dotted,very thin}|
       \item Even if the \verb|minor| (or \verb|both|) is requested, it may not actually printed. In fact, in order to be printed the plot need to have minor ticks as well. For instance, use \verb|minor tick num=<n>| where \verb|n| is how many minor ticks between two major one you want.
       \item \verb!x|ycomb!: draw a line from a plot point to the \verb!x|y! axis. An alternative could be using error bars: \verb|[error bars/]x fixed relative=1,x dir=minus| for both x and y
     \end{itemize}
@@ -1670,7 +1675,7 @@ yticklabel style={
   \item Fill area between two lines: \href{http://pgfplots.net/tikz/examples/fill-between-plots/}{here} is a really cool example.
     \begin{itemize}
       \item Use \verb|soft clip={domain=<lower>:<upper>}| to limits to a certain domain
-      \item To fill an entire vertical strip of the plot use \texttt{tikz} \texttt{rectangle} action and access the \texttt{y} limits. E.g.~fill between \texttt{x=-2} and \texttt{x=2}
+      \item To fill an entire vertical strip of the plot use \texttt{tikz} \texttt{rectangle} action and access the \texttt{y} limits. E.g.\ fill between \texttt{x=-2} and \texttt{x=2}
 \begin{verbatim}
 \fill[red] (-2,\pgfkeysvalueof{/pgfplots/ymin})
   rectangle (+2,\pgfkeysvalueof{/pgfplots/ymax});
@@ -1700,7 +1705,7 @@ In what follows, \verb|<table>| can be either the file to be read, or a macro as
 Two are the main reasons to use (and to love) \texttt{pgfplotstable}: creating plots from data using \verb|\addplot table {<table>}|, typesetting tables with \verb|\pgfplotstabletypeset{<table>}| (mind that this is a just an interface and \texttt{pgfplotstable} will only print the content in a format compatible with a \texttt{tabular} or alike environment). Examples are in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}.
 
   \begin{itemize}
-    \item Global settings / style definitions: e.g.~\verb|\pgfplotstableset{[...]}|
+    \item Global settings / style definitions: e.g.\ \verb|\pgfplotstableset{[...]}|
     \item When using \texttt{pgfplotstable} with plots, one can use:
       \begin{itemize}
         \item Labels, if the table has headers
@@ -1741,7 +1746,7 @@ end table=\end{longtable},
       \begin{itemize}
         \item \verb|\thisrow{<col_name>}|: get the value and use it now.
         \item \verb|\thisrow{<col_name>}{<\macro>}|: get the value and store it in the macro.
-        \item If one wants to use column indexes (instead of column names): e.g.~\verb|\thisrowno{<n>}| (zero-based) (\verb|\thisrow{[index]<n>}| should work too).
+        \item If one wants to use column indexes (instead of column names): e.g.\ \verb|\thisrowno{<n>}| (zero-based) (\verb|\thisrow{[index]<n>}| should work too).
         \item \verb|\pgfplotstablegetelem{<row>}{<col>}\of{<table>}|. The second argument must be a column name, if one wishes to use an index replace it with: \verb|{[index]<n>}|.
         \item \verb|\pgfplotstablegetcolumnnamebyindex{0}\of{\mytab}\to{\firstcolumn}|
       \end{itemize}
@@ -1757,11 +1762,11 @@ end table=\end{longtable},
 \begin{verbatim}
 \pgfplotstablecreatecol{create col/.<type>={[...]}}{<table>}
 \end{verbatim}
-        \item Mind that if you want to perform operation on created columns (e.g.~summing two new columns), the columns must be created offline (\href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}).
+        \item Mind that if you want to perform operation on created columns (e.g.\ summing two new columns), the columns must be created offline (\href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}).
       \end{itemize}
     \item Ideas on columns management: \href{https://tex.stackexchange.com/questions/79150/pgfplotstable-how-to-access-column-name}{here}.
     \item Vertically concatenate two tables (only common columns are printed, only one header is printed): \verb|\pgfplotstablevertcat{\mytabone}{mytabtwo}|, then merged is stored in \verb|\mytabone|, hence print it: \verb|\pgfplotstabletypeset{\mytabone}| (\href{https://tex.stackexchange.com/questions/19877/add-rows-to-a-pgftable}{here}).
-    \item Modify row \texttt{<n>}: e.g.~print line before row number 4
+    \item Modify row \texttt{<n>}: e.g.\ print line before row number 4
 \begin{verbatim}
 \pgfplotstableset{%
   every row no 4/.style={before row={\hrule}}}
@@ -1882,7 +1887,7 @@ This goes beyond the scope of the section and of the document too, but something
 \newcommand{\<env>autoref}{<printedenvname>} % with package hyperref
 \crefname{<env>}{<singular>}{<plural>} % For cref (cleveref)
 \end{verbatim}
-    \item Capitalize the name (e.g.~\emph{Section 1.1}): possible with \texttt{cleveref}
+    \item Capitalize the name (e.g.\ \emph{Section 1.1}): possible with \texttt{cleveref}
 \begin{verbatim}
 \Cref{label} % instead of cref
 \end{verbatim}
@@ -1897,9 +1902,9 @@ This goes beyond the scope of the section and of the document too, but something
 The \texttt{hyperref} package enables to create hyperlinks. Here is an \href{https://www.overleaf.com/learn/latex/hyperlinks}{overview} (the previous word is indeed a hyperlink! Click on it!). The basic command is \verb|\href{<link_address>}{<place_holder>}|: \verb|place_holder| is what is printed in the document and \verb|link_address| is the actual address.
 \begin{itemize}
   \item One can customize the links color (options \verb!url|linkbordercolor!), disable the color (\texttt{hidelinks}), use an underlined version instead of a box (\verb|pdfborderstyle={/S/U/W 1}|), color the text of the link (no box is printed, \texttt{colorlinks=ture} and \verb!url|linkcolor!). And many others.
-  \item Webpages: it is better to prepend \texttt{http://} (or indeed \texttt{https://}) to the link in order not to have weird behavior, e.g.~\verb|https://www.edf.fr|.
-  \item Email address: prepend \texttt{mailto:} to the address, e.g.~\verb|\href{mailto:jbl_pdg@gmail.com}{JBL}|.
-  \item Local file: prepend \texttt{run:} to the file you want to open, e.g.~\verb|\href{run:/path/to/tips.pdf}{tips}|.
+  \item Webpages: it is better to prepend \texttt{http://} (or indeed \texttt{https://}) to the link in order not to have weird behavior, e.g.\ \verb|https://www.edf.fr|.
+  \item Email address: prepend \texttt{mailto:} to the address, e.g.\ \verb|\href{mailto:jbl_pdg@gmail.com}{JBL}|.
+  \item Local file: prepend \texttt{run:} to the file you want to open, e.g.\ \verb|\href{run:/path/to/tips.pdf}{tips}|.
   \item Option \verb|linktoc=<type>| let you choose if the section name (\texttt{section}, default), page number (\texttt{page}), both (\texttt{all}) or none (\texttt{none}) link to the section.
   \item Create additional bookmarks: \verb|\pdfbookmark[<level>]{<title>}{<label>}|. \texttt{level} is a number, \texttt{0} corresponds to chapter.
   \item \verb|\nameref| reference by name and not by number. If you want to put everything together (number \emph{and} name), have a look \href{https://tex.stackexchange.com/a/121871/206129}{here}.
@@ -1908,10 +1913,10 @@ The \texttt{hyperref} package enables to create hyperlinks. Here is an \href{htt
 Some tips about \texttt{cleveref}:
 \begin{itemize}
   \item ATTENTION: \texttt{cleveref} does not like French-\texttt{babel}, especially its symbols such as ``\texttt{:}'' (colon). Hence, one cannot use labels like \verb|eq:euler|, because of the colon. Hence, either one does not use colons, or they should be prepended by \verb|\string|, see the comments of this \href{https://tex.stackexchange.com/a/83818}{post}.
-  \item \verb|\labelcref{<label>}|: print only the label. E.g.~\texttt{1.1} (without \texttt{Section}).
-  \item \verb|\namecref{<label>}|: print only the name, type. E.g.~\texttt{Section} (without \texttt{1.1}).
+  \item \verb|\labelcref{<label>}|: print only the label. E.g.\ \texttt{1.1} (without \texttt{Section}).
+  \item \verb|\namecref{<label>}|: print only the name, type. E.g.\ \texttt{Section} (without \texttt{1.1}).
   \item \verb|\crefrange{<start_label>}{<end_label>}|: typeset a range of references. For uppercase names \verb|\Crefrange{<start_label>}{<end_label>}|
-  \item option \texttt{noabbrev} makes \texttt{cleveref} print full reference name, e.g.~\texttt{equation} instead of \texttt{eq.}
+  \item option \texttt{noabbrev} makes \texttt{cleveref} print full reference name, e.g.\ \texttt{equation} instead of \texttt{eq.}
   \item option \texttt{poorman}: you are invited to look at it in the \href{http://ctan.mines-albi.fr/macros/latex/contrib/cleveref/cleveref.pdf}{manual}. Basically, if you have to send your \TeX{} sources to someone that does not use \texttt{cleveref}, you can add this option and \texttt{cleveref} will produce a \texttt{sed} script which, once run, will replace all calls to its macros although leaving the output unchanged.
 \end{itemize}
 
@@ -1969,7 +1974,7 @@ This line is ignored
 \label{sub:natbib}
 \href{https://ctan.crest.fr/tex-archive/macros/latex/contrib/natbib/natbib.pdf}{User guide} (in \href{http://mirror.ibcp.fr/pub/CTAN/info/translations/natbib/fr/f-natbib.pdf}{French} too!) and \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/natbib/natnotes.pdf}{cheat-sheet} or this \href{http://merkel.texture.rocks/Latex/natbib.php}{cheat-sheet too}. If you do not use a \LaTeX{} integrated editor (IDE) (although it could be useful to know this anyway) but compile from terminal, you should:
   \begin{enumerate}
-    \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
+    \item Compile one time with your preferred compiler (e.g.\ \texttt{pdflatex}: \verb|$pdflatex main.tex|);
     \item Compile the bibliography with \texttt{bibtex}: \verb|$bibtex main.aux|;
     \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
   \end{enumerate}
@@ -1992,13 +1997,13 @@ This line is ignored
 \label{sub:biblatex}
 \href{http://mirror.ibcp.fr/pub/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf}{User guide} (in the introduction, there is a nice overview of other bibliography-related packages which could be useful). A quick \href{https://www.overleaf.com/learn/latex/Articles/Getting_started_with_BibLaTeX}{tutorial} (see also \href{https://www.overleaf.com/learn/latex/Biblatex_citation_styles}{this} and \href{https://www.overleaf.com/learn/latex/Biblatex_bibliography_styles}{that} for examples of citation/bibliography styles). And a useful \href{http://tug.ctan.org/info/biblatex-cheatsheet/biblatex-cheatsheet.pdf}{cheatsheet}. \texttt{biblatex} relies on \texttt{biber}, thus the compiling sequence becomes:
   \begin{enumerate}
-    \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
+    \item Compile one time with your preferred compiler (e.g.\ \texttt{pdflatex}: \verb|$pdflatex main.tex|);
     \item Compile the bibliography with \texttt{biber}: \verb|$biber main.bcf|;
     \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
   \end{enumerate}
-If you use an IDE, you may have to change the compiling stage command to something like: \verb|biber %.bcf|. However, \texttt{biber} is not available on the EDF-controlled OS, but you can change the bibliography compiler. When loading \texttt{biblatex} use \texttt{bibtex} or \texttt{bibtex8} as backend (both available on EDF PCs): e.g.~\verb|\usepackage[backend=bibtex]{biblatex}|. Now the compiling process will be the same as for \texttt{natbib}:
+If you use an IDE, you may have to change the compiling stage command to something like: \verb|biber %.bcf|. However, \texttt{biber} is not available on the EDF-controlled OS, but you can change the bibliography compiler. When loading \texttt{biblatex} use \texttt{bibtex} or \texttt{bibtex8} as backend (both available on EDF PCs): e.g.\ \verb|\usepackage[backend=bibtex]{biblatex}|. Now the compiling process will be the same as for \texttt{natbib}:
   \begin{enumerate}
-    \item Compile one time with your preferred compiler (e.g.~\texttt{pdflatex}: \verb|$pdflatex main.tex|);
+    \item Compile one time with your preferred compiler (e.g.\ \texttt{pdflatex}: \verb|$pdflatex main.tex|);
     \item Compile the bibliography with \texttt{bibtex}, \verb|$bibtex main.aux|, or with \texttt{bibtex8}, \verb|$bibtex8 main.aux|;
     \item Re-compile \textbf{twice} your \texttt{.tex} in order to have all the references linked and working.
   \end{enumerate}
@@ -2020,7 +2025,7 @@ If you use an IDE, you may have to change the compiling stage command to somethi
     \end{itemize}
   \item Sort the citations:
     \begin{itemize}
-      \item In the bibliography: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g.~\texttt{nyt}, \texttt{nty}).
+      \item In the bibliography: \verb|\usepackage[sorting=<style>]{biblatex}|, usually the argument is a combination of \texttt{n} (for name), \texttt{t} (title), \texttt{y} (year) according to the importance (e.g.\ \texttt{nyt}, \texttt{nty}).
       \item When citing: option \verb!sortcites=true|false!
     \end{itemize}
   \item Use \texttt{natbib} commands: option \verb!natbib=true|false!
@@ -2094,7 +2099,7 @@ $a^2+b^2=c^2$
 \printbibliography[title={Global references}, heading=subbibintoc]
 \end{verbatim}
     \end{itemize}
-  \item Warnings may be issued with footnotes and \texttt{beamer} (e.g.~\texttt{Patching footnotes}), although this should happen only in old versions. Have a look at this \href{https://tex.stackexchange.com/questions/202988/beamer-patching-footnotes-warning-patching-footnotes-failed-footnote-detectio}{answer} and this \href{https://tex.stackexchange.com/questions/369266/beamer-and-biblatex-possible-remedy-for-warning-patching-footnotes-failed/405186#405186}{reference} therein.
+  \item Warnings may be issued with footnotes and \texttt{beamer} (e.g.\ \texttt{Patching footnotes}), although this should happen only in old versions. Have a look at this \href{https://tex.stackexchange.com/questions/202988/beamer-patching-footnotes-warning-patching-footnotes-failed-footnote-detectio}{answer} and this \href{https://tex.stackexchange.com/questions/369266/beamer-and-biblatex-possible-remedy-for-warning-patching-footnotes-failed/405186#405186}{reference} therein.
 \end{itemize}
 
 Have a look at the \href{http://ctan.mines-albi.fr/macros/latex/contrib/biblatex/doc/biblatex.pdf}{manual} for more details about these options/commands and many useful other ones.
@@ -2213,7 +2218,7 @@ One could be lead to include a snippet, a piece of code or describe an algorithm
 \section{\texttt{latexmk}}
 \label{sec:latexmk}
 
-As we have seen in \fullref{sec:Referencing}, the compilation of a \LaTeX{} documents involves different stages and may take some time. In fact, one has to: \begin{inparaenum}[(i)] \item compile the \texttt{.tex}, \item (possibly) compile the bibliography, \item (possibly) compile the glossary, and \item the compile the \texttt{.tex} again once or twice. \end{inparaenum} \texttt{latexmk} can do this automatically by itself and it even checks if a compilation is truly needed, and, if not, it skips it. It is often shipped with the \TeX{} engines (e.g.~\TeX{}Live for Unix), so you may have it already. Here is the \href{http://ctan.tetaneutral.net/support/latexmk/latexmk.pdf}{manual} and a real quick \href{https://mg.readthedocs.io/latexmk.html}{tutorial}. The usage it's really simple: \verb|latexmk [<opt>] file.tex|, and that's it, it does the magic itself, all the needed compilations.
+As we have seen in \fullref{sec:Referencing}, the compilation of a \LaTeX{} documents involves different stages and may take some time. In fact, one has to: \begin{inparaenum}[(i)] \item compile the \texttt{.tex}, \item (possibly) compile the bibliography, \item (possibly) compile the glossary, and \item the compile the \texttt{.tex} again once or twice. \end{inparaenum} \texttt{latexmk} can do this automatically by itself and it even checks if a compilation is truly needed, and, if not, it skips it. It is often shipped with the \TeX{} engines (e.g.\ \TeX{}Live for Unix), so you may have it already. Here is the \href{http://ctan.tetaneutral.net/support/latexmk/latexmk.pdf}{manual} and a real quick \href{https://mg.readthedocs.io/latexmk.html}{tutorial}. The usage it's really simple: \verb|latexmk [<opt>] file.tex|, and that's it, it does the magic itself, all the needed compilations.
 
 Some useful options (please refer to the \texttt{man} page for more details):
 \begin{itemize}
@@ -2387,7 +2392,7 @@ pdflatex '\providecommand\draft{draft}\input{source.tex}'
     \begin{itemize}
       \item Create: \verb|\newcounter{<name>}[<parent>]| creates a new counter called \texttt{name} which is reset every time the counter \texttt{parent} is stepped (take \texttt{parent} as \texttt{section}, for instance). \texttt{parent} is optional.
       \item Modify: several possibilities \verb|\addtocounter{<name>}{<n>}|, \verb|\stepcounter{<name>}|, \verb|\setcounter{<name>}{<n>}|
-      \item Print: \verb|\the<name>| (e.g. \verb|\theMyNewCounter|). Customize with \verb|\arabic|, \verb|\alph|, \verb|\roman|,\ldots (capital versions are available): \verb|\alph{MyNewCounter}|.
+      \item Print: \verb|\the<name>| (e.g.\ \verb|\theMyNewCounter|). Customize with \verb|\arabic|, \verb|\alph|, \verb|\roman|,\ldots (capital versions are available): \verb|\alph{MyNewCounter}|.
     \end{itemize}
   \item \verb!verbatim!, print exactly the argument, no code interpretation (how did you think we wrote the tips?!): any character can be used as delimiter
 \begin{verbatim}
@@ -2412,11 +2417,6 @@ Let us write some interspaces
           \item Keep it on the same page: option \verb|samepage=true|
           \item It can do line-numbering, framed boxes, select lines to print, erase characters, allow color, define escape characters\ldots
       \end{itemize}
-    \end{itemize}
-  \item Dots and abbreviations.
-    \begin{itemize}
-      \item Suppose you want to write \verb|cf. there|. \LaTeX{} interprets that dot as a phrase-ending period and it stretches the blank between the dot and the following word. Add a tilde, like this \verb|cf.~there| to avoid it, or, equivalently \verb|cf.\ there|, as you would do in math mode.
-      \item Conversely, \LaTeX{} interprets a dot after an all-capital word as an abbreviation (e.g.~for John R. R. Tolkien). If it is not the case for you, add \verb|\@| before the period: \verb|Yesterday, I watched Rambo I\@. It is a good movie|.
     \end{itemize}
   \item Math symbols in titles: \texttt{hyperref} usually gives a warning or even an error. Use:
 \begin{verbatim}
@@ -2485,7 +2485,7 @@ Let us write some interspaces
       \verb|conditional_statement| is an expression involving booleans and it can be constructed also using \verb|\AND|, \verb|\OR|, \verb|\NOT|, \verb|\(...\)|.
     \item Another package is \href{http://texdoc.net/texmf-dist/doc/latex/etoolbox/etoolbox.pdf}{\texttt{etoolbox}}: its scope of usage is way larger than booleans.
     \end{itemize}
-  \item More than one page on the same page: use the \verb|\pgfpagesuselayout{<n> in 1}[...]| (\verb|n| may be 2, 4, 6, 8 or 16). Load \texttt{pgfpages} (which is part of \texttt{pgf}, \autoref{sec:tikzpgf}). E.g.~for two pages in A4 paper, and let's throw in a landscape too
+  \item More than one page on the same page: use the \verb|\pgfpagesuselayout{<n> in 1}[...]| (\verb|n| may be 2, 4, 6, 8 or 16). Load \texttt{pgfpages} (which is part of \texttt{pgf}, \autoref{sec:tikzpgf}). E.g.\ for two pages in A4 paper, and let's throw in a landscape too
 \begin{verbatim}
 \pgfpagesuselayout{2 in 1}[a4paper,border shrink=5mm]
 \end{verbatim}
