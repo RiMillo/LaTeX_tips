@@ -2172,7 +2172,47 @@ A thesis is, usually, a big multi-file project. The class \texttt{book} or \text
       \item Quick guides: \href{https://www.overleaf.com/learn/latex/glossaries}{one} and \href{https://en.wikibooks.org/wiki/LaTeX/Glossary}{two}. This \href{https://tex.stackexchange.com/a/276174/206129}{answer} could be useful as well, if you have symbols, definitions, and acronyms and you want to use only one package.
       \item Usual packages: \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/glossaries/glossariesbegin.pdf}{\texttt{glossaries}} (but the \href{https://ctan.org/pkg/glossaries}{CTAN} page has more) and \href{http://mirrors.ircam.fr/pub/CTAN/macros/latex/contrib/nomencl/nomencl.pdf}{\texttt{nomencl}}.
       \item They may have some hard times with certain math-operators, the advice is to defined them as robust as explained \href{https://tex.stackexchange.com/questions/34219/list-of-symbols-with-glossaries-problem-with-using-underline}{here}.
-      \item Mind that \texttt{glossary} should be loaded \textbf{after} \texttt{hyperref};
+      \item About \texttt{glossaries}
+        \begin{itemize}
+          \item How to:
+            \begin{enumerate}
+              \item Load the package
+              \item Use \verb|\makeglossary| in the preamble
+              \item Create the entries, e.g.,
+\begin{verbatim}
+% Acronym: label, shown, description
+\newacronym{un}{UN}{United Nations}
+
+% Generic entry: label, description
+\newglossaryentry{life}{
+  name={Life},
+  description={What happens before the death}
+  % [other options...]
+}
+\end{verbatim}
+              \item Inside the document, print all the glossaries \verb|\printglossaries|
+            \end{enumerate}
+          \item It should be loaded \textbf{after} \texttt{hyperref};
+          \item Entries in separate file: load \verb|\loadglsentries[<type>]{gloss.tex}|, see \href{https://tex.stackexchange.com/questions/287072/creating-glossary-entries-in-separate-file}{here}
+          \item Items are printed only if actually referenced in the document. To add them anyway, use \verb|\glsadd{label}| or \verb|\glsaddall|, see \href{https://tex.stackexchange.com/questions/14903/glossary-with-entries-without-reference}{here}
+          \item Use option \texttt{toc} to have an entry in the TOC
+          \item If more than one glossaries (e.g., acronyms and standard glossary):
+            \begin{itemize}
+              \item Print only one type, e.g., \verb|\printglossary[type=\acronymtype]|. No brackets means standard one
+              \item Use option \verb|section=section| to avoid clearing double pages between any two glossary type lists
+            \end{itemize}
+          \item Style
+            \begin{itemize}
+              \item Use option \verb|style=<astyle>| to set the style. See available styles \href{https://www.dickimaw-books.com/gallery/glossaries-styles/}{here}
+              \item Use \texttt{nonumberlist} when loading the package or when printing the glossary to avoid printing the list of the pages where the entry is referenced
+            \end{itemize}
+          \item Referencing:
+            \begin{itemize}
+              \item Acronym: \verb|\acrshort{label}|, \verb|\acrlong{label}|, \verb|\acrfull{label}|
+              \item Entry: \verb|\gls{label}|, \verb|\Gls{label}| (first letter uppercase), \verb|\glspl{label}| (plural), \verb|\Glspl{label}| (plural, first letter uppercase)
+            \end{itemize}
+          \item Change title and TOC title: use options \verb|title=<title>, toctitle=<toctitle>| of \verb|\printglossaries|
+        \end{itemize}
     \end{itemize}
   \item Index (quite similar to glossary): quick guides \href{https://en.wikibooks.org/wiki/LaTeX/Indexing}{here} and \href{https://www.overleaf.com/learn/latex/indices}{here}.
   \item Quotes \& epigraphs: package \href{https://mirrors.chevalier.io/CTAN/macros/latex/contrib/epigraph/epigraph.pdf}{\texttt{epigraph}}
@@ -2259,7 +2299,7 @@ Configuration and default parameters can be added to a \texttt{.latexmkrc} file.
       \item \texttt{1.5}: as \texttt{1} but \texttt{.bbl} are erased in a clean-up;
       \item \texttt{2}: always run \texttt{bibtex}/\texttt{biber} if needed.
     \end{itemize}
-  \item Glossary are not well taken into account, so one should define the compiling rule him/herself. However, several ready-to-go examples are available, have a look at this \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/support/latexmk/example_rcfiles/pdflatexmkrc}{\texttt{.latexmkrc}}: there, the usual glossary, acronyms and notations categories are dealt with, but mind that if a new glossary category is defined, its related compiling rule should be added as well.
+  \item Glossary are not well taken into account, so one should define the compiling rule him/herself. However, several ready-to-go examples are available. An official example provided with the \texttt{glossaries} package is available \href{https://tex.stackexchange.com/a/541990}{here}. Also, have a look at this \href{http://distrib-coffee.ipsl.jussieu.fr/pub/mirrors/ctan/support/latexmk/example_rcfiles/pdflatexmkrc}{\texttt{.latexmkrc}}: there, the usual glossary, acronyms and notations categories are dealt with, but mind that if a new glossary category is defined, its related compiling rule should be added as well.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
