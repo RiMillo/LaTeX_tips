@@ -417,6 +417,7 @@ Sometimes, especially in a thesis, one may have to use different languages, poss
         \begin{itemize}
           \item Enumerations starting from \texttt{<n>}: \verb|\begin{enumerate}[start=<n>]|
           \item Resume the previous count: \verb|\begin{enumerate}[resume]|
+          \item Customize the numbering of a sub-enumeration: for instance, see \href{https://tex.stackexchange.com/questions/78842/nested-enumeration-numbering}{this SO's thread}: \verb|\begin{enumerate}[label*=\arabic*.]|
         \end{itemize}
       \item Run a bit of code before/after the \texttt{itemize}: \texttt{before|after=<code>}
       \item \verb|\setlist[<type>[,<depth>]]{<options>}|: in the preamble, and will set the global parameter for all the \texttt{type}-lists of depth \texttt{depth}. If \texttt{depth} is not given, the options are set to all (sub)-items. \texttt{type} may be \texttt{itemize,description,enumerate}...
@@ -1947,12 +1948,17 @@ This goes beyond the scope of the section and of the document too, but something
 \item Referencing by names (and not numbers): have a look \href{https://texfaq.org/FAQ-nameref}{here}. Other tips below in \texttt{hyperref}.
 \end{itemize}
 
-The \texttt{hyperref} package enables to create hyperlinks. Here is an \href{https://www.overleaf.com/learn/latex/hyperlinks}{overview} (the previous word is indeed a hyperlink! Click on it!). The basic command is \verb|\href{<link_address>}{<place_holder>}|: \verb|place_holder| is what is printed in the document and \verb|link_address| is the actual address.
+The \texttt{hyperref} package enables to create hyperlinks. Here is an \href{https://www.overleaf.com/learn/latex/hyperlinks}{overview} (the previous word is indeed a hyperlink! Click on it!), you might also want to check \href{https://en.wikibooks.org/wiki/LaTeX/Hyperlinks}{this} out.
 \begin{itemize}
+  \item The basic command is \verb|\href{<link_address>}{<place_holder>}|: \verb|place_holder| is what is printed in the document and \verb|link_address| is the actual address.
+    \begin{itemize}
+      \item Webpages: it is better to prepend \texttt{http://} (or indeed \texttt{https://}) to the link in order not to have weird behavior, e.g.\ \verb|https://www.edf.fr|.
+      \item Email address: prepend \texttt{mailto:}, e.g.\ \verb|\href{mailto:jbl_pdg@gmail.com}{JBL}|.
+      \item Local file: prepend \texttt{run:}, e.g.\ \verb|\href{run:/path/to/tips.pdf}{tips}|.
+    \end{itemize}
+  \item \verb|\url{http://my-web.site}|: type website full name and add a link
+  \item \verb|\hyperref[label_name]{text}|: type \texttt{text} and add a link to the \LaTeX{} label \verb|label_name|. For instance, \verb|\hyperref[sec:following]{in the following section}|
   \item One can customize the links color (options \verb!url|linkbordercolor!), disable the color (\texttt{hidelinks}), use an underlined version instead of a box (\verb|pdfborderstyle={/S/U/W 1}|), color the text of the link (no box is printed, \texttt{colorlinks=ture} and \verb!url|linkcolor!). And many others.
-  \item Webpages: it is better to prepend \texttt{http://} (or indeed \texttt{https://}) to the link in order not to have weird behavior, e.g.\ \verb|https://www.edf.fr|.
-  \item Email address: prepend \texttt{mailto:} to the address, e.g.\ \verb|\href{mailto:jbl_pdg@gmail.com}{JBL}|.
-  \item Local file: prepend \texttt{run:} to the file you want to open, e.g.\ \verb|\href{run:/path/to/tips.pdf}{tips}|.
   \item Option \verb|linktoc=<type>| let you choose if the section name (\texttt{section}, default), page number (\texttt{page}), both (\texttt{all}) or none (\texttt{none}) link to the section.
   \item Create additional bookmarks: \verb|\pdfbookmark[<level>]{<title>}{<label>}|. \texttt{level} is a number, \texttt{0} corresponds to chapter.
   \item \verb|\nameref| reference by name and not by number. If you want to put everything together (number \emph{and} name), have a look \href{https://tex.stackexchange.com/a/121871/206129}{here}.
@@ -2260,6 +2266,7 @@ A thesis is, usually, a big multi-file project. The class \texttt{book} or \text
               \item Entry: \verb|\gls{label}|, \verb|\Gls{label}| (first letter uppercase), \verb|\glspl{label}| (plural), \verb|\Glspl{label}| (plural, first letter uppercase)
             \end{itemize}
           \item Change title and TOC title: use options \verb|title=<title>, toctitle=<toctitle>| of \verb|\printglossaries|
+          \item Group and set group titles: see \href{https://tex.stackexchange.com/questions/99142/customising-glossary-group-titles}{here}
         \end{itemize}
     \end{itemize}
   \item Index (quite similar to glossary): quick guides \href{https://en.wikibooks.org/wiki/LaTeX/Indexing}{here} and \href{https://www.overleaf.com/learn/latex/indices}{here}.
