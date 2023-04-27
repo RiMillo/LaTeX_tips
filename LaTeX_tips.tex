@@ -51,7 +51,14 @@
 \usepackage{xspace}
 
 \usepackage{tikz}
-\usetikzlibrary{trees}
+\usepackage{pgfplots}
+\usetikzlibrary{trees,%
+  patterns,%
+  patterns.meta,%
+  intersections,%
+  pgfplots.fillbetween
+}
+\pgfplotsset{compat=newest}
 \usepackage{forest}
 
 \usepackage{siunitx}
@@ -1418,6 +1425,47 @@ Lorem \tikz[baseline=(C.base)]\node[draw=red] (C) {ipsum}; dolor
 [...]
 \end{pgfonlayer}
 \end{Verbatim}
+  \item Filling area between two curves (for the fun of it, we also use patterns):
+    \begin{itemize}
+      \item Use \texttt{fill} with \texttt{even odd rule}, see \href{https://tex.stackexchange.com/a/412600/206129}{here}
+
+        \begin{minipage}[T]{.68\textwidth}
+          \begin{verbatim}
+\draw[red,thick] (-1.2,-1.2) -- (1.2,1.2);
+\fill[gray,even odd rule,pattern=crosshatch] %
+            (0,0) circle (1.2) %
+            (0,0) circle (1.0);
+          \end{verbatim}
+        \end{minipage} \hfill%
+        \begin{minipage}[T]{.28\textwidth}
+          \begin{tikzpicture}
+            \draw[red,thick] (-1.2,-1.2) -- (1.2,1.2);
+            \fill[gray,even odd rule,pattern=crosshatch] (0,0) circle (1.2)
+                                      (0,0) circle (1);
+          \end{tikzpicture}
+        \end{minipage}
+
+      \item Use the \texttt{pgfplots} utility \verb|\[tikz]fillbetween|, see \href{https://tex.stackexchange.com/questions/411568/warning-tikzfillbetween-and-change-pattern}{here} (see also the trick about the layer to avoid warnings) or \href{https://tex.stackexchange.com/questions/381591/using-tikzfillbetween-to-color-between-two-curves}{here}
+
+        \begin{minipage}[T]{.68\textwidth}
+          \begin{verbatim}
+\usetikzlibrary{intersections,pgfplots.fillbetween}
+\draw[red,thick] (-1.2,-1.2) -- (1.2,1.2);
+\path[name path=A] (0,0) circle (1.2);
+\path[name path=B] (0,0) circle (1.0);
+\tikzfillbetween[of=A and B]{pattern=crosshatch};
+          \end{verbatim}
+        \end{minipage} \hfill%
+        \begin{minipage}[T]{.28\textwidth}
+          \begin{tikzpicture}
+            \draw[red,thick] (-1.2,-1.2) -- (1.2,1.2);
+            \path[name path=A] (0,0) circle (1.2);
+            \path[name path=B] (0,0) circle (1.0);
+            \tikzfillbetween[of=A and B]{pattern=crosshatch};
+          \end{tikzpicture}
+        \end{minipage}
+    \end{itemize}
+
   \item \texttt{tikz} and \texttt{beamer}: such a great potential, yet so many possible ways to mess up
     \begin{itemize}
       \item As for \texttt{verbatim}, it is advised to used \texttt{fragile} frames when inserting \texttt{tikz} content;
