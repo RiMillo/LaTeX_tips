@@ -1789,10 +1789,35 @@ end table=\end{longtable},
     \item \verb|clear infinite|: if NaN or infinite are found, they are considered as empty cells.
     \item How to treat empty cells: \verb|empty cells with={<...>}|.
     \item Option \verb!header=true|false|has colnames!. Tell whether or not the first non-commented line should be treated as the names of the columns. \texttt{has colnames} force it even if it is number and not string.
-    \item Sort\&Filter: options \verb|sort,sort key={<key>}| and also \href{https://tex.stackexchange.com/questions/66177/how-can-i-filter-select-data-from-a-table-and-plot-it}{here}.
-    \item Warnings: when filtering or discarding data, one gets warnings, shush them with \texttt{filter discard warning=false}.
+    \item Sort: options \verb|sort,sort key={<key>}| and also \href{https://tex.stackexchange.com/questions/66177/how-can-i-filter-select-data-from-a-table-and-plot-it}{here}.
+    \item Skipping and filtering data:
+      \begin{itemize}
+        \item Consider only any other $n$ data points: \verb|each nth point=<n>|
+        \item \verb|skip coords between index={<n>}{<m>}|
+        \item Filtering according to value: One can set up a custom filter; once the filter is run, \texttt{pgfplots} checks if \verb|\pgfmathresult| is empty, if it's the case, the coordinate is discarded
+          \begin{verbatim}
+% Discard if >4
+y filter/.code={
+  \ifnum#1>4
+    \def\pgfmathresult{}
+  \fi
+}
+          \end{verbatim}
+        \item Restrict domain:
+          \begin{verbatim}
+% Trhow all samples outside [1, 15] away
+restrict y to domain=1e0:1.5e1,
+% Similarly, but with the row, unprocessed data
+restrict expr to domain={rawy}{1e0:1.5e1},
+          \end{verbatim}
+        \item Warnings: when filtering or discarding data, one gets warnings, shush them with \texttt{filter discard warning=false}.
+      \end{itemize}
     \item Get cell content: For current row (replace \verb|this| with \verb|prev| for previous row or with \verb|next| for next row)
       \begin{itemize}
+        \item {}[Not exactly the same] \verb|\coordindex| (0-based): yields the current index of the table row (starting with 0). This does not count header or comment lines. For instance, imagine you have a file with only a column (see next section \autoref{ssub:pgfplotstable} for \texttt{table} usage) to be used as \texttt{y} and you want to plot it against 1,2,\ldots
+          \begin{verbatim}
+\addplot table[x expr=\coorindex+1,y index=0] {table.dat};
+          \end{verbatim}
         \item \verb|\thisrow{<col_name>}|: get the value and use it now.
         \item \verb|\thisrow{<col_name>}{<\macro>}|: get the value and store it in the macro.
         \item If one wants to use column indexes (instead of column names): e.g.\ \verb|\thisrowno{<n>}| (zero-based) (\verb|\thisrow{[index]<n>}| should work too).
@@ -2634,6 +2659,19 @@ gs -dBATCH -dNOPAUSE -dSAFER -sDEVICE=pdfwrite -dPSFitPage \
     \begin{itemize}
       \item For a large collaborative (or solo) project \texttt{git} might be a good idea, however this implies the knowledge of \texttt{git}, hence, it might not be for everyone. Possibly, the largest cloud-based collaborative \TeX{} platform is \href{https://www.overleaf.com/}{\texttt{Overleaf}}: it requires a login, it gives sufficient cloud space, and with its ``\texttt{Rich Text}'' (a \texttt{Word}-like interface) option one doesn't even need to know \TeX{}. It could be interesting also for personal projects. The possibility to choose \texttt{vim} or \texttt{Emacs} key-binding is a killer-feature if one is used to those editors. \texttt{Overleaf} also allows to export you project to \texttt{GitHub} or alike: look \href{https://www.overleaf.com/learn/how-to/Using_Git_and_GitHub}{here} and \href{https://www.overleaf.com/learn/how-to/How_do_I_connect_an_Overleaf_project_with_a_repo_on_GitHub,_GitLab_or_BitBucket%3F}{here}.
       \item Live chats with \TeX{} support (mostly taken from \href{https://math.stackexchange.com/questions/81365/chatting-about-mathematics-with-real-time-latex-rendering}{here}): \href{https://mathim.com/}{\texttt{MathIM}} or \href{https://hack.chat/}{\texttt{hack.chat}} (the latter, through \texttt{Markdown}, has support for code typing too).
+    \end{itemize}
+  \item \LaTeX-\texttt{vim} set up: see \href{https://www.ejmastnak.com/tutorials/vim-latex/intro/}{this well detailed article}
+    \begin{itemize}
+      \item \href{https://github.com/lervag/vimtex}{\texttt{vimtex}} plugin
+      \item Backward-search
+        \begin{itemize}
+          \item \href{https://github.com/gauteh/vim-evince-synctex}{\texttt{vim-evince-synctex}} plugin, but it might not always work
+          \item For setting up \texttt{okular}, see this \href{https://docs.kde.org/stable5/en/okular/okular/inverse_search.html}{page} and use the suggested configuration of \texttt{vimtex} (in \texttt{vim}, run \verb|:he VimtexInverseSearch|):
+\begin{verbatim}
+vim -v --not-a-term -T dumb -c "VimtexInverseSearch %l '%f'"
+\end{verbatim}
+          \item \href{https://pwmt.org/projects/zathura/}{zathura} pdf-reader is often recommended on Unix
+        \end{itemize}
     \end{itemize}
 %
 \end{itemize}
