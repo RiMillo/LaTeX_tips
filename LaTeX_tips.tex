@@ -1655,7 +1655,7 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
 \begin{tikzpicture}
 \begin{groupplot}[%
   group style={%
-    group size=2 by 1,
+    group size=2 by 1, % n_rows by n_cols
   },
   % The following applies to every subplot
   width=0.48\linewidth,
@@ -1730,6 +1730,7 @@ yticklabel style={
   rectangle (+2,\pgfkeysvalueof{/pgfplots/ymax});
 \end{verbatim}
     \end{itemize}
+  \item Layers: the order in which the plots are written the \texttt{.tex} file is also the order in which the plots are drawn; which means that the first plot is drawn over by all following plots. One can tweak layers using something similar to what has been discussed in the previous section. One may also want to check out this \href{https://tex.stackexchange.com/questions/350458/pgfplots-understanding-how-to-draw-plots-on-different-layers-and-arrange-them}{SO question}; main ideas: define layers in a \texttt{pgfplotsset}, then use them in combination with option \texttt{on layer=}.
   \item Idea: \texttt{clickable coords} make something (dis)appear at mouse click.
   \item ATTENTION: for big pictures it is advised to used the \texttt{TikZ} library \texttt{external} in order to avoid regenerating the picture ad each compilation.
   \begin{itemize}
@@ -1794,13 +1795,27 @@ end table=\end{longtable},
       \begin{itemize}
         \item Consider only any other $n$ data points: \verb|each nth point=<n>|
         \item \verb|skip coords between index={<n>}{<m>}|
-        \item Filtering according to value: One can set up a custom filter; once the filter is run, \texttt{pgfplots} checks if \verb|\pgfmathresult| is empty, if it's the case, the coordinate is discarded
+        \item Filtering according to value: One can set up a custom filter; once the filter is run, \texttt{pgfplots} checks if \verb|\pgfmathresult| is set, if it's the case, the coordinate is discarded
           \begin{verbatim}
 % Discard if >4
 y filter/.code={
   \ifnum#1>4
     \def\pgfmathresult{}
   \fi
+}
+          \end{verbatim}
+        \item Filter according to another column value: see \href{https://tex.stackexchange.com/questions/98003/filter-rows-from-a-table}{here}. Mind that this can be easily used in \texttt{addplot}, however for typesetting the table, it's more complicated and refer to the link.
+          \begin{verbatim}
+% Discard if the value of a row is different from a reference one
+filter on col/.style 2 args={
+  x filter/.code={
+    \edef\colCurVal{\thisrow{#1}}
+    \edef\colRefVal{#2}
+    \ifx\colCurVal\colRefVal
+    \else
+      \def\pgfmathresult{}
+    \fi
+  }
 }
           \end{verbatim}
         \item Restrict domain:
