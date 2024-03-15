@@ -150,6 +150,34 @@ colormap={mypalette}{color={Navy} color={Olive} color={DarkMagenta}},
     \end{tikzpicture}
   \end{center}
 
+  Different $y$-axes:
+  \begin{center}
+    \begin{tikzpicture}
+      % let both axes use the same layers
+      \pgfplotsset{set layers}
+      \begin{axis}[width=0.5\linewidth,
+        scale only axis,
+        xmin=-5,xmax=5,
+        axis y line*=left, % the '*' avoids arrow heads
+        every outer y axis line/.append style={blue},
+        xlabel=$x$,
+        ylabel=First ordinate,
+      ]
+        \addplot[blue] {x^2};
+      \end{axis}
+      \begin{axis}[width=0.5\linewidth,
+        scale only axis,
+        xmin=-5,xmax=5,
+        axis y line*=right,
+        every outer y axis line/.append style={red},
+        axis x line=none,
+        ylabel=Second ordinate,
+      ]
+        \addplot [red] {30*x};
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+
   You may wonder: the 2D version is too easy. Here you are\par
   \begin{center}
     \begin{tikzpicture}

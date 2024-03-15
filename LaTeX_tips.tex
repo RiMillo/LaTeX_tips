@@ -1585,6 +1585,13 @@ Before going into the details, if you are familiar with \texttt{gnuplot} you may
       \item Set default size: \verb|\axisdefaultwidth{<len>}| (similar for \texttt{height}).
       \item \verb!scale only axis=true|false!: default is \texttt{false}. Is false, \texttt{pgfplots} will try to make the whole plot, that is labels and ticks included, fit the given width / height. If true, only the axis is scaled.
     \end{itemize}
+  \item Axis style:
+    \begin{itemize}
+      \item \verb!axis x line=box|top|middle|center|bottom|none!. A star \verb!axis x line*! means no arrow. Similarly for $y$- and $z$-axis, e.g., \verb!axis y|z line! but with \texttt{left} and \texttt{right} (instead of \texttt{top} and \texttt{bottom}). For every line \verb|axis lines|.
+      \item \verb|every outer x axis line/.append style={...}|: Set stile of axis, e.g., color, arrow heads...
+      \item \verb|axis line shift=3pt|: Shift the axis away from the plot. Without unit, i.e., \verb|...=3|, it means in terms of plot units
+      \item \verb|separate axis lines=true|: Enables separate path commands for every axis line, valid only if box mode.
+    \end{itemize}
   \item Lines\ldots
     \begin{itemize}
       \item Styles: \texttt{solid}, \texttt{dashed}, \texttt{dotted}, \texttt{dashdotted}, \texttt{dashdotdotted}; two modifiers can be use in combination with the styles: \texttt{densely}, \texttt{loosely} (e.g.\ \texttt{densely dotted}, \texttt{loosely dashed}).
@@ -1676,6 +1683,12 @@ legend style={fill=white,fill opacity=0.3,draw opacity=1,%
           \item Pass option \verb|\nextgroupplot[group/empty plot]| to skip the following position
         \end{itemize}
       \item Use \texttt{x|ymod=log} for logarithmic plots
+    \end{itemize}
+  \item Different $y$-axis: see related example in \href{run:./ex_plot.tex}{\texttt{ex\_plot.tex}}. The main idea is to make \texttt{pgfplots} draw two plots/axes one on top of the other. Some caution is of order:
+    \begin{itemize}
+      \item Use \texttt{scale only axis} in axis option to force equal dimensions for both axes.
+      \item Force the two plots to have the same $x$ limits.
+      \item Tell \texttt{pgfplots} to draw in the same place by calling \verb|\pgfplotsset{set layers}| just before the first axis.
     \end{itemize}
   \item By default, \texttt{pgfplots} leaves some withespace between the axes/plot side and the outermost point of the plot. You might control the behaviour by setting the \texttt{enlarge limits} parameter
 \begin{verbatim}
